@@ -1,15 +1,42 @@
 package softeer2nd;
 
 import org.junit.jupiter.api.*;
+import softeer2nd.exception.InvalidColorException;
+
 import static org.assertj.core.api.Assertions.*;
 
 public class PawnTest {
 
     @Test
-    @DisplayName("흰색/검은색 폰이 생성되어야 한다")
-    public void create() {
-        verifyPawn("white");
-        verifyPawn("black");
+    @DisplayName("흰색 폰이 생성되어야 한다")
+    public void createWhitePawnSuccess() {
+        // given
+        final String color = "black";
+
+        // when then
+        verifyPawn(color);
+    }
+
+    @Test
+    @DisplayName("검은색 폰이 생성되어야 한다")
+    public void createBlackPawnSuccess() {
+        // given
+        final String color = "black";
+
+        // when then
+        verifyPawn(color);
+    }
+
+    @Test
+    @DisplayName("검은색과 흰색외의 폰은 생성 불가능하다")
+    public void createPawnFailure() {
+        // given
+        final String color = "randomColor";
+
+        // when then
+        Assertions.assertThrows(
+                InvalidColorException.class,
+                () -> verifyPawn(color));
     }
 
     void verifyPawn(final String color) {

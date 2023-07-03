@@ -1,12 +1,21 @@
 package softeer2nd;
 
+import softeer2nd.exception.InvalidColorException;
+
 public class Pawn {
 
-    private String color;
+    private final String WHITE = "white";
+    private final String BLACK = "black";
+    private final String color;
 
-    public Pawn(String color) {
-        if(color.equals("white") || color.equals("black"))
+    public Pawn(final String color) {
+        verifyColor(color);
         this.color = color;
+    }
+
+    private void verifyColor(String color) {
+        if(!(color.equals(WHITE) || color.equals(BLACK)))
+            throw InvalidColorException.EXCEPTION;
     }
 
     public String getColor() {
