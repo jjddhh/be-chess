@@ -2,6 +2,7 @@ package softeer2nd.chess;
 
 import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.pieces.Pawn;
+import softeer2nd.chess.pieces.Piece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ public class Board {
 
     private List<Pawn> whitePawns = new ArrayList<>();
     private List<Pawn> blackPawns = new ArrayList<>();
+
+    private final String EMPTY_BOARD = "********";
 
     public void end() {
         whitePawns = null;
@@ -22,7 +25,7 @@ public class Board {
     }
 
     private void verifyWhitePawn(Pawn pawn) {
-        if(!pawn.getColor().equals(Pawn.WHITE_COLOR))
+        if(!pawn.getColor().equals(Piece.WHITE_COLOR))
             throw InvalidColorException.EXCEPTION;
     }
 
@@ -32,7 +35,7 @@ public class Board {
     }
 
     private void verifyBlackPawn(Pawn pawn) {
-        if(!pawn.getColor().equals(Pawn.BLACK_COLOR))
+        if(!pawn.getColor().equals(Piece.BLACK_COLOR))
             throw InvalidColorException.EXCEPTION;
     }
 
@@ -53,8 +56,8 @@ public class Board {
         blackPawns = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
-            whitePawns.add(new Pawn(Pawn.WHITE_COLOR));
-            blackPawns.add(new Pawn(Pawn.BLACK_COLOR));
+            whitePawns.add(new Pawn(Piece.WHITE_COLOR));
+            blackPawns.add(new Pawn(Piece.BLACK_COLOR));
         }
     }
 
@@ -77,20 +80,16 @@ public class Board {
     }
 
     public void print() {
-        final String emptyBoard = "********";
-
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 8; i++) {
 
             if(i == 1) {
-                sb.append(getBlackPawnsResult());
+                sb.append(StringUtils.appendNewLine(getBlackPawnsResult()));
             } else if (i == 6) {
-                sb.append(getWhitePawnsResult());
+                sb.append(StringUtils.appendNewLine(getWhitePawnsResult()));
             } else {
-                sb.append(emptyBoard);
+                sb.append(StringUtils.appendNewLine(EMPTY_BOARD));
             }
-
-            sb.append('\n');
         }
 
         System.out.println(sb);
