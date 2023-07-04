@@ -1,6 +1,6 @@
-package softeer2nd;
+package softeer2nd.chess.pieces;
 
-import softeer2nd.exception.InvalidColorException;
+import softeer2nd.chess.exception.InvalidColorException;
 
 public class Pawn {
 

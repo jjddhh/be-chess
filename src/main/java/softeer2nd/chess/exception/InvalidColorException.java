@@ -1,4 +1,4 @@
-package softeer2nd.exception;
+package softeer2nd.chess.exception;
 
 public class InvalidColorException extends RuntimeException{
 

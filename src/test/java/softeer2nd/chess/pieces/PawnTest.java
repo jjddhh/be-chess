@@ -1,17 +1,18 @@
-package softeer2nd;
+package softeer2nd.chess.pieces;
 
-import org.junit.jupiter.api.*;
-import softeer2nd.exception.InvalidColorException;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import softeer2nd.chess.exception.InvalidColorException;
+
 
 public class PawnTest {
 
     @Test
     public void create_기본생성자() throws Exception {
         Pawn pawn = new Pawn();
-        assertEquals("white", pawn.getColor());
+        Assertions.assertEquals("white", pawn.getColor());
     }
 
     @Test
@@ -48,6 +49,6 @@ public class PawnTest {
 
     void verifyPawn(final String color) {
         Pawn pawn = new Pawn(color);
-        assertThat(pawn.getColor()).isEqualTo(color);
+        Assertions.assertEquals(color, pawn.getColor());
     }
 }
