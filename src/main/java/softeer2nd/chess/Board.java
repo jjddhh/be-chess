@@ -1,6 +1,5 @@
 package softeer2nd.chess;
 
-import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.pieces.Pawn;
 
 import java.util.ArrayList;
@@ -17,35 +16,22 @@ public class Board {
     }
 
     public void addWhitePawn(Pawn pawn) {
-        verifyWhitePawn(pawn);
         whitePawns.add(pawn);
     }
-
-    private void verifyWhitePawn(Pawn pawn) {
-        if(!pawn.getColor().equals(Pawn.WHITE_COLOR))
-            throw InvalidColorException.EXCEPTION;
-    }
-
     public void addBlackPawn(Pawn pawn) {
-        verifyBlackPawn(pawn);
         blackPawns.add(pawn);
-    }
-
-    private void verifyBlackPawn(Pawn pawn) {
-        if(!pawn.getColor().equals(Pawn.BLACK_COLOR))
-            throw InvalidColorException.EXCEPTION;
     }
 
     public int size() {
         return whitePawns.size();
     }
 
-    public Pawn findWhitePawn(int idx) {
-        return whitePawns.get(idx);
+    public Pawn findWhitePawn(int i) {
+        return whitePawns.get(i);
     }
 
-    public Pawn findBlackPawn(int idx) {
-        return blackPawns.get(idx);
+    public Pawn findBlackPawn(int i) {
+        return blackPawns.get(i);
     }
 
     public void initialize() {
@@ -53,8 +39,8 @@ public class Board {
         blackPawns = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
-            whitePawns.add(new Pawn(Pawn.WHITE_COLOR));
-            blackPawns.add(new Pawn(Pawn.BLACK_COLOR));
+            whitePawns.add(new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION));
+            blackPawns.add(new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION));
         }
     }
 

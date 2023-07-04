@@ -16,11 +16,11 @@ public class Pawn {
         this.color = WHITE_COLOR;
     }
 
-    public Pawn(final String color) {
+    public Pawn(final String color, final char representation) {
         verifyColor(color);
-
+        // color에 따라서 representaion 추가
         this.color = color;
-        this.representation = color.equals(WHITE_COLOR) ? WHITE_REPRESENTATION : BLACK_REPRESENTATION;;
+        this.representation = representation;
     }
 
     private void verifyColor(String color) {
