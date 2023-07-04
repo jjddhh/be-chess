@@ -13,7 +13,7 @@ public class PawnTest {
 
     @Test
     @DisplayName("기본적으로 폰은 흰색이 생성된다.")
-    public void createDefaultPawnSuccess() {
+    public void createDefaultPawnSuccess() throws Exception {
         Pawn pawn = new Pawn();
         verifyPawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION, pawn);
     }
