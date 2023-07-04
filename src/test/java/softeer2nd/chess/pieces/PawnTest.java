@@ -6,33 +6,36 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.exception.InvalidColorException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class PawnTest {
 
     @Test
-    public void create_기본생성자() throws Exception {
+    @DisplayName("기본적으로 폰은 흰색이 생성된다.")
+    public void createDefaultPawnSuccess() throws Exception {
         Pawn pawn = new Pawn();
-        Assertions.assertEquals("white", pawn.getColor());
+        verifyPawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION, pawn);
     }
 
     @Test
     @DisplayName("흰색 폰이 생성되어야 한다")
     public void createWhitePawnSuccess() {
         // given
-        final String color = "black";
+        Pawn whitePawn = new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
 
         // when then
-        verifyPawn(color);
+        verifyPawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION, whitePawn);
     }
 
     @Test
     @DisplayName("검은색 폰이 생성되어야 한다")
     public void createBlackPawnSuccess() {
         // given
-        final String color = "black";
+        Pawn blackPawn = new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION);
 
         // when then
-        verifyPawn(color);
+        verifyPawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION, blackPawn);
     }
 
     @Test
@@ -44,11 +47,11 @@ public class PawnTest {
         // when then
         Assertions.assertThrows(
                 InvalidColorException.class,
-                () -> verifyPawn(color));
+                () -> new Pawn(color, 'r'));
     }
 
-    void verifyPawn(final String color) {
-        Pawn pawn = new Pawn(color);
-        Assertions.assertEquals(color, pawn.getColor());
+    private void verifyPawn(String color, char representation, Pawn pawn) {
+        assertEquals(color, pawn.getColor());
+        assertEquals(representation, pawn.getRepresentation());
     }
 }
