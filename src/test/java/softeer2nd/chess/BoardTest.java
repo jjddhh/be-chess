@@ -8,6 +8,7 @@ import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.pieces.Piece;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static softeer2nd.chess.StringUtils.appendNewLine;
 
 public class BoardTest {
     
@@ -16,6 +17,20 @@ public class BoardTest {
     @BeforeEach
     public void setup() {
         board = new Board();
+    }
+
+    @Test
+    public void checkBoardStatus() {
+        board.initialize();
+        assertEquals(32, board.pieceCount());
+        String blankRank = appendNewLine("........");
+        assertEquals(
+                appendNewLine("RNBQKBNR") +
+                        appendNewLine("PPPPPPPP") +
+                        blankRank + blankRank + blankRank + blankRank +
+                        appendNewLine("pppppppp") +
+                        appendNewLine("rnbqkbnr"),
+                board.showBoard());
     }
 
     @Test
