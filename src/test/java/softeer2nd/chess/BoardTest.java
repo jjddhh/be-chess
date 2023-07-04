@@ -38,21 +38,11 @@ public class BoardTest {
     }
 
     @Test
-    public void initialize() throws Exception {
+    @DisplayName("Board 초기화로 폰이 추가된다.")
+    public void initializeSuccess() {
         Board board = new Board();
         board.initialize();
         assertEquals("pppppppp", board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
-
-//    @Test
-//    @DisplayName("폰이외의 다른 것이 체스판에 추가되어선 안된다.")
-//    public void addOnlyPawn() {
-//        // given
-//        Board board = new Board();
-//        Integer other = new Integer("7");
-//
-//        // when then
-//        board.add(other);
-//    }
 }

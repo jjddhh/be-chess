@@ -10,6 +10,11 @@ public class Board {
     private List<Pawn> whitePawns = new ArrayList<>();
     private List<Pawn> blackPawns = new ArrayList<>();
 
+    public void end() {
+        whitePawns = null;
+        blackPawns = null;
+    }
+
     public void addWhitePawn(Pawn pawn) {
         whitePawns.add(pawn);
     }
@@ -30,6 +35,9 @@ public class Board {
     }
 
     public void initialize() {
+        whitePawns = new ArrayList<>();
+        blackPawns = new ArrayList<>();
+
         for (int i = 0; i < 8; i++) {
             whitePawns.add(new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION));
             blackPawns.add(new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION));
@@ -37,6 +45,14 @@ public class Board {
     }
 
     public String getWhitePawnsResult() {
+        return getPawnsResult(whitePawns);
+    }
+
+    public String getBlackPawnsResult() {
+        return getPawnsResult(blackPawns);
+    }
+
+    private String getPawnsResult(List<Pawn> whitePawns) {
         StringBuilder whitePawnsResult = new StringBuilder();
 
         for (Pawn p : whitePawns) {
@@ -46,13 +62,23 @@ public class Board {
         return whitePawnsResult.toString();
     }
 
-    public String getBlackPawnsResult() {
-        StringBuilder blackPawnsResult = new StringBuilder();
+    public void print() {
+        final String emptyBoard = "********";
 
-        for (Pawn p : blackPawns) {
-            blackPawnsResult.append(p.getRepresentation());
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 8; i++) {
+
+            if(i == 1) {
+                sb.append(getBlackPawnsResult());
+            } else if (i == 6) {
+                sb.append(getWhitePawnsResult());
+            } else {
+                sb.append(emptyBoard);
+            }
+
+            sb.append('\n');
         }
 
-        return blackPawnsResult.toString();
+        System.out.println(sb);
     }
 }
