@@ -8,7 +8,6 @@ import softeer2nd.chess.exception.InvalidColorException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
 public class PawnTest {
 
     @Test
@@ -22,7 +21,7 @@ public class PawnTest {
     @DisplayName("흰색 폰이 생성되어야 한다")
     public void createWhitePawnSuccess() {
         // given
-        Pawn whitePawn = new Pawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
+        Pawn whitePawn = new Pawn(Pawn.WHITE_COLOR);
 
         // when then
         verifyPawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION, whitePawn);
@@ -32,7 +31,7 @@ public class PawnTest {
     @DisplayName("검은색 폰이 생성되어야 한다")
     public void createBlackPawnSuccess() {
         // given
-        Pawn blackPawn = new Pawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION);
+        Pawn blackPawn = new Pawn(Pawn.BLACK_COLOR);
 
         // when then
         verifyPawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION, blackPawn);
@@ -47,7 +46,7 @@ public class PawnTest {
         // when then
         Assertions.assertThrows(
                 InvalidColorException.class,
-                () -> new Pawn(color, 'r'));
+                () -> new Pawn(color));
     }
 
     private void verifyPawn(String color, char representation, Pawn pawn) {
