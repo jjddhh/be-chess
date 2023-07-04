@@ -8,6 +8,10 @@ public class Pawn {
     private final String BLACK = "black";
     private final String color;
 
+    public Pawn() {
+        this.color = WHITE;
+    }
+
     public Pawn(final String color) {
         verifyColor(color);
         this.color = color;
