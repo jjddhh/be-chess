@@ -1,7 +1,6 @@
 package softeer2nd.chess;
 
 import softeer2nd.chess.exception.InvalidColorException;
-import softeer2nd.chess.pieces.Pawn;
 import softeer2nd.chess.pieces.Piece;
 
 import java.util.ArrayList;
@@ -9,8 +8,8 @@ import java.util.List;
 
 public class Board {
 
-    private List<Pawn> whitePawns = new ArrayList<>();
-    private List<Pawn> blackPawns = new ArrayList<>();
+    private List<Piece> whitePawns = new ArrayList<>();
+    private List<Piece> blackPawns = new ArrayList<>();
 
     private final String EMPTY_BOARD = "********";
 
@@ -19,22 +18,22 @@ public class Board {
         blackPawns = null;
     }
 
-    public void addWhitePawn(Pawn pawn) {
+    public void addWhitePawn(Piece pawn) {
         verifyWhitePawn(pawn);
         whitePawns.add(pawn);
     }
 
-    private void verifyWhitePawn(Pawn pawn) {
+    private void verifyWhitePawn(Piece pawn) {
         if(!pawn.getColor().equals(Piece.WHITE_COLOR))
             throw InvalidColorException.EXCEPTION;
     }
 
-    public void addBlackPawn(Pawn pawn) {
+    public void addBlackPawn(Piece pawn) {
         verifyBlackPawn(pawn);
         blackPawns.add(pawn);
     }
 
-    private void verifyBlackPawn(Pawn pawn) {
+    private void verifyBlackPawn(Piece pawn) {
         if(!pawn.getColor().equals(Piece.BLACK_COLOR))
             throw InvalidColorException.EXCEPTION;
     }
@@ -43,11 +42,11 @@ public class Board {
         return whitePawns.size();
     }
 
-    public Pawn findWhitePawn(int idx) {
+    public Piece findWhitePawn(int idx) {
         return whitePawns.get(idx);
     }
 
-    public Pawn findBlackPawn(int idx) {
+    public Piece findBlackPawn(int idx) {
         return blackPawns.get(idx);
     }
 
@@ -56,8 +55,8 @@ public class Board {
         blackPawns = new ArrayList<>();
 
         for (int i = 0; i < 8; i++) {
-            whitePawns.add(new Pawn(Piece.WHITE_COLOR));
-            blackPawns.add(new Pawn(Piece.BLACK_COLOR));
+            whitePawns.add(Piece.createWhitePawn());
+            blackPawns.add(Piece.createBlackPawn());
         }
     }
 
@@ -69,10 +68,10 @@ public class Board {
         return getPawnsResult(blackPawns);
     }
 
-    private String getPawnsResult(List<Pawn> whitePawns) {
+    private String getPawnsResult(List<Piece> whitePawns) {
         StringBuilder whitePawnsResult = new StringBuilder();
 
-        for (Pawn p : whitePawns) {
+        for (Piece p : whitePawns) {
             whitePawnsResult.append(p.getRepresentation());
         }
 

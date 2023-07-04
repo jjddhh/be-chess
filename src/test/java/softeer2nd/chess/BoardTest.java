@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.exception.InvalidColorException;
-import softeer2nd.chess.pieces.Pawn;
+import softeer2nd.chess.pieces.Piece;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,20 +21,20 @@ public class BoardTest {
     @Test
     @DisplayName("체스판에 폰이 잘 추가되어야한다.")
     public void addPawnSuccess() {
-        Pawn white1 = addPawn(Pawn.WHITE_COLOR);
+        Piece white1 = addPawn(Piece.WHITE_COLOR);
         verifyAddWhitePawn(1, white1, 0);
 
-        Pawn white2 = addPawn(Pawn.WHITE_COLOR);
+        Piece white2 = addPawn(Piece.WHITE_COLOR);
         verifyAddWhitePawn(2, white2, 1);
     }
 
-    private void verifyAddWhitePawn(int expected, Pawn pawn, int idx) {
+    private void verifyAddWhitePawn(int expected, Piece pawn, int idx) {
         assertEquals(expected, board.size());
         assertEquals(pawn, board.findWhitePawn(idx));
     }
 
-    private Pawn addPawn(final String color) {
-        Pawn pawn = new Pawn(color);
+    private Piece addPawn(final String color) {
+        Piece pawn = Piece.createWhitePawn();
         board.addWhitePawn(pawn);
         return pawn;
     }
@@ -54,8 +54,8 @@ public class BoardTest {
     @DisplayName("폰 리스트에는 다른색 폰은 들어가지 못한다")
     public void addRightColorPawnFail() {
         // given
-        Pawn whitePawn = new Pawn(Pawn.WHITE_COLOR);
-        Pawn blackPawn = new Pawn(Pawn.BLACK_COLOR);
+        Piece whitePawn = Piece.createWhitePawn();
+        Piece blackPawn = Piece.createBlackPawn();
 
         // when then
         Assertions.assertThrows(
