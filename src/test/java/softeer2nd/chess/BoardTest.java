@@ -28,13 +28,21 @@ public class BoardTest {
 
     private void verifyAddPawn(int expected, Pawn pawn, int idx) {
         assertEquals(expected, board.size());
-        assertEquals(pawn, board.findPawn(idx));
+        assertEquals(pawn, board.findWhitePawn(idx));
     }
 
     private Pawn addPawn(final String color, final char representation) {
         Pawn pawn = new Pawn(color, representation);
-        board.addPawn(pawn);
+        board.addWhitePawn(pawn);
         return pawn;
+    }
+
+    @Test
+    public void initialize() throws Exception {
+        Board board = new Board();
+        board.initialize();
+        assertEquals("pppppppp", board.getWhitePawnsResult());
+        assertEquals("PPPPPPPP", board.getBlackPawnsResult());
     }
 
 //    @Test
