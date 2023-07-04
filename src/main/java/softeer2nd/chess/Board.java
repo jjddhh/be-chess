@@ -9,7 +9,7 @@ public class Board {
 
     private List<Pawn> board = new ArrayList<>();
 
-    public void add(Pawn pawn) {
+    public void addPawn(Pawn pawn) {
         board.add(pawn);
     }
 
