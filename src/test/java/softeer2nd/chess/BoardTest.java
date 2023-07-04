@@ -19,10 +19,10 @@ public class BoardTest {
     @Test
     @DisplayName("체스판에 폰이 잘 추가되어야한다.")
     public void addPawnSuccess() throws Exception {
-        Pawn white = addPawn(Pawn.WHITE_COLOR, Pawn.WHITE_REPRESENTATION);
+        Pawn white = addPawn(Pawn.WHITE_COLOR);
         verifyAddPawn(1, white, 0);
 
-        Pawn black = addPawn(Pawn.BLACK_COLOR, Pawn.BLACK_REPRESENTATION);
+        Pawn black = addPawn(Pawn.BLACK_COLOR);
         verifyAddPawn(2, black, 1);
     }
 
@@ -31,8 +31,8 @@ public class BoardTest {
         assertEquals(pawn, board.findPawn(idx));
     }
 
-    private Pawn addPawn(final String color, final char representation) {
-        Pawn pawn = new Pawn(color, representation);
+    private Pawn addPawn(final String color) {
+        Pawn pawn = new Pawn(color);
         board.addPawn(pawn);
         return pawn;
     }
