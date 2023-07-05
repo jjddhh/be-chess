@@ -89,4 +89,17 @@ public class BoardTest {
                 InvalidColorException.class,
                 () -> board.addWhitePawn(blackPawn));
     }
+
+    @Test
+    @DisplayName("현재 체스판 위에 몇 개의 특정 기물이 있는지 확인")
+    public void getPieceSizeSuccess() {
+        // given
+        board.initialize();
+
+        // when
+        int whiteKnightCount = board.getPieceCount(Piece.Color.WHITE, Piece.Type.KNIGHT);
+
+        // then
+        assertEquals(2, whiteKnightCount);
+    }
 }
