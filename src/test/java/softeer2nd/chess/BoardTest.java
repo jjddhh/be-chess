@@ -44,10 +44,10 @@ public class BoardTest {
     @Test
     @DisplayName("체스판에 폰이 잘 추가되어야한다.")
     public void addPawnSuccess() {
-        Piece white1 = addPawn(Piece.WHITE_COLOR);
+        Piece white1 = addPawn(Piece.Color.WHITE);
         verifyAddWhitePawn(1, white1, 0);
 
-        Piece white2 = addPawn(Piece.WHITE_COLOR);
+        Piece white2 = addPawn(Piece.Color.WHITE);
         verifyAddWhitePawn(2, white2, 1);
     }
 
@@ -56,7 +56,7 @@ public class BoardTest {
         assertEquals(pawn, board.findWhitePawn(idx));
     }
 
-    private Piece addPawn(final String color) {
+    private Piece addPawn(final Piece.Color color) {
         Piece pawn = Piece.createWhitePawn(new Point(0, 0));
         board.addWhitePawn(pawn);
         return pawn;

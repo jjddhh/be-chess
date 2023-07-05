@@ -9,14 +9,15 @@ import java.awt.*;
 public class Piece {
 
     public enum Color {
-        WHITE, BLACK, NOCOLOR;
+        // 반복문 돌릴시 NO_COLOR 문제
+        WHITE, BLACK, NO_COLOR;
     }
 
     public enum Type {
-
+        // 반복문 돌릴시 NO_PIECE 문제
         PAWN('p'), KNIGHT('n'), ROOK('r'),
         BISHOP('b'), QUEEN('q'), KING('k'),
-        NO_PIECE('0');
+        NO_PIECE('.');
 
         private char representation;
 
@@ -31,27 +32,27 @@ public class Piece {
         public char getBlackRepresentation() {
             return Character.toUpperCase(representation);
         }
+
+        public boolean isPiece() {
+            return representation != '.';
+        }
     }
 
     private final Color color;
-    private final Type name;
+    private final Type type;
     private final char representation;
     private Point point;
 
-    private Piece(Color color, Type name) {
-        verifyColor(color);
-
+    private Piece(Color color, Type type) {
         this.color = color;
-        this.name = name;
-        this.representation = setRepresentation(color, name);
+        this.type = type;
+        this.representation = setRepresentation(color, type);
     }
 
-    private Piece(Color color, Type name, Point point) {
-        verifyColor(color);
-
+    private Piece(Color color, Type type, Point point) {
         this.color = color;
-        this.name = name;
-        this.representation = setRepresentation(color, name);
+        this.type = type;
+        this.representation = setRepresentation(color, type);
         this.point = setPoint(point);
     }
 
@@ -64,36 +65,17 @@ public class Piece {
         if(!(0 <= point.x && point.x < Board.COl && 0 <= point.y && point.y < Board.ROW)) throw OutOfBoardException.EXCEPTION;
     }
 
-    public  Point getPoint() {
+    public Point getPoint() {
         return point;
     }
+    public Type getType() { return type; }
 
     private char setRepresentation(final Color color, final Type name) {
-        char representation = '0';
-        switch (name) {
-            case PAWN:
-                if(color.equals(Color.WHITE)) representation = name.representation;
-                else representation = BLACK_PAWN_REPRESENTATION;
-                break;
-            case KNIGHT:
-                if(color.equals(Color.WHITE)) representation = WHITE_KNIGHT_REPRESENTATION;
-                else representation = BLACK_KNIGHT_REPRESENTATION;
-                break;
-            case ROOK:
-                if(color.equals(Color.WHITE)) representation = WHITE_ROOK_REPRESENTATION;
-                else representation = BLACK_ROOK_REPRESENTATION;
-                break;
-            case BISHOP:
-                if(color.equals(Color.WHITE)) representation = WHITE_BISHOP_REPRESENTATION;
-                else representation = BLACK_BISHOP_REPRESENTATION;
-                break;
-            case QUEEN:
-                if(color.equals(Color.WHITE)) representation = WHITE_QUEEN_REPRESENTATION;
-                else representation = BLACK_QUEEN_REPRESENTATION;
-                break;
-            case KING:
-                if(color.equals(Color.WHITE)) representation = WHITE_KING_REPRESENTATION;
-                else representation = BLACK_KING_REPRESENTATION;
+        char representation = '.';
+
+        if (name.isPiece()) {
+            if(color.equals(Color.WHITE)) representation = name.getWhiteRepresentation();
+            else representation = name.getBlackRepresentation();
         }
 
         return representation;
@@ -146,10 +128,7 @@ public class Piece {
     public static Piece createBlackKing(Point point) {
         return new Piece(Color.BLACK, Type.KING, point);
     }
-
-    private void verifyColor(Color color) {
-        if(!(color.equals(Color.WHITE) || color.equals(Color.BLACK)))
-            throw InvalidColorException.EXCEPTION;
+    public static Piece createBlank() { return new Piece(Color.NO_COLOR, Type.NO_PIECE, new Point(0, 0));
     }
 
     public Color getColor() {
