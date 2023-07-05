@@ -1,6 +1,10 @@
 package softeer2nd.chess.pieces;
 
+import softeer2nd.chess.Board;
 import softeer2nd.chess.exception.InvalidColorException;
+import softeer2nd.chess.exception.OutOfBoardException;
+
+import java.awt.*;
 
 public class Piece {
 
@@ -29,6 +33,7 @@ public class Piece {
     private final String color;
     private final Type name;
     private final char representation;
+    private Point point;
 
     private Piece(String color, Type name) {
         verifyColor(color);
@@ -36,6 +41,28 @@ public class Piece {
         this.color = color;
         this.name = name;
         this.representation = setRepresentation(color, name);
+    }
+
+    private Piece(String color, Type name, Point point) {
+        verifyColor(color);
+
+        this.color = color;
+        this.name = name;
+        this.representation = setRepresentation(color, name);
+        this.point = setPoint(point);
+    }
+
+    private Point setPoint(Point point) {
+        verifyPiecePoint(point);
+        return point;
+    }
+
+    private static void verifyPiecePoint(Point point) {
+        if(!(0 <= point.x && point.x < Board.COl && 0 <= point.y && point.y < Board.ROW)) throw OutOfBoardException.EXCEPTION;
+    }
+
+    public  Point getPoint() {
+        return point;
     }
 
     private char setRepresentation(final String color, final Type name) {
@@ -69,52 +96,52 @@ public class Piece {
         return representation;
     }
 
-    public static Piece createWhitePawn() {
-        return new Piece(WHITE_COLOR, Type.PAWN);
+    public static Piece createWhitePawn(Point point) {
+        return new Piece(WHITE_COLOR, Type.PAWN, point);
     }
 
-    public static Piece createBlackPawn() {
-        return new Piece(BLACK_COLOR, Type.PAWN);
+    public static Piece createBlackPawn(Point point) {
+        return new Piece(BLACK_COLOR, Type.PAWN, point);
     }
 
-    public static Piece createWhiteKnight() {
-        return new Piece(WHITE_COLOR, Type.KNIGHT);
+    public static Piece createWhiteKnight(Point point) {
+        return new Piece(WHITE_COLOR, Type.KNIGHT, point);
     }
 
-    public static Piece createBlackKnight() {
-        return new Piece(BLACK_COLOR, Type.KNIGHT);
+    public static Piece createBlackKnight(Point point) {
+        return new Piece(BLACK_COLOR, Type.KNIGHT, point);
     }
 
-    public static Piece createWhiteRook() {
-        return new Piece(WHITE_COLOR, Type.ROOK);
+    public static Piece createWhiteRook(Point point) {
+        return new Piece(WHITE_COLOR, Type.ROOK, point);
     }
 
-    public static Piece createBlackRook() {
-        return new Piece(BLACK_COLOR, Type.ROOK);
+    public static Piece createBlackRook(Point point) {
+        return new Piece(BLACK_COLOR, Type.ROOK, point);
     }
 
-    public static Piece createWhiteBishop() {
-        return new Piece(WHITE_COLOR, Type.BISHOP);
+    public static Piece createWhiteBishop(Point point) {
+        return new Piece(WHITE_COLOR, Type.BISHOP, point);
     }
 
-    public static Piece createBlackBishop() {
-        return new Piece(BLACK_COLOR, Type.BISHOP);
+    public static Piece createBlackBishop(Point point) {
+        return new Piece(BLACK_COLOR, Type.BISHOP, point);
     }
 
-    public static Piece createWhiteQueen() {
-        return new Piece(WHITE_COLOR, Type.QUEEN);
+    public static Piece createWhiteQueen(Point point) {
+        return new Piece(WHITE_COLOR, Type.QUEEN, point);
     }
 
-    public static Piece createBlackQueen() {
-        return new Piece(BLACK_COLOR, Type.QUEEN);
+    public static Piece createBlackQueen(Point point) {
+        return new Piece(BLACK_COLOR, Type.QUEEN, point);
     }
 
-    public static Piece createWhiteKing() {
-        return new Piece(WHITE_COLOR, Type.KING);
+    public static Piece createWhiteKing(Point point) {
+        return new Piece(WHITE_COLOR, Type.KING, point);
     }
 
-    public static Piece createBlackKing() {
-        return new Piece(BLACK_COLOR, Type.KING);
+    public static Piece createBlackKing(Point point) {
+        return new Piece(BLACK_COLOR, Type.KING, point);
     }
 
     private void verifyColor(String color) {
