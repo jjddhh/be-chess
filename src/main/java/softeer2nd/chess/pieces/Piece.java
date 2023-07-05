@@ -82,52 +82,61 @@ public class Piece {
     }
 
     public static Piece createWhitePawn(Point point) {
-        return new Piece(Color.WHITE, Type.PAWN, point);
+        return createWhite(Type.PAWN, point);
     }
 
     public static Piece createBlackPawn(Point point) {
-        return new Piece(Color.BLACK, Type.PAWN, point);
+        return createBlack(Type.PAWN, point);
     }
 
     public static Piece createWhiteKnight(Point point) {
-        return new Piece(Color.WHITE, Type.KNIGHT, point);
+        return createWhite(Type.KNIGHT, point);
     }
 
     public static Piece createBlackKnight(Point point) {
-        return new Piece(Color.BLACK, Type.KNIGHT, point);
+        return createBlack(Type.KNIGHT, point);
     }
 
     public static Piece createWhiteRook(Point point) {
-        return new Piece(Color.WHITE, Type.ROOK, point);
+        return createWhite(Type.ROOK, point);
     }
 
     public static Piece createBlackRook(Point point) {
-        return new Piece(Color.BLACK, Type.ROOK, point);
+        return createBlack(Type.ROOK, point);
     }
 
     public static Piece createWhiteBishop(Point point) {
-        return new Piece(Color.WHITE, Type.BISHOP, point);
+        return createWhite(Type.BISHOP, point);
     }
 
     public static Piece createBlackBishop(Point point) {
-        return new Piece(Color.BLACK, Type.BISHOP, point);
+        return createBlack(Type.BISHOP, point);
     }
 
     public static Piece createWhiteQueen(Point point) {
-        return new Piece(Color.WHITE, Type.QUEEN, point);
+        return createWhite(Type.QUEEN, point);
     }
 
     public static Piece createBlackQueen(Point point) {
-        return new Piece(Color.BLACK, Type.QUEEN, point);
+        return createBlack(Type.QUEEN, point);
     }
 
     public static Piece createWhiteKing(Point point) {
-        return new Piece(Color.WHITE, Type.KING, point);
+        return createWhite(Type.KING, point);
     }
 
     public static Piece createBlackKing(Point point) {
-        return new Piece(Color.BLACK, Type.KING, point);
+        return createBlack(Type.KING, point);
     }
+
+    private static Piece createWhite(Type type, Point point) {
+        return new Piece(Color.WHITE, type, point);
+    }
+
+    private static Piece createBlack(Type type, Point point) {
+        return new Piece(Color.BLACK, type, point);
+    }
+
     public static Piece createBlank() { return new Piece(Color.NO_COLOR, Type.NO_PIECE, new Point(0, 0));
     }
 
