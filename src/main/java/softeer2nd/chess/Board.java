@@ -27,10 +27,7 @@ public class Board {
     public void addWhitePawn(Piece pawn) {
         verifyWhitePiece(pawn);
 
-        // computeIfAbsent로 리팩토링
-        List<Piece> pieces = whitePieces.getOrDefault(Type.PAWN, new ArrayList<>());
-        pieces.add(pawn);
-        whitePieces.putIfAbsent(Type.PAWN, pieces);
+        whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>()).add(pawn);
     }
 
     private void verifyWhitePiece(Piece piece) {
@@ -49,16 +46,12 @@ public class Board {
             throw InvalidColorException.EXCEPTION;
     }
 
-    public int size() {
+    public int whitePawnSize() {
         return whitePieces.get(Type.PAWN).size();
     }
 
     public Piece findWhitePawn(int idx) {
         return whitePieces.get(Type.PAWN).get(idx);
-    }
-
-    public Piece findBlackPawn(int idx) {
-        return blackPieces.get(Type.PAWN).get(idx);
     }
 
     public void initialize() {
@@ -75,46 +68,43 @@ public class Board {
         }
 
         for (int i = 0; i < COl; i++) {
-
-            List<Piece> blackPawns = blackPieces.get(Type.PAWN);
-            List<Piece> whitePawns = whitePieces.get(Type.PAWN);
-            blackPawns.add(Piece.createBlackPawn(new Point(i, 1)));
-            whitePawns.add(Piece.createWhitePawn(new Point(i, 6)));
+            whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createBlackPawn(new Point(i, 1)));
+            blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createWhitePawn(new Point(i, 6)));
         }
 
         for (int i = 0; i < COl; i += 7) {
-            List<Piece> blackRooks = blackPieces.get(Type.ROOK);
-            List<Piece> whiteRooks = whitePieces.get(Type.ROOK);
-            blackRooks.add(Piece.createBlackRook(new Point(i, 0)));
-            whiteRooks.add(Piece.createWhiteRook(new Point(i, 7)));
+            whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createBlackRook(new Point(i, 0)));
+            blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createWhiteRook(new Point(i, 7)));
         }
 
         for (int i = 1; i < COl; i += 5) {
-            List<Piece> blackKnights = blackPieces.get(Type.KNIGHT);
-            List<Piece> whiteKnights = whitePieces.get(Type.KNIGHT);
-            blackKnights.add(Piece.createBlackKnight(new Point(i, 0)));
-            whiteKnights.add(Piece.createWhiteKnight(new Point(i, 7)));
-
+            whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createBlackKnight(new Point(i, 0)));
+            blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createWhiteKnight(new Point(i, 7)));
         }
 
         for (int i = 2; i < COl; i += 3) {
-            List<Piece> blackBishops = blackPieces.get(Type.BISHOP);
-            List<Piece> whiteBishops = whitePieces.get(Type.BISHOP);
-            blackBishops.add(Piece.createBlackBishop(new Point(i, 0)));
-            whiteBishops.add(Piece.createWhiteBishop(new Point(i, 7)));
+            whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createBlackBishop(new Point(i, 0)));
+            blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createWhiteBishop(new Point(i, 7)));
 
         }
 
-        List<Piece> blackQueens = blackPieces.get(Type.QUEEN);
-        List<Piece> whiteQueens = whitePieces.get(Type.QUEEN);
-        blackQueens.add(Piece.createBlackQueen(new Point(3, 0)));
-        whiteQueens.add(Piece.createWhiteQueen(new Point(3, 7)));
+        whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                .add(Piece.createBlackQueen(new Point(3, 0)));
+        blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                .add(Piece.createWhiteQueen(new Point(3, 7)));
 
-        List<Piece> blackKings = blackPieces.get(Type.KING);
-        List<Piece> whiteKings = whitePieces.get(Type.KING);
-        blackKings.add(Piece.createBlackKing(new Point(4, 0)));
-        whiteKings.add(Piece.createWhiteKing(new Point(4, 7)));
-
+        whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                .add(Piece.createBlackKing(new Point(4, 0)));
+        blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                .add(Piece.createWhiteKing(new Point(4, 7)));
     }
 
     public String getWhitePawnsResult() {

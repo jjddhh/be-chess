@@ -52,7 +52,7 @@ public class BoardTest {
     }
 
     private void verifyAddWhitePawn(int expected, Piece pawn, int idx) {
-        assertEquals(expected, board.size());
+        assertEquals(expected, board.whitePawnSize());
         assertEquals(pawn, board.findWhitePawn(idx));
     }
 
