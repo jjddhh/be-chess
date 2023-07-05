@@ -161,5 +161,17 @@ public class Board {
 
         return boardStatus.toString();
     }
+
+    public int getPieceCount(Piece.Color color, Piece.Type type) {
+        if (color.equals(Piece.Color.WHITE))
+            return whitePieces.getOrDefault(type, new ArrayList<>()).size();
+        else if (color.equals(Piece.Color.BLACK))
+            return blackPieces.getOrDefault(type, new ArrayList<>()).size();
+        else {
+            int whitePieces = this.whitePieces.getOrDefault(type, new ArrayList<>()).size();
+            int blackPieces = this.blackPieces.getOrDefault(type, new ArrayList<>()).size();
+            return 64 - (whitePieces + blackPieces);
+        }
+    }
 }
 
