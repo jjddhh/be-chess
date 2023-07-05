@@ -1,75 +1,124 @@
 package softeer2nd.chess;
 
 import softeer2nd.chess.exception.InvalidColorException;
-import softeer2nd.chess.pieces.Pawn;
+import softeer2nd.chess.pieces.Piece;
+import softeer2nd.chess.pieces.Type;
 
-import java.util.ArrayList;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
 
 public class Board {
 
-    private List<Pawn> whitePawns = new ArrayList<>();
-    private List<Pawn> blackPawns = new ArrayList<>();
+    private HashMap<Type, List<Piece>> whitePieces = new HashMap<>();
+    private HashMap<Type, List<Piece>> blackPieces = new HashMap<>();
+
+    public static final int ROW = 8;
+    public static final int COl = 8;
+
+    public static final String EMPTY_BOARD = "........";
 
     public void end() {
-        whitePawns = null;
-        blackPawns = null;
+        // map의 list에서 dangling pointer 발생안하는지 체크 필요
+        whitePieces = null;
+        blackPieces = null;
     }
 
-    public void addWhitePawn(Pawn pawn) {
-        verifyWhitePawn(pawn);
-        whitePawns.add(pawn);
+    public void addWhitePawn(Piece pawn) {
+        verifyWhitePiece(pawn);
+
+        whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>()).add(pawn);
     }
 
-    private void verifyWhitePawn(Pawn pawn) {
-        if(!pawn.getColor().equals(Pawn.WHITE_COLOR))
+    private void verifyWhitePiece(Piece piece) {
+        if(!piece.getColor().equals(Piece.WHITE_COLOR))
             throw InvalidColorException.EXCEPTION;
     }
 
-    public void addBlackPawn(Pawn pawn) {
-        verifyBlackPawn(pawn);
-        blackPawns.add(pawn);
+    public void addBlackPawn(Piece pawn) {
+        verifyBlackPiece(pawn);
+        List<Piece> pieces = blackPieces.getOrDefault(Type.PAWN, new ArrayList<>());
+        blackPieces.putIfAbsent(Type.PAWN, pieces);
     }
 
-    private void verifyBlackPawn(Pawn pawn) {
-        if(!pawn.getColor().equals(Pawn.BLACK_COLOR))
+    private void verifyBlackPiece(Piece piece) {
+        if(!piece.getColor().equals(Piece.BLACK_COLOR))
             throw InvalidColorException.EXCEPTION;
     }
 
-    public int size() {
-        return whitePawns.size();
+    public int whitePawnSize() {
+        return whitePieces.get(Type.PAWN).size();
     }
 
-    public Pawn findWhitePawn(int idx) {
-        return whitePawns.get(idx);
-    }
-
-    public Pawn findBlackPawn(int idx) {
-        return blackPawns.get(idx);
+    public Piece findWhitePawn(int idx) {
+        return whitePieces.get(Type.PAWN).get(idx);
     }
 
     public void initialize() {
-        whitePawns = new ArrayList<>();
-        blackPawns = new ArrayList<>();
 
-        for (int i = 0; i < 8; i++) {
-            whitePawns.add(new Pawn(Pawn.WHITE_COLOR));
-            blackPawns.add(new Pawn(Pawn.BLACK_COLOR));
+        // 초기화 및 출력시에는 배열 사용 고려
+        List<String> initBoard = new ArrayList<>();
+        for (int i = 0; i < COl; i++) {
+            initBoard.add(StringUtils.appendNewLine(EMPTY_BOARD));
         }
+
+        for (Type type : Type.values()) {
+            whitePieces.put(type, new ArrayList<>());
+            blackPieces.put(type, new ArrayList<>());
+        }
+
+        for (int i = 0; i < COl; i++) {
+            whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createBlackPawn(new Point(i, 1)));
+            blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createWhitePawn(new Point(i, 6)));
+        }
+
+        for (int i = 0; i < COl; i += 7) {
+            whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createBlackRook(new Point(i, 0)));
+            blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createWhiteRook(new Point(i, 7)));
+        }
+
+        for (int i = 1; i < COl; i += 5) {
+            whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createBlackKnight(new Point(i, 0)));
+            blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createWhiteKnight(new Point(i, 7)));
+        }
+
+        for (int i = 2; i < COl; i += 3) {
+            whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createBlackBishop(new Point(i, 0)));
+            blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(Piece.createWhiteBishop(new Point(i, 7)));
+
+        }
+
+        whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                .add(Piece.createBlackQueen(new Point(3, 0)));
+        blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                .add(Piece.createWhiteQueen(new Point(3, 7)));
+
+        whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                .add(Piece.createBlackKing(new Point(4, 0)));
+        blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                .add(Piece.createWhiteKing(new Point(4, 7)));
     }
 
     public String getWhitePawnsResult() {
-        return getPawnsResult(whitePawns);
+        return getPawnsResult(whitePieces.get(Type.PAWN));
     }
 
     public String getBlackPawnsResult() {
-        return getPawnsResult(blackPawns);
+        return getPawnsResult(blackPieces.get(Type.PAWN));
     }
 
-    private String getPawnsResult(List<Pawn> whitePawns) {
+    private String getPawnsResult(List<Piece> whitePawns) {
         StringBuilder whitePawnsResult = new StringBuilder();
 
-        for (Pawn p : whitePawns) {
+        for (Piece p : whitePawns) {
             whitePawnsResult.append(p.getRepresentation());
         }
 
@@ -77,22 +126,52 @@ public class Board {
     }
 
     public void print() {
-        final String emptyBoard = "********";
+        System.out.println(showBoard());
+    }
 
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 8; i++) {
-
-            if(i == 1) {
-                sb.append(getBlackPawnsResult());
-            } else if (i == 6) {
-                sb.append(getWhitePawnsResult());
-            } else {
-                sb.append(emptyBoard);
-            }
-
-            sb.append('\n');
+    public int pieceCount() {
+        int whitePieceCount = 0;
+        for (Type type : Type.values()) {
+            whitePieceCount += whitePieces.get(type).size();
         }
 
-        System.out.println(sb);
+        int blackPieceCount = 0;
+        for (Type type : Type.values()) {
+            blackPieceCount += blackPieces.get(type).size();
+        }
+
+        return whitePieceCount + blackPieceCount;
+    }
+
+    public String showBoard() {
+        char[][] board = new char[ROW][COl];
+        for (int i = 0; i < board.length; i++) {
+            Arrays.fill(board[i], '.');
+        }
+
+        for (Type type : Type.values()) {
+            List<Piece> whitePieces = this.whitePieces.get(type);
+            List<Piece> blackPieces = this.blackPieces.get(type);
+
+            for (int i = 0; i < whitePieces.size(); i++) {
+                Piece piece = whitePieces.get(i);
+                Point point = piece.getPoint();
+                board[point.y][point.x] = piece.getRepresentation();
+            }
+
+            for (int i = 0; i < blackPieces.size(); i++) {
+                Piece piece = blackPieces.get(i);
+                Point point = piece.getPoint();
+                board[point.y][point.x] = piece.getRepresentation();
+            }
+        }
+
+        StringBuilder boardStatus = new StringBuilder();
+        for (int i = 0; i < 8; i++) {
+            boardStatus.append(StringUtils.appendNewLine(String.valueOf(board[i])));
+        }
+
+        return boardStatus.toString();
     }
 }
+

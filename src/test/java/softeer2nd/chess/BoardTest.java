@@ -5,12 +5,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.exception.InvalidColorException;
-import softeer2nd.chess.pieces.Pawn;
+import softeer2nd.chess.pieces.Piece;
+
+import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static softeer2nd.chess.StringUtils.appendNewLine;
 
 public class BoardTest {
-    
+
     private Board board;
 
     @BeforeEach
@@ -19,22 +22,42 @@ public class BoardTest {
     }
 
     @Test
+    public void checkBoardStatus() {
+        board.initialize();
+        assertEquals(32, board.pieceCount());
+        String blankRank = appendNewLine(Board.EMPTY_BOARD);
+
+        StringBuilder sb = new StringBuilder();
+        assertEquals(
+                sb
+                        .append(appendNewLine("RNBQKBNR"))
+                        .append(appendNewLine("PPPPPPPP"))
+                        .append(blankRank)
+                        .append(blankRank)
+                        .append(blankRank)
+                        .append(blankRank)
+                        .append(appendNewLine("pppppppp"))
+                        .append(appendNewLine("rnbqkbnr")).toString(),
+                board.showBoard());
+    }
+
+    @Test
     @DisplayName("체스판에 폰이 잘 추가되어야한다.")
     public void addPawnSuccess() {
-        Pawn white1 = addPawn(Pawn.WHITE_COLOR);
+        Piece white1 = addPawn(Piece.WHITE_COLOR);
         verifyAddWhitePawn(1, white1, 0);
 
-        Pawn white2 = addPawn(Pawn.WHITE_COLOR);
+        Piece white2 = addPawn(Piece.WHITE_COLOR);
         verifyAddWhitePawn(2, white2, 1);
     }
 
-    private void verifyAddWhitePawn(int expected, Pawn pawn, int idx) {
-        assertEquals(expected, board.size());
+    private void verifyAddWhitePawn(int expected, Piece pawn, int idx) {
+        assertEquals(expected, board.whitePawnSize());
         assertEquals(pawn, board.findWhitePawn(idx));
     }
 
-    private Pawn addPawn(final String color) {
-        Pawn pawn = new Pawn(color);
+    private Piece addPawn(final String color) {
+        Piece pawn = Piece.createWhitePawn(new Point(0, 0));
         board.addWhitePawn(pawn);
         return pawn;
     }
@@ -54,8 +77,8 @@ public class BoardTest {
     @DisplayName("폰 리스트에는 다른색 폰은 들어가지 못한다")
     public void addRightColorPawnFail() {
         // given
-        Pawn whitePawn = new Pawn(Pawn.WHITE_COLOR);
-        Pawn blackPawn = new Pawn(Pawn.BLACK_COLOR);
+        Piece whitePawn = Piece.createWhitePawn(new Point(0, 0));
+        Piece blackPawn = Piece.createBlackPawn(new Point(0, 0));
 
         // when then
         Assertions.assertThrows(
