@@ -7,11 +7,13 @@ import org.junit.jupiter.api.Test;
 import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.pieces.Piece;
 
+import java.awt.*;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.chess.StringUtils.appendNewLine;
 
 public class BoardTest {
-    
+
     private Board board;
 
     @BeforeEach
@@ -23,13 +25,19 @@ public class BoardTest {
     public void checkBoardStatus() {
         board.initialize();
         assertEquals(32, board.pieceCount());
-        String blankRank = appendNewLine("........");
+        String blankRank = appendNewLine(Board.EMPTY_BOARD);
+
+        StringBuilder sb = new StringBuilder();
         assertEquals(
-                appendNewLine("RNBQKBNR") +
-                        appendNewLine("PPPPPPPP") +
-                        blankRank + blankRank + blankRank + blankRank +
-                        appendNewLine("pppppppp") +
-                        appendNewLine("rnbqkbnr"),
+                sb
+                        .append(appendNewLine("RNBQKBNR"))
+                        .append(appendNewLine("PPPPPPPP"))
+                        .append(blankRank)
+                        .append(blankRank)
+                        .append(blankRank)
+                        .append(blankRank)
+                        .append(appendNewLine("pppppppp"))
+                        .append(appendNewLine("rnbqkbnr")).toString(),
                 board.showBoard());
     }
 
@@ -49,7 +57,7 @@ public class BoardTest {
     }
 
     private Piece addPawn(final String color) {
-        Piece pawn = Piece.createWhitePawn();
+        Piece pawn = Piece.createWhitePawn(new Point(0, 0));
         board.addWhitePawn(pawn);
         return pawn;
     }
@@ -69,8 +77,8 @@ public class BoardTest {
     @DisplayName("폰 리스트에는 다른색 폰은 들어가지 못한다")
     public void addRightColorPawnFail() {
         // given
-        Piece whitePawn = Piece.createWhitePawn();
-        Piece blackPawn = Piece.createBlackPawn();
+        Piece whitePawn = Piece.createWhitePawn(new Point(0, 0));
+        Piece blackPawn = Piece.createBlackPawn(new Point(0, 0));
 
         // when then
         Assertions.assertThrows(

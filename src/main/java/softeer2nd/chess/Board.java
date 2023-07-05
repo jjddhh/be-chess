@@ -27,6 +27,7 @@ public class Board {
     public void addWhitePawn(Piece pawn) {
         verifyWhitePiece(pawn);
         List<Piece> pieces = whitePieces.getOrDefault(Type.PAWN, new ArrayList<>());
+        pieces.add(pawn);
         whitePieces.putIfAbsent(Type.PAWN, pieces);
     }
 
