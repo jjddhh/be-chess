@@ -26,6 +26,8 @@ public class Board {
 
     public void addWhitePawn(Piece pawn) {
         verifyWhitePiece(pawn);
+
+        // computeIfAbsent로 리팩토링
         List<Piece> pieces = whitePieces.getOrDefault(Type.PAWN, new ArrayList<>());
         pieces.add(pawn);
         whitePieces.putIfAbsent(Type.PAWN, pieces);
