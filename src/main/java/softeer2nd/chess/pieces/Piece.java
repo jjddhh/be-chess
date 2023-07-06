@@ -22,17 +22,7 @@ public class Piece {
         this.color = color;
         this.type = type;
         this.representation = setRepresentation(color, type);
-        this.position = setPoint(position);
-    }
-
-    private Position setPoint(Position position) {
-        verifyPiecePoint(position);
-        return position;
-    }
-
-    private static void verifyPiecePoint(Position position) {
-        if(!(0 <= position.getCol() && position.getCol() < Board.COl && 0 <= position.getRow() && position.getRow() < Board.ROW))
-            throw OutOfBoardException.EXCEPTION;
+        this.position = position;
     }
 
     public Position getPosition() {
@@ -187,7 +177,13 @@ public class Piece {
     }
 
     public void move(Position position) {
-        this.position = position;
+        switch (type) {
+            case KING:
+
+                break;
+            default:
+                this.position = position;
+        }
     }
 
     @Override
@@ -215,7 +211,8 @@ public class Piece {
             int colTmp = col - 'a';
             row = 8 - row;
 
-            // 범위 예외 처리 추가
+            verifyPiecePosition(colTmp, row);
+
             this.col = colTmp;
             this.row = row;
         }
@@ -231,6 +228,16 @@ public class Piece {
 
         public int getRow() {
             return row;
+        }
+
+        private void verifyPiecePosition(Position position) {
+            if(!(0 <= position.getCol() && position.getCol() < Board.COl && 0 <= position.getRow() && position.getRow() < Board.ROW))
+                throw OutOfBoardException.EXCEPTION;
+        }
+
+        private void verifyPiecePosition(int col, int row) {
+            if(!(0 <= col && col < Board.COl && 0 <= row && row < Board.ROW))
+                throw OutOfBoardException.EXCEPTION;
         }
 
         @Override
