@@ -261,5 +261,11 @@ public class Board {
 
         return point;
     }
+
+    public void move(String sourcePosition, String targetPosition) {
+        Piece findPiece = findPiece(sourcePosition);
+
+        findPiece.move(new Position(targetPosition));
+    }
 }
 

@@ -186,6 +186,10 @@ public class Piece {
         return type.getDefaultPoint();
     }
 
+    public void move(Position position) {
+        this.position = position;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -200,8 +204,8 @@ public class Piece {
     }
 
     public static class Position {
-        private int col;
-        private int row;
+        private final int col;
+        private final int row;
 
         public Position(String position) {
             this(position.charAt(0), Character.getNumericValue(position.charAt(1)));
