@@ -82,7 +82,27 @@ public class Piece {
         return representation;
     }
 
+    private static Piece createWhite(Type type, Point point) {
+        return new Piece(Color.WHITE, type, point);
+    }
+
+    private static Piece createWhite(Type type, String position) {
+        return new Piece(Color.WHITE, type, new Point(position));
+    }
+
+    private static Piece createBlack(Type type, Point point) {
+        return new Piece(Color.BLACK, type, point);
+    }
+
+    private static Piece createBlack(Type type, String point) {
+        return new Piece(Color.BLACK, type, new Point(point));
+    }
+
     public static Piece createWhitePawn(Point point) {
+        return createWhite(Type.PAWN, point);
+    }
+
+    public static Piece createWhitePawn(String point) {
         return createWhite(Type.PAWN, point);
     }
 
@@ -90,7 +110,15 @@ public class Piece {
         return createBlack(Type.PAWN, point);
     }
 
+    public static Piece createBlackPawn(String point) {
+        return createBlack(Type.PAWN, point);
+    }
+
     public static Piece createWhiteKnight(Point point) {
+        return createWhite(Type.KNIGHT, point);
+    }
+
+    public static Piece createWhiteKnight(String point) {
         return createWhite(Type.KNIGHT, point);
     }
 
@@ -98,7 +126,15 @@ public class Piece {
         return createBlack(Type.KNIGHT, point);
     }
 
+    public static Piece createBlackKnight(String point) {
+        return createBlack(Type.KNIGHT, point);
+    }
+
     public static Piece createWhiteRook(Point point) {
+        return createWhite(Type.ROOK, point);
+    }
+
+    public static Piece createWhiteRook(String point) {
         return createWhite(Type.ROOK, point);
     }
 
@@ -106,7 +142,15 @@ public class Piece {
         return createBlack(Type.ROOK, point);
     }
 
+    public static Piece createBlackRook(String point) {
+        return createBlack(Type.ROOK, point);
+    }
+
     public static Piece createWhiteBishop(Point point) {
+        return createWhite(Type.BISHOP, point);
+    }
+
+    public static Piece createWhiteBishop(String point) {
         return createWhite(Type.BISHOP, point);
     }
 
@@ -114,7 +158,15 @@ public class Piece {
         return createBlack(Type.BISHOP, point);
     }
 
+    public static Piece createBlackBishop(String point) {
+        return createBlack(Type.BISHOP, point);
+    }
+
     public static Piece createWhiteQueen(Point point) {
+        return createWhite(Type.QUEEN, point);
+    }
+
+    public static Piece createWhiteQueen(String point) {
         return createWhite(Type.QUEEN, point);
     }
 
@@ -122,7 +174,15 @@ public class Piece {
         return createBlack(Type.QUEEN, point);
     }
 
+    public static Piece createBlackQueen(String point) {
+        return createBlack(Type.QUEEN, point);
+    }
+
     public static Piece createWhiteKing(Point point) {
+        return createWhite(Type.KING, point);
+    }
+
+    public static Piece createWhiteKing(String point) {
         return createWhite(Type.KING, point);
     }
 
@@ -130,14 +190,8 @@ public class Piece {
         return createBlack(Type.KING, point);
     }
 
-    private static Piece createWhite(Type type, Point point) {
-        return new Piece(Color.WHITE, type, point);
-    }
-
-    private static Piece createBlack(Type type, Point point) {
-        Piece piece = new Piece(Color.BLACK, type, point);
-
-        return piece;
+    public static Piece createBlackKing(String point) {
+        return createBlack(Type.KING, point);
     }
 
     public static Piece createBlank(Point point) { return new Piece(Color.NO_COLOR, Type.NO_PIECE, point);
@@ -175,6 +229,10 @@ public class Piece {
     public static class Point {
         private int col;
         private int row;
+
+        public Point(String position) {
+            this(position.charAt(0), Character.getNumericValue(position.charAt(1)));
+        }
 
         public Point(char col, int row) {
             int colTmp = col - 'a';
