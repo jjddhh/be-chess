@@ -11,9 +11,9 @@ public class Chess {
 
         boolean cont = true;
         while(cont) {
-            String command = input.nextLine();
+            String[] command = input.nextLine().split(" ");
 
-            switch (command) {
+            switch (command[0]) {
                 case "start" :
                     board.print();
                     break;
@@ -21,6 +21,9 @@ public class Chess {
                     board.end();
                     cont = false;
                     break;
+                case "move" :
+                    board.move(command[1], command[2]);
+                    board.print();
             }
         }
     }

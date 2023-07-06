@@ -199,7 +199,6 @@ public class BoardTest {
         Collections.sort(whitePieces, Comparator.comparing(piece -> ((Piece)piece).getType().getDefaultPoint()).reversed());
         Collections.sort(blackPieces, Comparator.comparing(piece -> ((Piece)piece).getType().getDefaultPoint()).reversed());
 
-
         // then
         assertTrue(blackPieces.get(0).getPoint() > blackPieces.get(blackPieces.size() - 1).getPoint());
         assertTrue(whitePieces.get(0).getPoint() > whitePieces.get(whitePieces.size() - 1).getPoint());
