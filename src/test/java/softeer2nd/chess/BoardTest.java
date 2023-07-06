@@ -6,8 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.pieces.Piece;
-
-import java.awt.*;
+import softeer2nd.chess.pieces.Piece.Point;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.chess.StringUtils.appendNewLine;
@@ -101,5 +100,18 @@ public class BoardTest {
 
         // then
         assertEquals(2, whiteKnightCount);
+    }
+
+    @Test
+    @DisplayName("기물의 위치 정보 조회")
+    public void findPiece() {
+        // given
+        board.initialize();
+
+        // when then
+        assertEquals(Piece.createBlackRook(new Point('a', 8)), board.findPiece("a8"));
+        assertEquals(Piece.createBlackRook(new Point('h', 8)), board.findPiece("h8"));
+        assertEquals(Piece.createWhiteRook(new Point('a', 1)), board.findPiece("a1"));
+        assertEquals(Piece.createWhiteRook(new Point('h', 1)), board.findPiece("h1"));
     }
 }
