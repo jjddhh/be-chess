@@ -9,6 +9,7 @@ public class Chess {
         Board board = new Board();
         board.initialize();
         ChessView chessView = new ChessView(board);
+        ChessGame chessGame = new ChessGame(board);
 
         boolean cont = true;
         while(cont) {
@@ -23,7 +24,7 @@ public class Chess {
                     cont = false;
                     break;
                 case "move" :
-                    board.move(command[1], command[2]);
+                    chessGame.move(command[1], command[2]);
                     chessView.showBoard();
             }
         }

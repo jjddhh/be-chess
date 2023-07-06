@@ -138,8 +138,6 @@ public class Board {
         return whitePawnsResult.toString();
     }
 
-
-
     public int pieceCount() {
         int whitePieceCount = 0;
         for (Type type : Type.values()) {
@@ -168,30 +166,7 @@ public class Board {
         }
     }
 
-    public Piece findPiece(String position) {
-        // position 형식 맞는지 예외 처리
 
-        char col = position.charAt(0);
-        int row = Character.getNumericValue(position.charAt(1));
-        Position findPosition = new Position(col, row);
-
-        for (Type type : Type.values()) {
-            List<Piece> white = whitePieces.getOrDefault(type, new ArrayList<>());
-            List<Piece> black = blackPieces.getOrDefault(type, new ArrayList<>());
-
-            for (Piece piece : white) {
-                Position point = piece.getPosition();
-                if(point.equals(findPosition)) return piece;
-            }
-
-            for (Piece piece : black) {
-                Position point = piece.getPosition();
-                if(point.equals(findPosition)) return piece;
-            }
-        }
-
-        return createBlank(findPosition);
-    }
 
     public double calculatePoint(Color color) {
         double point = 0;
@@ -231,10 +206,6 @@ public class Board {
         return point;
     }
 
-    public void move(String sourcePosition, String targetPosition) {
-        Piece findPiece = findPiece(sourcePosition);
 
-        findPiece.move(new Position(targetPosition));
-    }
 }
 
