@@ -1,8 +1,10 @@
 package softeer2nd.chess;
 
 import softeer2nd.chess.exception.InvalidColorException;
+import softeer2nd.chess.pieces.Color;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Position;
+import softeer2nd.chess.pieces.Type;
 
 import java.util.*;
 import java.util.List;
@@ -24,7 +26,6 @@ public class Board {
         whitePieces = null;
         blackPieces = null;
     }
-
 
     public void addPiece(Piece piece) {
         // 개수 예외 처리
@@ -71,7 +72,6 @@ public class Board {
         whitePieces = new HashMap<>();
 
         for (int i = 0; i < COl; i++) {
-            // putIfAbsent로 변경
             blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
                     .add(createBlackPawn(new Position(i, 1)));
             whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())

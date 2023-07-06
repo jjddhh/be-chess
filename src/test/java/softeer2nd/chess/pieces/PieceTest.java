@@ -4,7 +4,6 @@ package softeer2nd.chess.pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.pieces.Piece.Position;
-import softeer2nd.chess.pieces.Piece.Type;
 
 
 import static org.junit.jupiter.api.Assertions.*;
