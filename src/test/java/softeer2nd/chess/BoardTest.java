@@ -27,12 +27,18 @@ public class BoardTest {
     }
 
     @Test
+    @DisplayName("보드 초기화 성공")
     public void checkBoardStatus() {
+        // given
         board.initialize();
-        assertEquals(32, board.pieceCount());
-        String blankRank = appendNewLine(Board.EMPTY_BOARD);
 
+        ChessView chessView = new ChessView(board);
+
+        String blankRank = appendNewLine(Board.EMPTY_BOARD);
         StringBuilder sb = new StringBuilder();
+
+        // when then
+        assertEquals(32, board.pieceCount());
         assertEquals(
                 sb
                         .append(appendNewLine("RNBQKBNR"))
@@ -43,7 +49,7 @@ public class BoardTest {
                         .append(blankRank)
                         .append(appendNewLine("pppppppp"))
                         .append(appendNewLine("rnbqkbnr")).toString(),
-                board.showBoard());
+                chessView.showBoard());
     }
 
     @Test
@@ -126,6 +132,7 @@ public class BoardTest {
     public void addPieceSuccess() {
         // given
         board.initializeEmpty();
+        ChessView chessView = new ChessView(board);
 
         String position = "b5";
         Piece piece = createBlackRook("b5");
@@ -135,7 +142,7 @@ public class BoardTest {
 
         // then
         assertEquals(piece, board.findPiece(position));
-        System.out.println(board.showBoard());
+        System.out.println(chessView.showBoard());
     }
 
     @Test
@@ -143,6 +150,7 @@ public class BoardTest {
     public void calculatePoint() {
         // given
         board.initializeEmpty();
+        ChessView chessView = new ChessView(board);
 
         // when
         board.addPiece(createBlackPawn("b6"));
@@ -159,7 +167,7 @@ public class BoardTest {
         assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
 
-        System.out.println(board.showBoard());
+        System.out.println(chessView.showBoard());
     }
 
     @Test
