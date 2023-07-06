@@ -57,7 +57,7 @@ public class BoardTest {
 
     private Piece addPawn(final Piece.Color color) {
         Piece pawn = Piece.createWhitePawn(new Point(0, 0));
-        board.addWhitePawn(pawn);
+        board.addWhitePiece(pawn);
         return pawn;
     }
 
@@ -82,11 +82,11 @@ public class BoardTest {
         // when then
         Assertions.assertThrows(
                 InvalidColorException.class,
-                () -> board.addBlackPawn(whitePawn));
+                () -> board.addBlackPiece(whitePawn));
 
         Assertions.assertThrows(
                 InvalidColorException.class,
-                () -> board.addWhitePawn(blackPawn));
+                () -> board.addWhitePiece(blackPawn));
     }
 
     @Test
@@ -103,8 +103,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("기물의 위치 정보 조회")
-    public void findPiece() {
+    @DisplayName("기물의 위치 정보 조회 성공")
+    public void findPieceSuccess() {
         // given
         board.initialize();
 
@@ -113,5 +113,18 @@ public class BoardTest {
         assertEquals(Piece.createBlackRook(new Point('h', 8)), board.findPiece("h8"));
         assertEquals(Piece.createWhiteRook(new Point('a', 1)), board.findPiece("a1"));
         assertEquals(Piece.createWhiteRook(new Point('h', 1)), board.findPiece("h1"));
+    }
+
+    @Test
+    @DisplayName("체스판위에 기물 추가 성공")
+    public void addPieceSuccess() {
+        board.initializeEmpty();
+
+        String position = "b5";
+        Piece piece = Piece.createBlackRook("b5");
+        board.addPiece(piece);
+
+        assertEquals(piece, board.findPiece(position));
+        System.out.println(board.showBoard());
     }
 }
