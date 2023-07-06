@@ -6,9 +6,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.pieces.Piece;
-import softeer2nd.chess.pieces.Piece.Point;
+import softeer2nd.chess.pieces.Piece.Position;
+
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static softeer2nd.chess.StringUtils.appendNewLine;
 import static softeer2nd.chess.pieces.Piece.*;
 
@@ -57,7 +60,7 @@ public class BoardTest {
     }
 
     private Piece addPawn(final Color color) {
-        Piece pawn = createWhitePawn(new Point(0, 0));
+        Piece pawn = createWhitePawn(new Position(0, 0));
         board.addWhitePiece(pawn);
         return pawn;
     }
@@ -77,8 +80,8 @@ public class BoardTest {
     @DisplayName("폰 리스트에는 다른색 폰은 들어가지 못한다")
     public void addRightColorPawnFail() {
         // given
-        Piece whitePawn = createWhitePawn(new Point(0, 0));
-        Piece blackPawn = createBlackPawn(new Point(0, 0));
+        Piece whitePawn = createWhitePawn(new Position(0, 0));
+        Piece blackPawn = createBlackPawn(new Position(0, 0));
 
         // when then
         Assertions.assertThrows(
@@ -110,10 +113,10 @@ public class BoardTest {
         board.initialize();
 
         // when then
-        assertEquals(createBlackRook(new Point('a', 8)), board.findPiece("a8"));
-        assertEquals(createBlackRook(new Point('h', 8)), board.findPiece("h8"));
-        assertEquals(createWhiteRook(new Point('a', 1)), board.findPiece("a1"));
-        assertEquals(createWhiteRook(new Point('h', 1)), board.findPiece("h1"));
+        assertEquals(createBlackRook(new Position('a', 8)), board.findPiece("a8"));
+        assertEquals(createBlackRook(new Position('h', 8)), board.findPiece("h8"));
+        assertEquals(createWhiteRook(new Position('a', 1)), board.findPiece("a1"));
+        assertEquals(createWhiteRook(new Position('h', 1)), board.findPiece("h1"));
     }
 
     @Test
@@ -155,5 +158,47 @@ public class BoardTest {
         assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
 
         System.out.println(board.showBoard());
+    }
+
+    @Test
+    @DisplayName("기물 오름차순 정렬 성공")
+    public void orderPiecesAscSuccess() {
+        // given
+        board.initialize();
+
+        List<Piece> whitePieces = new ArrayList<>();
+        board.getBlackPieces().values().forEach(whitePieces::addAll);
+
+        List<Piece> blackPieces = new ArrayList<>();
+        board.getBlackPieces().values().forEach(blackPieces::addAll);
+
+        // when
+        Collections.sort(whitePieces, Comparator.comparing(piece -> piece.getType().getDefaultPoint()));
+        Collections.sort(blackPieces, Comparator.comparing(piece -> piece.getType().getDefaultPoint()));
+
+        // then
+        assertTrue(blackPieces.get(0).getPoint() < blackPieces.get(blackPieces.size() - 1).getPoint());
+        assertTrue(whitePieces.get(0).getPoint() < whitePieces.get(whitePieces.size() - 1).getPoint());
+    }
+
+    @Test
+    @DisplayName("기물 내림차순 정렬 성공")
+    public void orderPiecesDescSuccess() {
+        // given
+        board.initialize();
+
+        List<Piece> whitePieces = new ArrayList<>();
+        board.getBlackPieces().values().forEach(whitePieces::addAll);
+
+        List<Piece> blackPieces = new ArrayList<>();
+        board.getBlackPieces().values().forEach(blackPieces::addAll);
+
+        // when
+        Collections.sort(whitePieces, Comparator.comparing(piece -> ((Piece)piece).getType().getDefaultPoint()).reversed());
+        Collections.sort(blackPieces, Comparator.comparing(piece -> ((Piece)piece).getType().getDefaultPoint()).reversed());
+
+        // then
+        assertTrue(blackPieces.get(0).getPoint() > blackPieces.get(blackPieces.size() - 1).getPoint());
+        assertTrue(whitePieces.get(0).getPoint() > whitePieces.get(whitePieces.size() - 1).getPoint());
     }
 }
