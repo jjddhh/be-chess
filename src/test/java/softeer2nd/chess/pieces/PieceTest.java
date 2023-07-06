@@ -3,9 +3,9 @@ package softeer2nd.chess.pieces;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import softeer2nd.chess.pieces.Piece.Point;
 import softeer2nd.chess.pieces.Piece.Type;
 
-import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,7 +46,7 @@ public class PieceTest {
     @DisplayName("빈 기물 생성에 성공")
     public void createEmptyPiece() {
         // given
-        Piece blank = Piece.createBlank();
+        Piece blank = Piece.createBlank(new Point(0, 0));
 
         // when then
         assertFalse(blank.isWhite());
@@ -63,7 +63,7 @@ public class PieceTest {
     }
 
     @Test
-    public void getRepresentationPerPiece() throws Exception {
+    public void getRepresentationPerPiece() {
         assertEquals('p', Type.PAWN.getWhiteRepresentation());
         assertEquals('P', Type.PAWN.getBlackRepresentation());
     }
@@ -89,5 +89,4 @@ public class PieceTest {
         assertTrue(whiteKing.isWhite());
         assertFalse(whiteKing.isBlack());
     }
-
 }

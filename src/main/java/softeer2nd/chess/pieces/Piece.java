@@ -1,10 +1,10 @@
 package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.Board;
-import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.exception.OutOfBoardException;
 
-import java.awt.*;
+import java.util.Objects;
+
 
 public class Piece {
 
@@ -62,7 +62,8 @@ public class Piece {
     }
 
     private static void verifyPiecePoint(Point point) {
-        if(!(0 <= point.x && point.x < Board.COl && 0 <= point.y && point.y < Board.ROW)) throw OutOfBoardException.EXCEPTION;
+        if(!(0 <= point.getCol() && point.getCol() < Board.COl && 0 <= point.getRow() && point.getRow() < Board.ROW))
+            throw OutOfBoardException.EXCEPTION;
     }
 
     public Point getPoint() {
@@ -134,10 +135,12 @@ public class Piece {
     }
 
     private static Piece createBlack(Type type, Point point) {
-        return new Piece(Color.BLACK, type, point);
+        Piece piece = new Piece(Color.BLACK, type, point);
+
+        return piece;
     }
 
-    public static Piece createBlank() { return new Piece(Color.NO_COLOR, Type.NO_PIECE, new Point(0, 0));
+    public static Piece createBlank(Point point) { return new Piece(Color.NO_COLOR, Type.NO_PIECE, point);
     }
 
     public Color getColor() {
@@ -154,5 +157,58 @@ public class Piece {
 
     public boolean isWhite() {
         return color.equals(Color.WHITE);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return representation == piece.representation && color == piece.color && type == piece.type && Objects.equals(point, piece.point);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type, representation, point);
+    }
+
+    public static class Point {
+        private int col;
+        private int row;
+
+        public Point(char col, int row) {
+            int colTmp = col - 'a';
+            row = 8 - row;
+
+            // 범위 예외 처리 추가
+            this.col = colTmp;
+            this.row = row;
+        }
+
+        public Point(int col, int row) {
+            this.col = col;
+            this.row = row;
+        }
+
+        public int getCol() {
+            return col;
+        }
+
+        public int getRow() {
+            return row;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Point point = (Point) o;
+            return col == point.col && row == point.row;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(col, row);
+        }
     }
 }
