@@ -204,4 +204,22 @@ public class BoardTest {
         assertTrue(blackPieces.get(0).getPoint() > blackPieces.get(blackPieces.size() - 1).getPoint());
         assertTrue(whitePieces.get(0).getPoint() > whitePieces.get(whitePieces.size() - 1).getPoint());
     }
+
+    @Test
+    @DisplayName("이동원칙과 무관하게 기물을 정해진 위치로 이동 성공")
+    public void moveSuccess() {
+        // given
+        board.initialize();
+
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+
+        // when
+        board.move(sourcePosition, targetPosition);
+
+        // then
+        assertEquals(Piece.createBlank(new Position(sourcePosition)), board.findPiece(sourcePosition));
+        assertEquals(Piece.createWhitePawn(new Position(targetPosition)), board.findPiece(targetPosition));
+    }
+
 }
