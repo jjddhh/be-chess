@@ -2,7 +2,7 @@ package softeer2nd.chess;
 
 import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.pieces.Piece;
-import softeer2nd.chess.pieces.Piece.Point;
+import softeer2nd.chess.pieces.Piece.Position;
 
 import java.util.*;
 import java.util.List;
@@ -73,43 +73,51 @@ public class Board {
         for (int i = 0; i < COl; i++) {
             // putIfAbsent로 변경
             blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
-                    .add(createBlackPawn(new Point(i, 1)));
+                    .add(createBlackPawn(new Position(i, 1)));
             whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
-                    .add(createWhitePawn(new Point(i, 6)));
+                    .add(createWhitePawn(new Position(i, 6)));
         }
 
         for (int i = 0; i < COl; i += 7) {
             blackPieces.computeIfAbsent(Type.ROOK, k -> new ArrayList<>())
-                    .add(createBlackRook(new Point(i, 0)));
+                    .add(createBlackRook(new Position(i, 0)));
             whitePieces.computeIfAbsent(Type.ROOK, k -> new ArrayList<>())
-                    .add(createWhiteRook(new Point(i, 7)));
+                    .add(createWhiteRook(new Position(i, 7)));
         }
 
         for (int i = 1; i < COl; i += 5) {
             blackPieces.computeIfAbsent(Type.KNIGHT, k -> new ArrayList<>())
-                    .add(createBlackKnight(new Point(i, 0)));
+                    .add(createBlackKnight(new Position(i, 0)));
             whitePieces.computeIfAbsent(Type.KNIGHT, k -> new ArrayList<>())
-                    .add(createWhiteKnight(new Point(i, 7)));
+                    .add(createWhiteKnight(new Position(i, 7)));
         }
 
         for (int i = 2; i < COl; i += 3) {
             blackPieces.computeIfAbsent(Type.BISHOP, k -> new ArrayList<>())
-                    .add(createBlackBishop(new Point(i, 0)));
+                    .add(createBlackBishop(new Position(i, 0)));
             whitePieces.computeIfAbsent(Type.BISHOP, k -> new ArrayList<>())
-                    .add(createWhiteBishop(new Point(i, 7)));
+                    .add(createWhiteBishop(new Position(i, 7)));
 
         }
 
         blackPieces.computeIfAbsent(Type.QUEEN, k -> new ArrayList<>())
-                .add(createBlackQueen(new Point(3, 0)));
+                .add(createBlackQueen(new Position(3, 0)));
         whitePieces.computeIfAbsent(Type.QUEEN, k -> new ArrayList<>())
-                .add(createWhiteQueen(new Point(3, 7)));
+                .add(createWhiteQueen(new Position(3, 7)));
 
 
         blackPieces.computeIfAbsent(Type.KING, k -> new ArrayList<>())
-                .add(createBlackKing(new Point(4, 0)));
+                .add(createBlackKing(new Position(4, 0)));
         whitePieces.computeIfAbsent(Type.KING, k -> new ArrayList<>())
-                .add(createWhiteKing(new Point(4, 7)));
+                .add(createWhiteKing(new Position(4, 7)));
+    }
+
+    public Map<Type, List<Piece>> getWhitePieces() {
+        return whitePieces;
+    }
+
+    public Map<Type, List<Piece>> getBlackPieces() {
+        return blackPieces;
     }
 
     public String getWhitePawnsResult() {
@@ -160,14 +168,14 @@ public class Board {
 
             for (int i = 0; i < whitePieces.size(); i++) {
                 Piece piece = whitePieces.get(i);
-                Point point = piece.getPoint();
-                board[point.getRow()][point.getCol()] = piece.getRepresentation();
+                Position position = piece.getPosition();
+                board[position.getRow()][position.getCol()] = piece.getRepresentation();
             }
 
             for (int i = 0; i < blackPieces.size(); i++) {
                 Piece piece = blackPieces.get(i);
-                Point point = piece.getPoint();
-                board[point.getRow()][point.getCol()] = piece.getRepresentation();
+                Position position = piece.getPosition();
+                board[position.getRow()][position.getCol()] = piece.getRepresentation();
             }
         }
 
@@ -196,24 +204,24 @@ public class Board {
 
         char col = position.charAt(0);
         int row = Character.getNumericValue(position.charAt(1));
-        Point findPoint = new Point(col, row);
+        Position findPosition = new Position(col, row);
 
         for (Type type : Type.values()) {
             List<Piece> white = whitePieces.getOrDefault(type, new ArrayList<>());
             List<Piece> black = blackPieces.getOrDefault(type, new ArrayList<>());
 
             for (Piece piece : white) {
-                Point point = piece.getPoint();
-                if(point.equals(findPoint)) return piece;
+                Position point = piece.getPosition();
+                if(point.equals(findPosition)) return piece;
             }
 
             for (Piece piece : black) {
-                Point point = piece.getPoint();
-                if(point.equals(findPoint)) return piece;
+                Position point = piece.getPosition();
+                if(point.equals(findPosition)) return piece;
             }
         }
 
-        return createBlank(findPoint);
+        return createBlank(findPosition);
     }
 
     public double calculatePoint(Color color) {
@@ -235,7 +243,7 @@ public class Board {
                 HashMap<Integer, Integer> colSet = new HashMap<>();
 
                 for (Piece piece : pieces) {
-                    int col = piece.getPoint().getCol();
+                    int col = piece.getPosition().getCol();
                     colSet.put(col, colSet.getOrDefault(col, 0) + 1);
                 }
 
