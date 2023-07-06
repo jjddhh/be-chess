@@ -153,6 +153,7 @@ public class BoardTest {
         // given
         board.initializeEmpty();
         ChessView chessView = new ChessView(board);
+        ChessGame chessGame = new ChessGame(board);
 
         // when
         board.addPiece(createBlackPawn("b6"));
@@ -166,8 +167,8 @@ public class BoardTest {
         board.addPiece(createWhiteKing("f1"));
 
         // then
-        assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
-        assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
+        assertEquals(15.0, chessGame.calculatePoint(Color.BLACK), 0.01);
+        assertEquals(7.0, chessGame.calculatePoint(Color.WHITE), 0.01);
 
         System.out.println(chessView.showBoard());
     }
