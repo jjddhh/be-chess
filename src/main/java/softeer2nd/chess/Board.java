@@ -2,8 +2,8 @@ package softeer2nd.chess;
 
 import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.pieces.Piece;
+import softeer2nd.chess.pieces.Piece.Point;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -54,7 +54,6 @@ public class Board {
     }
 
     public void initialize() {
-
         for (int i = 0; i < COl; i++) {
             blackPieces.computeIfAbsent(Piece.Type.PAWN, k -> new ArrayList<>())
                     .add(Piece.createBlackPawn(new Point(i, 1)));
@@ -88,6 +87,7 @@ public class Board {
                 .add(Piece.createBlackQueen(new Point(3, 0)));
         whitePieces.computeIfAbsent(Piece.Type.QUEEN, k -> new ArrayList<>())
                 .add(Piece.createWhiteQueen(new Point(3, 7)));
+
 
         blackPieces.computeIfAbsent(Piece.Type.KING, k -> new ArrayList<>())
                 .add(Piece.createBlackKing(new Point(4, 0)));
@@ -144,13 +144,13 @@ public class Board {
             for (int i = 0; i < whitePieces.size(); i++) {
                 Piece piece = whitePieces.get(i);
                 Point point = piece.getPoint();
-                board[point.y][point.x] = piece.getRepresentation();
+                board[point.getRow()][point.getCol()] = piece.getRepresentation();
             }
 
             for (int i = 0; i < blackPieces.size(); i++) {
                 Piece piece = blackPieces.get(i);
                 Point point = piece.getPoint();
-                board[point.y][point.x] = piece.getRepresentation();
+                board[point.getRow()][point.getCol()] = piece.getRepresentation();
             }
         }
 
@@ -170,8 +170,33 @@ public class Board {
         else {
             int whitePieces = this.whitePieces.getOrDefault(type, new ArrayList<>()).size();
             int blackPieces = this.blackPieces.getOrDefault(type, new ArrayList<>()).size();
-            return 64 - (whitePieces + blackPieces);
+            return (ROW * COl) - (whitePieces + blackPieces);
         }
+    }
+
+    public Piece findPiece(String position) {
+        // position 형식 맞는지 예외 처리
+
+        char col = position.charAt(0);
+        int row = Character.getNumericValue(position.charAt(1));
+        Point findPoint = new Point(col, row);
+
+        for (Piece.Type type : Piece.Type.values()) {
+            List<Piece> white = whitePieces.getOrDefault(type, new ArrayList<>());
+            List<Piece> black = blackPieces.getOrDefault(type, new ArrayList<>());
+
+            for (Piece piece : white) {
+                Point point = piece.getPoint();
+                if(point.equals(findPoint)) return piece;
+            }
+
+            for (Piece piece : black) {
+                Point point = piece.getPoint();
+                if(point.equals(findPoint)) return piece;
+            }
+        }
+
+        return Piece.createBlank(findPoint);
     }
 }
 
