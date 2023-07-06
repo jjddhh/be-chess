@@ -152,8 +152,6 @@ public class Board {
         return whitePieceCount + blackPieceCount;
     }
 
-
-
     public int getPieceCount(Color color, Type type) {
         if (color.equals(Color.WHITE))
             return whitePieces.getOrDefault(type, new ArrayList<>()).size();
@@ -165,47 +163,5 @@ public class Board {
             return (ROW * COl) - (whitePieces + blackPieces);
         }
     }
-
-
-
-    public double calculatePoint(Color color) {
-        double point = 0;
-
-        if(color.equals(Color.BLACK)) {
-            point = getPoint(point, blackPieces);
-        } else
-            point = getPoint(point, whitePieces);
-
-        return point;
-    }
-
-    private double getPoint(double point, Map<Type, List<Piece>> colorPieces) {
-        for (Type type : Type.values()) {
-            List<Piece> pieces = colorPieces.getOrDefault(type, new ArrayList<>());
-
-            if(type.equals(Type.PAWN)) {
-                HashMap<Integer, Integer> colSet = new HashMap<>();
-
-                for (Piece piece : pieces) {
-                    int col = piece.getPosition().getCol();
-                    colSet.put(col, colSet.getOrDefault(col, 0) + 1);
-                }
-
-                int sameColPawnCnt = 0;
-                for (int i = 0; i < COl; i++) {
-                    double cnt = colSet.getOrDefault(i, 0);
-                    if(cnt > 1) sameColPawnCnt += cnt;
-                }
-                point -= sameColPawnCnt / 2;
-
-            }
-
-            point += type.getDefaultPoint() * pieces.size();
-        }
-
-        return point;
-    }
-
-
 }
 
