@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Board {
 
-    private HashMap<Piece.Type, List<Piece>> whitePieces = new HashMap<>();
-    private HashMap<Piece.Type, List<Piece>> blackPieces = new HashMap<>();
+    private Map<Piece.Type, List<Piece>> whitePieces = new HashMap<>();
+    private Map<Piece.Type, List<Piece>> blackPieces = new HashMap<>();
 
     public static final int ROW = 8;
     public static final int COl = 8;
@@ -23,10 +23,16 @@ public class Board {
         blackPieces = null;
     }
 
-    public void addWhitePawn(Piece pawn) {
-        verifyWhitePiece(pawn);
 
-        whitePieces.computeIfAbsent(Piece.Type.PAWN, k -> new ArrayList<>()).add(pawn);
+    public void addPiece(Piece piece) {
+        // 개수 예외 처리
+        if(piece.isBlack()) addBlackPiece(piece);
+        else if(piece.isWhite()) addWhitePiece(piece);
+    }
+
+    public void addWhitePiece(Piece piece) {
+        verifyWhitePiece(piece);
+        whitePieces.computeIfAbsent(piece.getType(), k -> new ArrayList<>()).add(piece);
     }
 
     private void verifyWhitePiece(Piece piece) {
@@ -34,10 +40,9 @@ public class Board {
             throw InvalidColorException.EXCEPTION;
     }
 
-    public void addBlackPawn(Piece pawn) {
-        verifyBlackPiece(pawn);
-        List<Piece> pieces = blackPieces.getOrDefault(Piece.Type.PAWN, new ArrayList<>());
-        blackPieces.putIfAbsent(Piece.Type.PAWN, pieces);
+    public void addBlackPiece(Piece piece) {
+        verifyBlackPiece(piece);
+        blackPieces.computeIfAbsent(piece.getType(), k -> new ArrayList<>()).add(piece);
     }
 
     private void verifyBlackPiece(Piece piece) {
@@ -53,7 +58,16 @@ public class Board {
         return whitePieces.get(Piece.Type.PAWN).get(idx);
     }
 
+
+    public void initializeEmpty() {
+        blackPieces = new HashMap<>();
+        whitePieces = new HashMap<>();
+    }
+
     public void initialize() {
+        blackPieces = new HashMap<>();
+        whitePieces = new HashMap<>();
+
         for (int i = 0; i < COl; i++) {
             blackPieces.computeIfAbsent(Piece.Type.PAWN, k -> new ArrayList<>())
                     .add(Piece.createBlackPawn(new Point(i, 1)));
