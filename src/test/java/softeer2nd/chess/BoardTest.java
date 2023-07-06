@@ -119,12 +119,13 @@ public class BoardTest {
     public void findPieceSuccess() {
         // given
         board.initialize();
+        ChessGame chessGame = new ChessGame(board);
 
         // when then
-        assertEquals(createBlackRook(new Position('a', 8)), board.findPiece("a8"));
-        assertEquals(createBlackRook(new Position('h', 8)), board.findPiece("h8"));
-        assertEquals(createWhiteRook(new Position('a', 1)), board.findPiece("a1"));
-        assertEquals(createWhiteRook(new Position('h', 1)), board.findPiece("h1"));
+        assertEquals(createBlackRook(new Position('a', 8)), chessGame.findPiece("a8"));
+        assertEquals(createBlackRook(new Position('h', 8)), chessGame.findPiece("h8"));
+        assertEquals(createWhiteRook(new Position('a', 1)), chessGame.findPiece("a1"));
+        assertEquals(createWhiteRook(new Position('h', 1)), chessGame.findPiece("h1"));
     }
 
     @Test
@@ -133,6 +134,7 @@ public class BoardTest {
         // given
         board.initializeEmpty();
         ChessView chessView = new ChessView(board);
+        ChessGame chessGame = new ChessGame(board);
 
         String position = "b5";
         Piece piece = createBlackRook("b5");
@@ -141,7 +143,7 @@ public class BoardTest {
         board.addPiece(piece);
 
         // then
-        assertEquals(piece, board.findPiece(position));
+        assertEquals(piece, chessGame.findPiece(position));
         System.out.println(chessView.showBoard());
     }
 
@@ -217,16 +219,17 @@ public class BoardTest {
     public void moveSuccess() {
         // given
         board.initialize();
+        ChessGame chessGame = new ChessGame(board);
 
         String sourcePosition = "b2";
         String targetPosition = "b3";
 
         // when
-        board.move(sourcePosition, targetPosition);
+        chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(Piece.createBlank(new Position(sourcePosition)), board.findPiece(sourcePosition));
-        assertEquals(Piece.createWhitePawn(new Position(targetPosition)), board.findPiece(targetPosition));
+        assertEquals(Piece.createBlank(new Position(sourcePosition)), chessGame.findPiece(sourcePosition));
+        assertEquals(Piece.createWhitePawn(new Position(targetPosition)), chessGame.findPiece(targetPosition));
     }
 
 }
