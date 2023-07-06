@@ -7,10 +7,12 @@ import softeer2nd.chess.pieces.Piece.Point;
 import java.util.*;
 import java.util.List;
 
+import static softeer2nd.chess.pieces.Piece.*;
+
 public class Board {
 
-    private Map<Piece.Type, List<Piece>> whitePieces = new HashMap<>();
-    private Map<Piece.Type, List<Piece>> blackPieces = new HashMap<>();
+    private Map<Type, List<Piece>> whitePieces = new HashMap<>();
+    private Map<Type, List<Piece>> blackPieces = new HashMap<>();
 
     public static final int ROW = 8;
     public static final int COl = 8;
@@ -36,7 +38,7 @@ public class Board {
     }
 
     private void verifyWhitePiece(Piece piece) {
-        if(!piece.getColor().equals(Piece.Color.WHITE))
+        if(!piece.getColor().equals(Color.WHITE))
             throw InvalidColorException.EXCEPTION;
     }
 
@@ -46,16 +48,16 @@ public class Board {
     }
 
     private void verifyBlackPiece(Piece piece) {
-        if(!piece.getColor().equals(Piece.Color.BLACK))
+        if(!piece.getColor().equals(Color.BLACK))
             throw InvalidColorException.EXCEPTION;
     }
 
     public int whitePawnSize() {
-        return whitePieces.get(Piece.Type.PAWN).size();
+        return whitePieces.get(Type.PAWN).size();
     }
 
     public Piece findWhitePawn(int idx) {
-        return whitePieces.get(Piece.Type.PAWN).get(idx);
+        return whitePieces.get(Type.PAWN).get(idx);
     }
 
 
@@ -69,52 +71,53 @@ public class Board {
         whitePieces = new HashMap<>();
 
         for (int i = 0; i < COl; i++) {
-            blackPieces.computeIfAbsent(Piece.Type.PAWN, k -> new ArrayList<>())
-                    .add(Piece.createBlackPawn(new Point(i, 1)));
-            whitePieces.computeIfAbsent(Piece.Type.PAWN, k -> new ArrayList<>())
-                    .add(Piece.createWhitePawn(new Point(i, 6)));
+            // putIfAbsent로 변경
+            blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(createBlackPawn(new Point(i, 1)));
+            whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
+                    .add(createWhitePawn(new Point(i, 6)));
         }
 
         for (int i = 0; i < COl; i += 7) {
-            blackPieces.computeIfAbsent(Piece.Type.ROOK, k -> new ArrayList<>())
-                    .add(Piece.createBlackRook(new Point(i, 0)));
-            whitePieces.computeIfAbsent(Piece.Type.ROOK, k -> new ArrayList<>())
-                    .add(Piece.createWhiteRook(new Point(i, 7)));
+            blackPieces.computeIfAbsent(Type.ROOK, k -> new ArrayList<>())
+                    .add(createBlackRook(new Point(i, 0)));
+            whitePieces.computeIfAbsent(Type.ROOK, k -> new ArrayList<>())
+                    .add(createWhiteRook(new Point(i, 7)));
         }
 
         for (int i = 1; i < COl; i += 5) {
-            blackPieces.computeIfAbsent(Piece.Type.KNIGHT, k -> new ArrayList<>())
-                    .add(Piece.createBlackKnight(new Point(i, 0)));
-            whitePieces.computeIfAbsent(Piece.Type.KNIGHT, k -> new ArrayList<>())
-                    .add(Piece.createWhiteKnight(new Point(i, 7)));
+            blackPieces.computeIfAbsent(Type.KNIGHT, k -> new ArrayList<>())
+                    .add(createBlackKnight(new Point(i, 0)));
+            whitePieces.computeIfAbsent(Type.KNIGHT, k -> new ArrayList<>())
+                    .add(createWhiteKnight(new Point(i, 7)));
         }
 
         for (int i = 2; i < COl; i += 3) {
-            blackPieces.computeIfAbsent(Piece.Type.BISHOP, k -> new ArrayList<>())
-                    .add(Piece.createBlackBishop(new Point(i, 0)));
-            whitePieces.computeIfAbsent(Piece.Type.BISHOP, k -> new ArrayList<>())
-                    .add(Piece.createWhiteBishop(new Point(i, 7)));
+            blackPieces.computeIfAbsent(Type.BISHOP, k -> new ArrayList<>())
+                    .add(createBlackBishop(new Point(i, 0)));
+            whitePieces.computeIfAbsent(Type.BISHOP, k -> new ArrayList<>())
+                    .add(createWhiteBishop(new Point(i, 7)));
 
         }
 
-        blackPieces.computeIfAbsent(Piece.Type.QUEEN, k -> new ArrayList<>())
-                .add(Piece.createBlackQueen(new Point(3, 0)));
-        whitePieces.computeIfAbsent(Piece.Type.QUEEN, k -> new ArrayList<>())
-                .add(Piece.createWhiteQueen(new Point(3, 7)));
+        blackPieces.computeIfAbsent(Type.QUEEN, k -> new ArrayList<>())
+                .add(createBlackQueen(new Point(3, 0)));
+        whitePieces.computeIfAbsent(Type.QUEEN, k -> new ArrayList<>())
+                .add(createWhiteQueen(new Point(3, 7)));
 
 
-        blackPieces.computeIfAbsent(Piece.Type.KING, k -> new ArrayList<>())
-                .add(Piece.createBlackKing(new Point(4, 0)));
-        whitePieces.computeIfAbsent(Piece.Type.KING, k -> new ArrayList<>())
-                .add(Piece.createWhiteKing(new Point(4, 7)));
+        blackPieces.computeIfAbsent(Type.KING, k -> new ArrayList<>())
+                .add(createBlackKing(new Point(4, 0)));
+        whitePieces.computeIfAbsent(Type.KING, k -> new ArrayList<>())
+                .add(createWhiteKing(new Point(4, 7)));
     }
 
     public String getWhitePawnsResult() {
-        return getPawnsResult(whitePieces.get(Piece.Type.PAWN));
+        return getPawnsResult(whitePieces.get(Type.PAWN));
     }
 
     public String getBlackPawnsResult() {
-        return getPawnsResult(blackPieces.get(Piece.Type.PAWN));
+        return getPawnsResult(blackPieces.get(Type.PAWN));
     }
 
     private String getPawnsResult(List<Piece> whitePawns) {
@@ -133,12 +136,12 @@ public class Board {
 
     public int pieceCount() {
         int whitePieceCount = 0;
-        for (Piece.Type type : Piece.Type.values()) {
+        for (Type type : Type.values()) {
             whitePieceCount += whitePieces.getOrDefault(type, new ArrayList<>()).size();
         }
 
         int blackPieceCount = 0;
-        for (Piece.Type type : Piece.Type.values()) {
+        for (Type type : Type.values()) {
             blackPieceCount += blackPieces.getOrDefault(type, new ArrayList<>()).size();
         }
 
@@ -151,7 +154,7 @@ public class Board {
             Arrays.fill(board[i], '.');
         }
 
-        for (Piece.Type type : Piece.Type.values()) {
+        for (Type type : Type.values()) {
             List<Piece> whitePieces = this.whitePieces.getOrDefault(type, new ArrayList<>());
             List<Piece> blackPieces = this.blackPieces.getOrDefault(type, new ArrayList<>());
 
@@ -176,10 +179,10 @@ public class Board {
         return boardStatus.toString();
     }
 
-    public int getPieceCount(Piece.Color color, Piece.Type type) {
-        if (color.equals(Piece.Color.WHITE))
+    public int getPieceCount(Color color, Type type) {
+        if (color.equals(Color.WHITE))
             return whitePieces.getOrDefault(type, new ArrayList<>()).size();
-        else if (color.equals(Piece.Color.BLACK))
+        else if (color.equals(Color.BLACK))
             return blackPieces.getOrDefault(type, new ArrayList<>()).size();
         else {
             int whitePieces = this.whitePieces.getOrDefault(type, new ArrayList<>()).size();
@@ -195,7 +198,7 @@ public class Board {
         int row = Character.getNumericValue(position.charAt(1));
         Point findPoint = new Point(col, row);
 
-        for (Piece.Type type : Piece.Type.values()) {
+        for (Type type : Type.values()) {
             List<Piece> white = whitePieces.getOrDefault(type, new ArrayList<>());
             List<Piece> black = blackPieces.getOrDefault(type, new ArrayList<>());
 
@@ -210,7 +213,45 @@ public class Board {
             }
         }
 
-        return Piece.createBlank(findPoint);
+        return createBlank(findPoint);
+    }
+
+    public double calculatePoint(Color color) {
+        double point = 0;
+
+        if(color.equals(Color.BLACK)) {
+            point = getPoint(point, blackPieces);
+        } else
+            point = getPoint(point, whitePieces);
+
+        return point;
+    }
+
+    private double getPoint(double point, Map<Type, List<Piece>> colorPieces) {
+        for (Type type : Type.values()) {
+            List<Piece> pieces = colorPieces.getOrDefault(type, new ArrayList<>());
+
+            if(type.equals(Type.PAWN)) {
+                HashMap<Integer, Integer> colSet = new HashMap<>();
+
+                for (Piece piece : pieces) {
+                    int col = piece.getPoint().getCol();
+                    colSet.put(col, colSet.getOrDefault(col, 0) + 1);
+                }
+
+                int sameColPawnCnt = 0;
+                for (int i = 0; i < COl; i++) {
+                    double cnt = colSet.getOrDefault(i, 0);
+                    if(cnt > 1) sameColPawnCnt += cnt;
+                }
+                point -= sameColPawnCnt / 2;
+
+            }
+
+            point += type.getDefaultPoint() * pieces.size();
+        }
+
+        return point;
     }
 }
 
