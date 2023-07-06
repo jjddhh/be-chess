@@ -3,54 +3,89 @@ package softeer2nd.chess.pieces;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import softeer2nd.chess.pieces.Piece.Position;
 
-import java.awt.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PieceTest {
 
     @Test
-    @DisplayName("흰색 말이 생성되어야 한다")
-    public void createWhitePieceSuccess() {
-        verifyPiece(Piece.createWhitePawn(new Point(0, 0)), Piece.WHITE_COLOR, Piece.WHITE_PAWN_REPRESENTATION);
-        verifyPiece(Piece.createWhiteKnight(new Point(0, 0)), Piece.WHITE_COLOR, Piece.WHITE_KNIGHT_REPRESENTATION);
-        verifyPiece(Piece.createWhiteRook(new Point(0, 0)), Piece.WHITE_COLOR, Piece.WHITE_ROOK_REPRESENTATION);
-        verifyPiece(Piece.createWhiteBishop(new Point(0, 0)), Piece.WHITE_COLOR, Piece.WHITE_BISHOP_REPRESENTATION);
-        verifyPiece(Piece.createWhiteQueen(new Point(0, 0)), Piece.WHITE_COLOR, Piece.WHITE_QUEEN_REPRESENTATION);
-        verifyPiece(Piece.createWhiteKing(new Point(0, 0)), Piece.WHITE_COLOR, Piece.WHITE_KING_REPRESENTATION);
+    @DisplayName("모든 종류의 기물 생성을 성공")
+    public void createPiece() {
+        // given
+        Piece whitePawn = Piece.createWhitePawn(new Position(0, 0));
+        Piece blackPawn = Piece.createBlackPawn(new Position(0, 0));
+
+        Piece whiteKnight = Piece.createWhiteKnight(new Position(0, 0));
+        Piece blackKnight = Piece.createBlackKnight(new Position(0, 0));
+
+        Piece whiteRook = Piece.createWhiteRook(new Position(0, 0));
+        Piece blackRook = Piece.createBlackRook(new Position(0, 0));
+
+        Piece whiteBishop = Piece.createWhiteBishop(new Position(0, 0));
+        Piece blackBishop = Piece.createBlackBishop(new Position(0, 0));
+
+        Piece whiteQueen = Piece.createWhiteQueen(new Position(0, 0));
+        Piece blackQueen = Piece.createBlackQueen(new Position(0, 0));
+
+        Piece whiteKing = Piece.createWhiteKing(new Position(0, 0));
+        Piece blackKing = Piece.createBlackKing(new Position(0, 0));
+
+        // when then
+        verifyPiece(whitePawn, blackPawn, Type.PAWN);
+        verifyPiece(whiteKnight, blackKnight, Type.KNIGHT);
+        verifyPiece(whiteRook, blackRook, Type.ROOK);
+        verifyPiece(whiteBishop, blackBishop, Type.BISHOP);
+        verifyPiece(whiteQueen, blackQueen, Type.QUEEN);
+        verifyPiece(whiteKing, blackKing, Type.KING);
     }
 
     @Test
-    @DisplayName("검은색 말이 생성되어야 한다")
-    public void createBlackPieceSuccess() {
-        verifyPiece(Piece.createBlackPawn(new Point(0, 0)), Piece.BLACK_COLOR, Piece.BLACK_PAWN_REPRESENTATION);
-        verifyPiece(Piece.createBlackKnight(new Point(0, 0)), Piece.BLACK_COLOR, Piece.BLACK_KNIGHT_REPRESENTATION);
-        verifyPiece(Piece.createBlackRook(new Point(0, 0)), Piece.BLACK_COLOR, Piece.BLACK_ROOK_REPRESENTATION);
-        verifyPiece(Piece.createBlackBishop(new Point(0, 0)), Piece.BLACK_COLOR, Piece.BLACK_BISHOP_REPRESENTATION);
-        verifyPiece(Piece.createBlackQueen(new Point(0, 0)), Piece.BLACK_COLOR, Piece.BLACK_QUEEN_REPRESENTATION);
-        verifyPiece(Piece.createBlackKing(new Point(0, 0)), Piece.BLACK_COLOR, Piece.BLACK_KING_REPRESENTATION);
+    @DisplayName("빈 기물 생성에 성공")
+    public void createEmptyPiece() {
+        // given
+        Piece blank = Piece.createBlank(new Position(0, 0));
 
+        // when then
+        assertFalse(blank.isWhite());
+        assertFalse(blank.isBlack());
+        assertEquals(Type.NO_PIECE, blank.getType());
+    }
+
+    private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Type type) {
+        assertTrue(whitePiece.isWhite());
+        assertEquals(type, whitePiece.getType());
+
+        assertTrue(blackPiece.isBlack());
+        assertEquals(type, blackPiece.getType());
     }
 
     @Test
-    @DisplayName("검은색 말인지 확인한다.")
+    public void getRepresentationPerPiece() {
+        assertEquals('p', Type.PAWN.getWhiteRepresentation());
+        assertEquals('P', Type.PAWN.getBlackRepresentation());
+    }
+
+    @Test
+    @DisplayName("검은색 말인지 확인")
     public void isBlack() {
-        Piece blackKing = Piece.createBlackKing(new Point(0, 0));
+        // given
+        Piece blackKing = Piece.createBlackKing(new Position(0, 0));
+
+        // when then
         assertTrue(blackKing.isBlack());
         assertFalse(blackKing.isWhite());
     }
 
     @Test
-    @DisplayName("흰색 말인지 확인한다.")
+    @DisplayName("흰색 말인지 확인")
     public void isWhite() {
-        Piece whiteKing = Piece.createWhiteKing(new Point(0, 0));
+        // given
+        Piece whiteKing = Piece.createWhiteKing(new Position(0, 0));
+
+        // when then
         assertTrue(whiteKing.isWhite());
         assertFalse(whiteKing.isBlack());
-    }
-
-    private void verifyPiece(Piece piece, String color, char representation) {
-        assertEquals(color, piece.getColor());
-        assertEquals(representation, piece.getRepresentation());
     }
 }
