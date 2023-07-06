@@ -1,5 +1,6 @@
 package softeer2nd.chess;
 
+import softeer2nd.chess.exception.SameTeamExistException;
 import softeer2nd.chess.pieces.Color;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Type;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import static softeer2nd.chess.Board.COl;
+import static softeer2nd.chess.pieces.Piece.*;
 import static softeer2nd.chess.pieces.Piece.createBlank;
 
 public class ChessGame {
@@ -24,29 +26,36 @@ public class ChessGame {
      * 기물 이동
      */
     public void move(String sourcePosition, String targetPosition) {
-        Piece findPiece = findPiece(sourcePosition);
+        Piece sourcePiece = findPiece(sourcePosition);
+        Piece targetPiece = findPiece(targetPosition);
 
-        findPiece.move(new Piece.Position(targetPosition));
+        isSameTeam(sourcePiece,targetPiece);
+        sourcePiece.move(new Position(targetPosition));
     }
+
+    private void isSameTeam(Piece sourcePiece, Piece targetPiece) {
+        if(sourcePiece.getColor() == targetPiece.getColor()) throw SameTeamExistException.EXCEPTION;
+    }
+
 
     public Piece findPiece(String position) {
         // position 형식 맞는지 예외 처리
 
         char col = position.charAt(0);
         int row = Character.getNumericValue(position.charAt(1));
-        Piece.Position findPosition = new Piece.Position(col, row);
+        Position findPosition = new Position(col, row);
 
         for (Type type : Type.values()) {
             List<Piece> white = board.getWhitePieces().getOrDefault(type, new ArrayList<>());
             List<Piece> black = board.getBlackPieces().getOrDefault(type, new ArrayList<>());
 
             for (Piece piece : white) {
-                Piece.Position point = piece.getPosition();
+                Position point = piece.getPosition();
                 if(point.equals(findPosition)) return piece;
             }
 
             for (Piece piece : black) {
-                Piece.Position point = piece.getPosition();
+                Position point = piece.getPosition();
                 if(point.equals(findPosition)) return piece;
             }
         }

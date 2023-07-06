@@ -2,6 +2,7 @@ package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.Board;
 import softeer2nd.chess.exception.OutOfBoardException;
+import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 import java.util.Objects;
 
@@ -179,11 +180,16 @@ public class Piece {
     public void move(Position position) {
         switch (type) {
             case KING:
-
+                verifyKingMove(position);
                 break;
-            default:
-                this.position = position;
+
         }
+        this.position = position;
+    }
+
+    private void verifyKingMove(Position targetPosition) {
+        if(Math.abs(position.col - targetPosition.col) > 1 ||
+                Math.abs(position.row - targetPosition.row) > 1) throw InvalidMoveException.EXCEPTION;
     }
 
     @Override

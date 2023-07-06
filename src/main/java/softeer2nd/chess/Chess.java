@@ -17,7 +17,7 @@ public class Chess {
 
             switch (command[0]) {
                 case "start" :
-                    chessView.showBoard();
+                    chessView.print();
                     break;
                 case "end" :
                     board.end();
@@ -25,7 +25,7 @@ public class Chess {
                     break;
                 case "move" :
                     chessGame.move(command[1], command[2]);
-                    chessView.showBoard();
+                    chessView.print();
             }
         }
     }

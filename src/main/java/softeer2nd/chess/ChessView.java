@@ -18,6 +18,10 @@ public class ChessView {
         this.board = board;
     }
 
+    public void print() {
+        System.out.println(showBoard());
+    }
+
     public String showBoard() {
         char[][] baseBoard = new char[ROW][COl];
         for (int i = 0; i < baseBoard.length; i++) {
