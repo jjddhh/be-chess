@@ -1,10 +1,12 @@
 package softeer2nd.chess;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import softeer2nd.chess.exception.InvalidColorException;
+import softeer2nd.chess.exception.SameTeamExistException;
 import softeer2nd.chess.pieces.Color;
-import softeer2nd.chess.pieces.Piece;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static softeer2nd.chess.pieces.Piece.*;
@@ -26,28 +28,10 @@ class ChessGameTest {
         ChessGame chessGame = new ChessGame(board);
 
         // when then
-        assertEquals(createBlackRook(new Piece.Position('a', 8)), chessGame.findPiece("a8"));
-        assertEquals(createBlackRook(new Piece.Position('h', 8)), chessGame.findPiece("h8"));
-        assertEquals(createWhiteRook(new Piece.Position('a', 1)), chessGame.findPiece("a1"));
-        assertEquals(createWhiteRook(new Piece.Position('h', 1)), chessGame.findPiece("h1"));
-    }
-
-    @Test
-    @DisplayName("이동원칙과 무관하게 기물을 정해진 위치로 이동 성공")
-    public void moveSuccess() {
-        // given
-        board.initialize();
-        ChessGame chessGame = new ChessGame(board);
-
-        String sourcePosition = "b2";
-        String targetPosition = "b3";
-
-        // when
-        chessGame.move(sourcePosition, targetPosition);
-
-        // then
-        assertEquals(Piece.createBlank(new Piece.Position(sourcePosition)), chessGame.findPiece(sourcePosition));
-        assertEquals(Piece.createWhitePawn(new Piece.Position(targetPosition)), chessGame.findPiece(targetPosition));
+        assertEquals(createBlackRook(new Position('a', 8)), chessGame.findPiece("a8"));
+        assertEquals(createBlackRook(new Position('h', 8)), chessGame.findPiece("h8"));
+        assertEquals(createWhiteRook(new Position('a', 1)), chessGame.findPiece("a1"));
+        assertEquals(createWhiteRook(new Position('h', 1)), chessGame.findPiece("h1"));
     }
 
     @Test
@@ -74,5 +58,58 @@ class ChessGameTest {
         assertEquals(7.0, chessGame.calculatePoint(Color.WHITE), 0.01);
 
         System.out.println(chessView.showBoard());
+    }
+
+    @Test
+    @DisplayName("이동원칙과 무관하게 기물을 정해진 위치로 이동 성공")
+    public void moveSuccess() {
+        // given
+        board.initialize();
+        ChessGame chessGame = new ChessGame(board);
+
+        String sourcePosition = "b2";
+        String targetPosition = "b3";
+
+        // when
+        chessGame.move(sourcePosition, targetPosition);
+
+        // then
+        assertEquals(createBlank(new Position(sourcePosition)), chessGame.findPiece(sourcePosition));
+        assertEquals(createWhitePawn(new Position(targetPosition)), chessGame.findPiece(targetPosition));
+    }
+
+    @Test
+    @DisplayName("킹 이동 성공")
+    public void moveKingSuccess() {
+        // given
+        board.initializeEmpty();
+        ChessGame chessGame = new ChessGame(board);
+
+        String sourcePosition = "d1";
+        String targetPosition = "d2";
+
+        board.addBlackPiece(createBlackKing(sourcePosition));
+
+        // when
+        chessGame.move(sourcePosition, targetPosition);
+
+        // then
+        assertEquals(createBlackKing(new Position(targetPosition)), chessGame.findPiece(targetPosition));
+    }
+
+    @Test
+    @DisplayName("킹 이동 실패")
+    public void moveKingFailure() {
+        // given
+        board.initialize();
+        ChessGame chessGame = new ChessGame(board);
+
+        String sourcePosition = "d1";
+        String targetPosition = "d2";
+
+        // when then
+        Assertions.assertThrows(
+                SameTeamExistException.class,
+                () -> chessGame.move(sourcePosition, targetPosition));
     }
 }
