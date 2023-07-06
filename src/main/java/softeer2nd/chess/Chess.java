@@ -8,6 +8,7 @@ public class Chess {
     public static void start() {
         Board board = new Board();
         board.initialize();
+        ChessView chessView = new ChessView(board);
 
         boolean cont = true;
         while(cont) {
@@ -15,7 +16,7 @@ public class Chess {
 
             switch (command[0]) {
                 case "start" :
-                    board.print();
+                    chessView.showBoard();
                     break;
                 case "end" :
                     board.end();
@@ -23,7 +24,7 @@ public class Chess {
                     break;
                 case "move" :
                     board.move(command[1], command[2]);
-                    board.print();
+                    chessView.showBoard();
             }
         }
     }

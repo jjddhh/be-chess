@@ -138,9 +138,7 @@ public class Board {
         return whitePawnsResult.toString();
     }
 
-    public void print() {
-        System.out.println(showBoard());
-    }
+
 
     public int pieceCount() {
         int whitePieceCount = 0;
@@ -156,36 +154,7 @@ public class Board {
         return whitePieceCount + blackPieceCount;
     }
 
-    public String showBoard() {
-        char[][] board = new char[ROW][COl];
-        for (int i = 0; i < board.length; i++) {
-            Arrays.fill(board[i], '.');
-        }
 
-        for (Type type : Type.values()) {
-            List<Piece> whitePieces = this.whitePieces.getOrDefault(type, new ArrayList<>());
-            List<Piece> blackPieces = this.blackPieces.getOrDefault(type, new ArrayList<>());
-
-            for (int i = 0; i < whitePieces.size(); i++) {
-                Piece piece = whitePieces.get(i);
-                Position position = piece.getPosition();
-                board[position.getRow()][position.getCol()] = piece.getRepresentation();
-            }
-
-            for (int i = 0; i < blackPieces.size(); i++) {
-                Piece piece = blackPieces.get(i);
-                Position position = piece.getPosition();
-                board[position.getRow()][position.getCol()] = piece.getRepresentation();
-            }
-        }
-
-        StringBuilder boardStatus = new StringBuilder();
-        for (int i = 0; i < 8; i++) {
-            boardStatus.append(StringUtils.appendNewLine(String.valueOf(board[i])));
-        }
-
-        return boardStatus.toString();
-    }
 
     public int getPieceCount(Color color, Type type) {
         if (color.equals(Color.WHITE))
