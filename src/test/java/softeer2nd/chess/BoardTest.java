@@ -10,6 +10,7 @@ import softeer2nd.chess.pieces.Piece.Point;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static softeer2nd.chess.StringUtils.appendNewLine;
+import static softeer2nd.chess.pieces.Piece.*;
 
 public class BoardTest {
 
@@ -43,10 +44,10 @@ public class BoardTest {
     @Test
     @DisplayName("체스판에 폰이 잘 추가되어야한다.")
     public void addPawnSuccess() {
-        Piece white1 = addPawn(Piece.Color.WHITE);
+        Piece white1 = addPawn(Color.WHITE);
         verifyAddWhitePawn(1, white1, 0);
 
-        Piece white2 = addPawn(Piece.Color.WHITE);
+        Piece white2 = addPawn(Color.WHITE);
         verifyAddWhitePawn(2, white2, 1);
     }
 
@@ -55,8 +56,8 @@ public class BoardTest {
         assertEquals(pawn, board.findWhitePawn(idx));
     }
 
-    private Piece addPawn(final Piece.Color color) {
-        Piece pawn = Piece.createWhitePawn(new Point(0, 0));
+    private Piece addPawn(final Color color) {
+        Piece pawn = createWhitePawn(new Point(0, 0));
         board.addWhitePiece(pawn);
         return pawn;
     }
@@ -76,8 +77,8 @@ public class BoardTest {
     @DisplayName("폰 리스트에는 다른색 폰은 들어가지 못한다")
     public void addRightColorPawnFail() {
         // given
-        Piece whitePawn = Piece.createWhitePawn(new Point(0, 0));
-        Piece blackPawn = Piece.createBlackPawn(new Point(0, 0));
+        Piece whitePawn = createWhitePawn(new Point(0, 0));
+        Piece blackPawn = createBlackPawn(new Point(0, 0));
 
         // when then
         Assertions.assertThrows(
@@ -96,7 +97,7 @@ public class BoardTest {
         board.initialize();
 
         // when
-        int whiteKnightCount = board.getPieceCount(Piece.Color.WHITE, Piece.Type.KNIGHT);
+        int whiteKnightCount = board.getPieceCount(Color.WHITE, Type.KNIGHT);
 
         // then
         assertEquals(2, whiteKnightCount);
@@ -109,22 +110,50 @@ public class BoardTest {
         board.initialize();
 
         // when then
-        assertEquals(Piece.createBlackRook(new Point('a', 8)), board.findPiece("a8"));
-        assertEquals(Piece.createBlackRook(new Point('h', 8)), board.findPiece("h8"));
-        assertEquals(Piece.createWhiteRook(new Point('a', 1)), board.findPiece("a1"));
-        assertEquals(Piece.createWhiteRook(new Point('h', 1)), board.findPiece("h1"));
+        assertEquals(createBlackRook(new Point('a', 8)), board.findPiece("a8"));
+        assertEquals(createBlackRook(new Point('h', 8)), board.findPiece("h8"));
+        assertEquals(createWhiteRook(new Point('a', 1)), board.findPiece("a1"));
+        assertEquals(createWhiteRook(new Point('h', 1)), board.findPiece("h1"));
     }
 
     @Test
     @DisplayName("체스판위에 기물 추가 성공")
     public void addPieceSuccess() {
+        // given
         board.initializeEmpty();
 
         String position = "b5";
-        Piece piece = Piece.createBlackRook("b5");
+        Piece piece = createBlackRook("b5");
+
+        // when
         board.addPiece(piece);
 
+        // then
         assertEquals(piece, board.findPiece(position));
+        System.out.println(board.showBoard());
+    }
+
+    @Test
+    @DisplayName("점수 계산 성공")
+    public void calculatePoint() {
+        // given
+        board.initializeEmpty();
+
+        // when
+        board.addPiece(createBlackPawn("b6"));
+        board.addPiece(createBlackQueen("e6"));
+        board.addPiece(createBlackKing("b8"));
+        board.addPiece(createBlackRook("c8"));
+
+        board.addPiece(createWhitePawn("f2"));
+        board.addPiece(createWhitePawn("g2"));
+        board.addPiece(createWhiteRook("e1"));
+        board.addPiece(createWhiteKing("f1"));
+
+        // then
+        assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
+        assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
+
         System.out.println(board.showBoard());
     }
 }
