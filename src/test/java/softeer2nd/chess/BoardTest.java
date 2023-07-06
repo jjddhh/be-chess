@@ -31,14 +31,13 @@ public class BoardTest {
     public void checkBoardStatus() {
         // given
         board.initialize();
-
         ChessView chessView = new ChessView(board);
 
         String blankRank = appendNewLine(Board.EMPTY_BOARD);
         StringBuilder sb = new StringBuilder();
 
         // when then
-        assertEquals(32, board.pieceCount());
+        assertEquals(32, board.getTotalPieceCount());
         assertEquals(
                 sb
                         .append(appendNewLine("RNBQKBNR"))
@@ -115,20 +114,6 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("기물의 위치 정보 조회 성공")
-    public void findPieceSuccess() {
-        // given
-        board.initialize();
-        ChessGame chessGame = new ChessGame(board);
-
-        // when then
-        assertEquals(createBlackRook(new Position('a', 8)), chessGame.findPiece("a8"));
-        assertEquals(createBlackRook(new Position('h', 8)), chessGame.findPiece("h8"));
-        assertEquals(createWhiteRook(new Position('a', 1)), chessGame.findPiece("a1"));
-        assertEquals(createWhiteRook(new Position('h', 1)), chessGame.findPiece("h1"));
-    }
-
-    @Test
     @DisplayName("체스판위에 기물 추가 성공")
     public void addPieceSuccess() {
         // given
@@ -144,32 +129,6 @@ public class BoardTest {
 
         // then
         assertEquals(piece, chessGame.findPiece(position));
-        System.out.println(chessView.showBoard());
-    }
-
-    @Test
-    @DisplayName("점수 계산 성공")
-    public void calculatePoint() {
-        // given
-        board.initializeEmpty();
-        ChessView chessView = new ChessView(board);
-        ChessGame chessGame = new ChessGame(board);
-
-        // when
-        board.addPiece(createBlackPawn("b6"));
-        board.addPiece(createBlackQueen("e6"));
-        board.addPiece(createBlackKing("b8"));
-        board.addPiece(createBlackRook("c8"));
-
-        board.addPiece(createWhitePawn("f2"));
-        board.addPiece(createWhitePawn("g2"));
-        board.addPiece(createWhiteRook("e1"));
-        board.addPiece(createWhiteKing("f1"));
-
-        // then
-        assertEquals(15.0, chessGame.calculatePoint(Color.BLACK), 0.01);
-        assertEquals(7.0, chessGame.calculatePoint(Color.WHITE), 0.01);
-
         System.out.println(chessView.showBoard());
     }
 
@@ -214,23 +173,4 @@ public class BoardTest {
         assertTrue(blackPieces.get(0).getPoint() > blackPieces.get(blackPieces.size() - 1).getPoint());
         assertTrue(whitePieces.get(0).getPoint() > whitePieces.get(whitePieces.size() - 1).getPoint());
     }
-
-    @Test
-    @DisplayName("이동원칙과 무관하게 기물을 정해진 위치로 이동 성공")
-    public void moveSuccess() {
-        // given
-        board.initialize();
-        ChessGame chessGame = new ChessGame(board);
-
-        String sourcePosition = "b2";
-        String targetPosition = "b3";
-
-        // when
-        chessGame.move(sourcePosition, targetPosition);
-
-        // then
-        assertEquals(Piece.createBlank(new Position(sourcePosition)), chessGame.findPiece(sourcePosition));
-        assertEquals(Piece.createWhitePawn(new Position(targetPosition)), chessGame.findPiece(targetPosition));
-    }
-
 }

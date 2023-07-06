@@ -21,47 +21,6 @@ public class Board {
 
     public static final String EMPTY_BOARD = "........";
 
-    public void end() {
-        // map의 list에서 dangling pointer 발생안하는지 체크 필요
-        whitePieces = null;
-        blackPieces = null;
-    }
-
-    public void addPiece(Piece piece) {
-        // 개수 예외 처리
-        if(piece.isBlack()) addBlackPiece(piece);
-        else if(piece.isWhite()) addWhitePiece(piece);
-    }
-
-    public void addWhitePiece(Piece piece) {
-        verifyWhitePiece(piece);
-        whitePieces.computeIfAbsent(piece.getType(), k -> new ArrayList<>()).add(piece);
-    }
-
-    private void verifyWhitePiece(Piece piece) {
-        if(!piece.getColor().equals(Color.WHITE))
-            throw InvalidColorException.EXCEPTION;
-    }
-
-    public void addBlackPiece(Piece piece) {
-        verifyBlackPiece(piece);
-        blackPieces.computeIfAbsent(piece.getType(), k -> new ArrayList<>()).add(piece);
-    }
-
-    private void verifyBlackPiece(Piece piece) {
-        if(!piece.getColor().equals(Color.BLACK))
-            throw InvalidColorException.EXCEPTION;
-    }
-
-    public int whitePawnSize() {
-        return whitePieces.get(Type.PAWN).size();
-    }
-
-    public Piece findWhitePawn(int idx) {
-        return whitePieces.get(Type.PAWN).get(idx);
-    }
-
-
     public void initializeEmpty() {
         blackPieces = new HashMap<>();
         whitePieces = new HashMap<>();
@@ -112,12 +71,44 @@ public class Board {
                 .add(createWhiteKing(new Position(4, 7)));
     }
 
-    public Map<Type, List<Piece>> getWhitePieces() {
-        return whitePieces;
+    public void end() {
+        // map의 list에서 dangling pointer 발생안하는지 체크 필요
+        whitePieces = null;
+        blackPieces = null;
     }
 
-    public Map<Type, List<Piece>> getBlackPieces() {
-        return blackPieces;
+    public void addPiece(Piece piece) {
+        // 개수 예외 처리
+        if(piece.isBlack()) addBlackPiece(piece);
+        else if(piece.isWhite()) addWhitePiece(piece);
+    }
+
+    public void addWhitePiece(Piece piece) {
+        verifyWhitePiece(piece);
+        whitePieces.computeIfAbsent(piece.getType(), k -> new ArrayList<>()).add(piece);
+    }
+
+    private void verifyWhitePiece(Piece piece) {
+        if(!piece.getColor().equals(Color.WHITE))
+            throw InvalidColorException.EXCEPTION;
+    }
+
+    public void addBlackPiece(Piece piece) {
+        verifyBlackPiece(piece);
+        blackPieces.computeIfAbsent(piece.getType(), k -> new ArrayList<>()).add(piece);
+    }
+
+    private void verifyBlackPiece(Piece piece) {
+        if(!piece.getColor().equals(Color.BLACK))
+            throw InvalidColorException.EXCEPTION;
+    }
+
+    public int whitePawnSize() {
+        return whitePieces.get(Type.PAWN).size();
+    }
+
+    public Piece findWhitePawn(int idx) {
+        return whitePieces.get(Type.PAWN).get(idx);
     }
 
     public String getWhitePawnsResult() {
@@ -128,17 +119,17 @@ public class Board {
         return getPawnsResult(blackPieces.get(Type.PAWN));
     }
 
-    private String getPawnsResult(List<Piece> whitePawns) {
-        StringBuilder whitePawnsResult = new StringBuilder();
+    private String getPawnsResult(List<Piece> colorPawns) {
+        StringBuilder colorPawnsResult = new StringBuilder();
 
-        for (Piece p : whitePawns) {
-            whitePawnsResult.append(p.getRepresentation());
+        for (Piece p : colorPawns) {
+            colorPawnsResult.append(p.getRepresentation());
         }
 
-        return whitePawnsResult.toString();
+        return colorPawnsResult.toString();
     }
 
-    public int pieceCount() {
+    public int getTotalPieceCount() {
         int whitePieceCount = 0;
         for (Type type : Type.values()) {
             whitePieceCount += whitePieces.getOrDefault(type, new ArrayList<>()).size();
@@ -162,6 +153,17 @@ public class Board {
             int blackPieces = this.blackPieces.getOrDefault(type, new ArrayList<>()).size();
             return (ROW * COl) - (whitePieces + blackPieces);
         }
+    }
+
+    /**
+     * getter
+     */
+    public Map<Type, List<Piece>> getWhitePieces() {
+        return whitePieces;
+    }
+
+    public Map<Type, List<Piece>> getBlackPieces() {
+        return blackPieces;
     }
 }
 
