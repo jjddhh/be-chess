@@ -1,4 +1,4 @@
-package softeer2nd.chess.pieces;
+package softeer2nd.chess.pieces.enums;
 
 public enum Type {
     // 반복문 돌릴시 NO_PIECE 문제

@@ -1,8 +1,9 @@
 package softeer2nd.chess;
 
-import softeer2nd.chess.pieces.Color;
+import softeer2nd.chess.pieces.Blank;
+import softeer2nd.chess.pieces.enums.Color;
 import softeer2nd.chess.pieces.Piece;
-import softeer2nd.chess.pieces.Type;
+import softeer2nd.chess.pieces.enums.Type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +12,6 @@ import java.util.Map;
 
 import static softeer2nd.chess.Board.COl;
 import static softeer2nd.chess.pieces.Piece.*;
-import static softeer2nd.chess.pieces.Piece.createBlank;
 
 public class ChessGame {
     private final Board board;
@@ -27,7 +27,9 @@ public class ChessGame {
         Piece sourcePiece = findPiece(sourcePosition);
         Piece targetPiece = findPiece(targetPosition);
 
+        // 바로 position 넘겨주는것 고려
         sourcePiece.move(sourcePiece, targetPiece, this);
+        board.removePiece(targetPiece);
     }
 
     public Piece findPiece(String position) {
@@ -56,7 +58,7 @@ public class ChessGame {
             }
         }
 
-        return createBlank(findPosition);
+        return Blank.create(findPosition);
     }
 
     /**

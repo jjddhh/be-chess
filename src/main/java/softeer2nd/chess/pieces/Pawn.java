@@ -3,6 +3,7 @@ package softeer2nd.chess.pieces;
 import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.pieces.enums.Color;
 import softeer2nd.chess.pieces.enums.Type;
+import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 public class Pawn extends Piece{
     private Pawn(Color color, Position position) {
@@ -25,24 +26,33 @@ public class Pawn extends Piece{
         return new Pawn(Color.BLACK, new Position(point));
     }
 
-//    public static Piece createWhitePawn(Piece.Position position) {
-//        return createWhite(Type.PAWN, position);
-//    }
-//
-//    public static Piece createWhitePawn(String point) {
-//        return createWhite(Type.PAWN, point);
-//    }
-//
-//    public static Piece createBlackPawn(Position position) {
-//        return createBlack(Type.PAWN, position);
-//    }
-//
-//    public static Piece createBlackPawn(String point) {
-//        return createBlack(Type.PAWN, point);
-//    }
-
     @Override
-    public void verifyMovePosition(Position position, Position targetPiecePosition, ChessGame chessGame) {
+    protected void verifyMove(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
+        verifyMoveDistance(sourcePosition, targetPosition, chessGame);
+        verifyDiagonalMove(sourcePosition, targetPosition, chessGame);
+    }
 
+    private void verifyMoveDistance(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
+        Piece piece = chessGame.findPiece(sourcePosition);
+        int dr = targetPosition.getRow() - sourcePosition.getRow();
+        int dc = targetPosition.getCol() - sourcePosition.getCol();
+
+        if (-1 <= dc && dc <= 1) {
+            if((piece.getColor().equals(Color.BLACK) && dr == 1) ||
+                    (piece.getColor().equals(Color.WHITE) && dr == -1)) return;
+        }
+
+        throw InvalidMoveException.EXCEPTION;
+    }
+
+    private void verifyDiagonalMove(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
+        Piece targetPiece = chessGame.findPiece(targetPosition);
+        int dc = targetPosition.getCol() - sourcePosition.getCol();
+
+        if (dc == 0 && targetPiece.isPiece()) {
+            throw InvalidMoveException.EXCEPTION;
+        } else if (dc != 0 && targetPiece.isBlank()) {
+            throw InvalidMoveException.EXCEPTION;
+        }
     }
 }

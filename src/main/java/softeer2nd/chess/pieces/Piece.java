@@ -4,28 +4,25 @@ import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.exception.OutOfBoardException;
 import softeer2nd.chess.exception.SameTeamExistException;
-import softeer2nd.chess.pieces.exception.InvalidMoveException;
+import softeer2nd.chess.pieces.enums.Color;
+import softeer2nd.chess.pieces.enums.Type;
 
 import java.util.Objects;
 
-public class Piece {
-    private final Color color;
-    private final Type type;
-    private final char representation;
+public abstract class Piece {
+    private Color color;
+    private Type type;
+    private char representation;
     private Position position;
 
-    private Piece(Color color, Type type) {
-        this.color = color;
-        this.type = type;
-        this.representation = setRepresentation(color, type);
-    }
-
-    private Piece(Color color, Type type, Position position) {
+    protected Piece(Color color, Type type, Position position) {
         this.color = color;
         this.type = type;
         this.representation = setRepresentation(color, type);
         this.position = position;
     }
+
+    protected abstract void verifyMove(Position sourcePosition, Position targetPosition, ChessGame chessGame);
 
     public Position getPosition() {
         return position;
@@ -48,121 +45,6 @@ public class Piece {
         return representation;
     }
 
-    private static Piece createWhite(Type type, Position position) {
-        return new Piece(Color.WHITE, type, position);
-    }
-
-    private static Piece createWhite(Type type, String position) {
-        return new Piece(Color.WHITE, type, new Position(position));
-    }
-
-    private static Piece createBlack(Type type, Position position) {
-        return new Piece(Color.BLACK, type, position);
-    }
-
-    private static Piece createBlack(Type type, String point) {
-        return new Piece(Color.BLACK, type, new Position(point));
-    }
-
-    public static Piece createWhitePawn(Position position) {
-        return createWhite(Type.PAWN, position);
-    }
-
-    public static Piece createWhitePawn(String point) {
-        return createWhite(Type.PAWN, point);
-    }
-
-    public static Piece createBlackPawn(Position position) {
-        return createBlack(Type.PAWN, position);
-    }
-
-    public static Piece createBlackPawn(String point) {
-        return createBlack(Type.PAWN, point);
-    }
-
-    public static Piece createWhiteKnight(Position position) {
-        return createWhite(Type.KNIGHT, position);
-    }
-
-    public static Piece createWhiteKnight(String point) {
-        return createWhite(Type.KNIGHT, point);
-    }
-
-    public static Piece createBlackKnight(Position position) {
-        return createBlack(Type.KNIGHT, position);
-    }
-
-    public static Piece createBlackKnight(String point) {
-        return createBlack(Type.KNIGHT, point);
-    }
-
-    public static Piece createWhiteRook(Position position) {
-        return createWhite(Type.ROOK, position);
-    }
-
-    public static Piece createWhiteRook(String point) {
-        return createWhite(Type.ROOK, point);
-    }
-
-    public static Piece createBlackRook(Position position) {
-        return createBlack(Type.ROOK, position);
-    }
-
-    public static Piece createBlackRook(String point) {
-        return createBlack(Type.ROOK, point);
-    }
-
-    public static Piece createWhiteBishop(Position position) {
-        return createWhite(Type.BISHOP, position);
-    }
-
-    public static Piece createWhiteBishop(String point) {
-        return createWhite(Type.BISHOP, point);
-    }
-
-    public static Piece createBlackBishop(Position position) {
-        return createBlack(Type.BISHOP, position);
-    }
-
-    public static Piece createBlackBishop(String point) {
-        return createBlack(Type.BISHOP, point);
-    }
-
-    public static Piece createWhiteQueen(Position position) {
-        return createWhite(Type.QUEEN, position);
-    }
-
-    public static Piece createWhiteQueen(String point) {
-        return createWhite(Type.QUEEN, point);
-    }
-
-    public static Piece createBlackQueen(Position position) {
-        return createBlack(Type.QUEEN, position);
-    }
-
-    public static Piece createBlackQueen(String point) {
-        return createBlack(Type.QUEEN, point);
-    }
-
-    public static Piece createWhiteKing(Position position) {
-        return createWhite(Type.KING, position);
-    }
-
-    public static Piece createWhiteKing(String point) {
-        return createWhite(Type.KING, point);
-    }
-
-    public static Piece createBlackKing(Position position) {
-        return createBlack(Type.KING, position);
-    }
-
-    public static Piece createBlackKing(String point) {
-        return createBlack(Type.KING, point);
-    }
-
-    public static Piece createBlank(Position position) { return new Piece(Color.NO_COLOR, Type.NO_PIECE, position);
-    }
-
     public Color getColor() {
         return this.color;
     }
@@ -183,23 +65,20 @@ public class Piece {
         return !(color.equals(Color.NO_COLOR) && type.equals(Type.NO_PIECE));
     }
 
+    public boolean isBlank() {
+        return (color.equals(Color.NO_COLOR) && type.equals(Type.NO_PIECE));
+    }
+
     public double getPoint() {
         return type.getDefaultPoint();
     }
 
     public void move(Piece sourcePiece, Piece targetPiece, ChessGame chessGame) {
-        verifySameTeamOnTarget(sourcePiece,targetPiece);
-
+        Position sourcePosition = sourcePiece.getPosition();
         Position targetPosition = targetPiece.getPosition();
-        switch (type) {
-            case KING:
-                verifyKingMove(targetPosition);
-                break;
-            case QUEEN:
-                verifyQueenMove(targetPosition);
-                isPieceOnPath(sourcePiece.getPosition(), targetPiece.getPosition(), chessGame);
-                break;
-        }
+
+        verifySameTeamOnTarget(sourcePiece,targetPiece);
+        verifyMove(sourcePosition, targetPosition, chessGame);
 
         this.position = targetPosition;
     }
@@ -208,44 +87,6 @@ public class Piece {
         if(sourcePiece.getColor() == targetPiece.getColor()) {
             throw SameTeamExistException.EXCEPTION;
         }
-    }
-
-    private void isPieceOnPath(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
-        int rowDirection = targetPosition.row - sourcePosition.row;
-        int colDirection = targetPosition.col - sourcePosition.col;
-
-        int dr = rowDirection == 0 ? 0 : (rowDirection > 0 ? 1 : -1);
-        int dc = colDirection == 0 ? 0 : (colDirection > 0 ? 1 : -1);
-
-        int moveRow = sourcePosition.row + dr;
-        int moveCol = sourcePosition.col + dc;
-
-        if (moveRow == targetPosition.row
-                && moveCol == targetPosition.col) return;
-
-        Piece piece = chessGame.findPiece(new Position(moveCol, moveRow));
-        if(piece.isPiece()) {
-            throw InvalidMoveException.EXCEPTION;
-        }
-
-        isPieceOnPath(new Position(moveCol, moveRow), targetPosition, chessGame);
-    }
-
-    private void verifyKingMove(Position targetPosition) {
-        if(Math.abs(position.col - targetPosition.col) > 1 ||
-                Math.abs(position.row - targetPosition.row) > 1) {
-            throw InvalidMoveException.EXCEPTION;
-        }
-    }
-
-    private void verifyQueenMove(Position targetPosition) {
-        // 가로, 세로 방향 체크
-        if (position.row == targetPosition.row || position.col == targetPosition.col) return;
-
-        // 대각선 방향 체크
-        if (Math.abs(position.row - targetPosition.row) == Math.abs(position.col - targetPosition.col)) return;
-
-        throw InvalidMoveException.EXCEPTION;
     }
 
     @Override

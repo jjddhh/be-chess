@@ -1,15 +1,13 @@
 package softeer2nd.chess;
 
 import softeer2nd.chess.exception.InvalidColorException;
-import softeer2nd.chess.pieces.Color;
-import softeer2nd.chess.pieces.Piece;
+import softeer2nd.chess.pieces.*;
+import softeer2nd.chess.pieces.enums.Color;
 import softeer2nd.chess.pieces.Piece.Position;
-import softeer2nd.chess.pieces.Type;
+import softeer2nd.chess.pieces.enums.Type;
 
 import java.util.*;
 import java.util.List;
-
-import static softeer2nd.chess.pieces.Piece.*;
 
 public class Board {
     private Map<Type, List<Piece>> whitePieces = new HashMap<>();
@@ -31,43 +29,43 @@ public class Board {
 
         for (int i = 0; i < COl; i++) {
             blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
-                    .add(createBlackPawn(new Position(i, 1)));
+                    .add(Pawn.createBlack(new Position(i, 1)));
             whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
-                    .add(createWhitePawn(new Position(i, 6)));
+                    .add(Pawn.createWhite(new Position(i, 6)));
         }
 
         for (int i = 0; i < COl; i += 7) {
             blackPieces.computeIfAbsent(Type.ROOK, k -> new ArrayList<>())
-                    .add(createBlackRook(new Position(i, 0)));
+                    .add(Rook.createBlack(new Position(i, 0)));
             whitePieces.computeIfAbsent(Type.ROOK, k -> new ArrayList<>())
-                    .add(createWhiteRook(new Position(i, 7)));
+                    .add(Rook.createWhite(new Position(i, 7)));
         }
 
         for (int i = 1; i < COl; i += 5) {
             blackPieces.computeIfAbsent(Type.KNIGHT, k -> new ArrayList<>())
-                    .add(createBlackKnight(new Position(i, 0)));
+                    .add(Knight.createBlack(new Position(i, 0)));
             whitePieces.computeIfAbsent(Type.KNIGHT, k -> new ArrayList<>())
-                    .add(createWhiteKnight(new Position(i, 7)));
+                    .add(Knight.createWhite(new Position(i, 7)));
         }
 
         for (int i = 2; i < COl; i += 3) {
             blackPieces.computeIfAbsent(Type.BISHOP, k -> new ArrayList<>())
-                    .add(createBlackBishop(new Position(i, 0)));
+                    .add(Bishop.createBlack(new Position(i, 0)));
             whitePieces.computeIfAbsent(Type.BISHOP, k -> new ArrayList<>())
-                    .add(createWhiteBishop(new Position(i, 7)));
+                    .add(Bishop.createWhite(new Position(i, 7)));
 
         }
 
         blackPieces.computeIfAbsent(Type.QUEEN, k -> new ArrayList<>())
-                .add(createBlackQueen(new Position(3, 0)));
+                .add(Queen.createBlack(new Position(3, 0)));
         whitePieces.computeIfAbsent(Type.QUEEN, k -> new ArrayList<>())
-                .add(createWhiteQueen(new Position(3, 7)));
+                .add(Queen.createWhite(new Position(3, 7)));
 
 
         blackPieces.computeIfAbsent(Type.KING, k -> new ArrayList<>())
-                .add(createBlackKing(new Position(4, 0)));
+                .add(King.createBlack(new Position(4, 0)));
         whitePieces.computeIfAbsent(Type.KING, k -> new ArrayList<>())
-                .add(createWhiteKing(new Position(4, 7)));
+                .add(King.createWhite(new Position(4, 7)));
     }
 
     public void end() {
@@ -100,6 +98,13 @@ public class Board {
     private void verifyBlackPiece(Piece piece) {
         if(!piece.getColor().equals(Color.BLACK))
             throw InvalidColorException.EXCEPTION;
+    }
+
+    public void removePiece(Piece piece) {
+        for (Type type : Type.values()) {
+            whitePieces.getOrDefault(type, new ArrayList<>()).remove(piece);
+            blackPieces.getOrDefault(type, new ArrayList<>()).remove(piece);
+        }
     }
 
     public int whitePawnSize() {
