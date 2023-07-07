@@ -12,7 +12,6 @@ import java.util.List;
 import static softeer2nd.chess.pieces.Piece.*;
 
 public class Board {
-
     private Map<Type, List<Piece>> whitePieces = new HashMap<>();
     private Map<Type, List<Piece>> blackPieces = new HashMap<>();
 

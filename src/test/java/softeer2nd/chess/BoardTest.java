@@ -18,7 +18,6 @@ import static softeer2nd.chess.StringUtils.appendNewLine;
 import static softeer2nd.chess.pieces.Piece.*;
 
 public class BoardTest {
-
     private Board board;
 
     @BeforeEach

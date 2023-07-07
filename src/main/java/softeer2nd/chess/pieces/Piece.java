@@ -1,11 +1,12 @@
 package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.Board;
+import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.exception.OutOfBoardException;
+import softeer2nd.chess.exception.SameTeamExistException;
 import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 import java.util.Objects;
-
 
 public class Piece {
     private final Color color;
@@ -29,14 +30,19 @@ public class Piece {
     public Position getPosition() {
         return position;
     }
+
     public Type getType() { return type; }
 
     private char setRepresentation(final Color color, final Type name) {
         char representation = '.';
 
         if (name.isPiece()) {
-            if(color.equals(Color.WHITE)) representation = name.getWhiteRepresentation();
-            else representation = name.getBlackRepresentation();
+            if(color.equals(Color.WHITE)) {
+                representation = name.getWhiteRepresentation();
+            }
+            else {
+                representation = name.getBlackRepresentation();
+            }
         }
 
         return representation;
@@ -173,23 +179,73 @@ public class Piece {
         return color.equals(Color.WHITE);
     }
 
+    public boolean isPiece() {
+        return !(color.equals(Color.NO_COLOR) && type.equals(Type.NO_PIECE));
+    }
+
     public double getPoint() {
         return type.getDefaultPoint();
     }
 
-    public void move(Position position) {
+    public void move(Piece sourcePiece, Piece targetPiece, ChessGame chessGame) {
+        verifySameTeamOnTarget(sourcePiece,targetPiece);
+
+        Position targetPosition = targetPiece.getPosition();
         switch (type) {
             case KING:
-                verifyKingMove(position);
+                verifyKingMove(targetPosition);
                 break;
-
+            case QUEEN:
+                verifyQueenMove(targetPosition);
+                isPieceOnPath(sourcePiece.getPosition(), targetPiece.getPosition(), chessGame);
+                break;
         }
-        this.position = position;
+
+        this.position = targetPosition;
+    }
+
+    private void verifySameTeamOnTarget(Piece sourcePiece, Piece targetPiece) {
+        if(sourcePiece.getColor() == targetPiece.getColor()) {
+            throw SameTeamExistException.EXCEPTION;
+        }
+    }
+
+    private void isPieceOnPath(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
+        int rowDirection = targetPosition.row - sourcePosition.row;
+        int colDirection = targetPosition.col - sourcePosition.col;
+
+        int dr = rowDirection == 0 ? 0 : (rowDirection > 0 ? 1 : -1);
+        int dc = colDirection == 0 ? 0 : (colDirection > 0 ? 1 : -1);
+
+        int moveRow = sourcePosition.row + dr;
+        int moveCol = sourcePosition.col + dc;
+
+        if (moveRow == targetPosition.row
+                && moveCol == targetPosition.col) return;
+
+        Piece piece = chessGame.findPiece(new Position(moveCol, moveRow));
+        if(piece.isPiece()) {
+            throw InvalidMoveException.EXCEPTION;
+        }
+
+        isPieceOnPath(new Position(moveCol, moveRow), targetPosition, chessGame);
     }
 
     private void verifyKingMove(Position targetPosition) {
         if(Math.abs(position.col - targetPosition.col) > 1 ||
-                Math.abs(position.row - targetPosition.row) > 1) throw InvalidMoveException.EXCEPTION;
+                Math.abs(position.row - targetPosition.row) > 1) {
+            throw InvalidMoveException.EXCEPTION;
+        }
+    }
+
+    private void verifyQueenMove(Position targetPosition) {
+        // 가로, 세로 방향 체크
+        if (position.row == targetPosition.row || position.col == targetPosition.col) return;
+
+        // 대각선 방향 체크
+        if (Math.abs(position.row - targetPosition.row) == Math.abs(position.col - targetPosition.col)) return;
+
+        throw InvalidMoveException.EXCEPTION;
     }
 
     @Override
@@ -236,14 +292,10 @@ public class Piece {
             return row;
         }
 
-        private void verifyPiecePosition(Position position) {
-            if(!(0 <= position.getCol() && position.getCol() < Board.COl && 0 <= position.getRow() && position.getRow() < Board.ROW))
-                throw OutOfBoardException.EXCEPTION;
-        }
-
         private void verifyPiecePosition(int col, int row) {
-            if(!(0 <= col && col < Board.COl && 0 <= row && row < Board.ROW))
+            if(!(0 <= col && col < Board.COl && 0 <= row && row < Board.ROW)){
                 throw OutOfBoardException.EXCEPTION;
+            }
         }
 
         @Override

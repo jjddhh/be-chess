@@ -1,6 +1,5 @@
 package softeer2nd.chess;
 
-import softeer2nd.chess.exception.SameTeamExistException;
 import softeer2nd.chess.pieces.Color;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Type;
@@ -15,7 +14,6 @@ import static softeer2nd.chess.pieces.Piece.*;
 import static softeer2nd.chess.pieces.Piece.createBlank;
 
 public class ChessGame {
-
     private final Board board;
 
     public ChessGame(Board board) {
@@ -29,14 +27,8 @@ public class ChessGame {
         Piece sourcePiece = findPiece(sourcePosition);
         Piece targetPiece = findPiece(targetPosition);
 
-        isSameTeam(sourcePiece,targetPiece);
-        sourcePiece.move(new Position(targetPosition));
+        sourcePiece.move(sourcePiece, targetPiece, this);
     }
-
-    private void isSameTeam(Piece sourcePiece, Piece targetPiece) {
-        if(sourcePiece.getColor() == targetPiece.getColor()) throw SameTeamExistException.EXCEPTION;
-    }
-
 
     public Piece findPiece(String position) {
         // position 형식 맞는지 예외 처리
@@ -45,18 +37,22 @@ public class ChessGame {
         int row = Character.getNumericValue(position.charAt(1));
         Position findPosition = new Position(col, row);
 
+        return findPiece(findPosition);
+    }
+
+    public Piece findPiece(Position findPosition) {
         for (Type type : Type.values()) {
             List<Piece> white = board.getWhitePieces().getOrDefault(type, new ArrayList<>());
             List<Piece> black = board.getBlackPieces().getOrDefault(type, new ArrayList<>());
 
             for (Piece piece : white) {
-                Position point = piece.getPosition();
-                if(point.equals(findPosition)) return piece;
+                Position position = piece.getPosition();
+                if(position.equals(findPosition)) return piece;
             }
 
             for (Piece piece : black) {
-                Position point = piece.getPosition();
-                if(point.equals(findPosition)) return piece;
+                Position position = piece.getPosition();
+                if(position.equals(findPosition)) return piece;
             }
         }
 

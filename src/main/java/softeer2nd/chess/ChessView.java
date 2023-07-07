@@ -11,7 +11,6 @@ import static softeer2nd.chess.Board.COl;
 import static softeer2nd.chess.Board.ROW;
 
 public class ChessView {
-
     private final Board board;
 
     public ChessView(Board board) {

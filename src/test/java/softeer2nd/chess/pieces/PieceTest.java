@@ -9,7 +9,6 @@ import softeer2nd.chess.pieces.Piece.Position;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PieceTest {
-
     @Test
     @DisplayName("모든 종류의 기물 생성을 성공")
     public void createPiece() {
