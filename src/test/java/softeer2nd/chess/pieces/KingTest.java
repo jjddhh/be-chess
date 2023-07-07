@@ -36,7 +36,7 @@ class KingTest {
         chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(King.createBlack(new Piece.Position(targetPosition)), chessGame.findPiece(targetPosition));
+        assertEquals(King.createBlack(targetPosition), chessGame.findPiece(targetPosition));
     }
 
     @Test

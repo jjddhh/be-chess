@@ -34,7 +34,7 @@ class KnightTest {
         chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(Knight.createBlack(new Position(targetPosition)), chessGame.findPiece(targetPosition));
+        assertEquals(Knight.createBlack(targetPosition), chessGame.findPiece(targetPosition));
     }
 
     @Test

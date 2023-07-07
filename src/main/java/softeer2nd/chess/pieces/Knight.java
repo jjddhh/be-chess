@@ -8,30 +8,22 @@ import softeer2nd.chess.pieces.exception.InvalidMoveException;
 import java.util.Optional;
 
 public class Knight extends Piece{
-    private Knight(Color color, Position position) {
+    private Knight(Color color, String position) {
         super(color, Type.KNIGHT, position);
     }
 
-    public static Piece createWhite(Position position) {
+    public static Piece createWhite(String position) {
         return new Knight(Color.WHITE, position);
     }
 
-    public static Piece createWhite(String position) {
-        return new Knight(Color.WHITE, new Position(position));
-    }
-
-    public static Piece createBlack(Position position) {
+    public static Piece createBlack(String position) {
         return new Knight(Color.BLACK, position);
     }
 
-    public static Piece createBlack(String point) {
-        return new Knight(Color.BLACK, new Position(point));
-    }
-
     @Override
-    protected void verifyMove(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
-        int dr = targetPosition.getRow() - sourcePosition.getRow();
-        int dc = targetPosition.getCol() - sourcePosition.getCol();
+    protected void verifyMove(Position targetPosition, ChessGame chessGame) {
+        int dr = targetPosition.getRow() - super.getRow();
+        int dc = targetPosition.getCol() - super.getCol();
 
         Direction.knightDirection().stream()
                 .filter(direction -> direction.getXDegree() == dc && direction.getYDegree() == dr)

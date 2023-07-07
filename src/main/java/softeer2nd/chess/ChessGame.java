@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import static softeer2nd.chess.Board.COl;
-import static softeer2nd.chess.pieces.Piece.*;
 
 public class ChessGame {
     private final Board board;
@@ -27,38 +26,26 @@ public class ChessGame {
         Piece sourcePiece = findPiece(sourcePosition);
         Piece targetPiece = findPiece(targetPosition);
 
-        // 바로 position 넘겨주는것 고려
-        sourcePiece.move(sourcePiece, targetPiece, this);
+        sourcePiece.move(targetPiece, this);
         board.removePiece(targetPiece);
     }
 
-    public Piece findPiece(String position) {
-        // position 형식 맞는지 예외 처리
-
-        char col = position.charAt(0);
-        int row = Character.getNumericValue(position.charAt(1));
-        Position findPosition = new Position(col, row);
-
-        return findPiece(findPosition);
-    }
-
-    public Piece findPiece(Position findPosition) {
+    public Piece findPiece(String targetPosition) {
         for (Type type : Type.values()) {
             List<Piece> white = board.getWhitePieces().getOrDefault(type, new ArrayList<>());
             List<Piece> black = board.getBlackPieces().getOrDefault(type, new ArrayList<>());
 
             for (Piece piece : white) {
-                Position position = piece.getPosition();
-                if(position.equals(findPosition)) return piece;
+
+                if(piece.isEqualPosition(targetPosition)) return piece;
             }
 
             for (Piece piece : black) {
-                Position position = piece.getPosition();
-                if(position.equals(findPosition)) return piece;
+                if(piece.isEqualPosition(targetPosition)) return piece;
             }
         }
 
-        return Blank.create(findPosition);
+        return Blank.create(targetPosition);
     }
 
     /**
@@ -84,7 +71,7 @@ public class ChessGame {
                 HashMap<Integer, Integer> colSet = new HashMap<>();
 
                 for (Piece piece : pieces) {
-                    int col = piece.getPosition().getCol();
+                    int col = piece.getCol();
                     colSet.put(col, colSet.getOrDefault(col, 0) + 1);
                 }
 

@@ -39,8 +39,8 @@ class PawnTest {
         chessGame.move(whiteSourcePosition, whiteTargetPosition);
 
         // then
-        assertEquals(Pawn.createBlack(new Position(blackTargetPosition)), chessGame.findPiece(blackTargetPosition));
-        assertEquals(Pawn.createWhite(new Position(whiteTargetPosition)), chessGame.findPiece(whiteTargetPosition));
+        assertEquals(Pawn.createBlack(blackTargetPosition), chessGame.findPiece(blackTargetPosition));
+        assertEquals(Pawn.createWhite(whiteTargetPosition), chessGame.findPiece(whiteTargetPosition));
     }
 
     @Test
@@ -107,7 +107,7 @@ class PawnTest {
         chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(Pawn.createBlack(new Position(targetPosition)), chessGame.findPiece(targetPosition));
+        assertEquals(Pawn.createBlack(targetPosition), chessGame.findPiece(targetPosition));
     }
 
     @Test

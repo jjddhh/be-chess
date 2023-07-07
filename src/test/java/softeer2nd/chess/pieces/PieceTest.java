@@ -13,23 +13,23 @@ public class PieceTest {
     @DisplayName("모든 종류의 기물 생성을 성공")
     public void createPiece() {
         // given
-        Piece whitePawn = Pawn.createWhite(new Position(0, 0));
-        Piece blackPawn = Pawn.createBlack(new Position(0, 0));
+        Piece whitePawn = Pawn.createWhite("a1");
+        Piece blackPawn = Pawn.createBlack("a1");
 
-        Piece whiteKnight = Knight.createWhite(new Position(0, 0));
-        Piece blackKnight = Knight.createBlack(new Position(0, 0));
+        Piece whiteKnight = Knight.createWhite("a1");
+        Piece blackKnight = Knight.createBlack("a1");
 
-        Piece whiteRook = Rook.createWhite(new Position(0, 0));
-        Piece blackRook = Rook.createBlack(new Position(0, 0));
+        Piece whiteRook = Rook.createWhite("a1");
+        Piece blackRook = Rook.createBlack("a1");
 
-        Piece whiteBishop = Bishop.createWhite(new Position(0, 0));
-        Piece blackBishop = Bishop.createBlack(new Position(0, 0));
+        Piece whiteBishop = Bishop.createWhite("a1");
+        Piece blackBishop = Bishop.createBlack("a1");
 
-        Piece whiteQueen = Queen.createWhite(new Position(0, 0));
-        Piece blackQueen = Queen.createBlack(new Position(0, 0));
+        Piece whiteQueen = Queen.createWhite("a1");
+        Piece blackQueen = Queen.createBlack("a1");
 
-        Piece whiteKing = King.createWhite(new Position(0, 0));
-        Piece blackKing = King.createBlack(new Position(0, 0));
+        Piece whiteKing = King.createWhite("a1");
+        Piece blackKing = King.createBlack("a1");
 
         // when then
         verifyPiece(whitePawn, blackPawn, Type.PAWN);
@@ -44,7 +44,7 @@ public class PieceTest {
     @DisplayName("빈 기물 생성에 성공")
     public void createEmptyPiece() {
         // given
-        Piece blank = Blank.create(new Position(0, 0));
+        Piece blank = Blank.create("a1");
 
         // when then
         assertFalse(blank.isWhite());
@@ -70,7 +70,7 @@ public class PieceTest {
     @DisplayName("검은색 말인지 확인")
     public void isBlack() {
         // given
-        Piece blackKing = King.createBlack(new Position(0, 0));
+        Piece blackKing = King.createBlack("a1");
 
         // when then
         assertTrue(blackKing.isBlack());
@@ -81,7 +81,7 @@ public class PieceTest {
     @DisplayName("흰색 말인지 확인")
     public void isWhite() {
         // given
-        Piece whiteKing = King.createWhite(new Position(0, 0));
+        Piece whiteKing = King.createWhite("a1");
 
         // when then
         assertTrue(whiteKing.isWhite());

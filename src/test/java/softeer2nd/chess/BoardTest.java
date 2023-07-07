@@ -9,7 +9,6 @@ import softeer2nd.chess.pieces.Pawn;
 import softeer2nd.chess.pieces.Rook;
 import softeer2nd.chess.pieces.enums.Color;
 import softeer2nd.chess.pieces.Piece;
-import softeer2nd.chess.pieces.Piece.Position;
 import softeer2nd.chess.pieces.enums.Type;
 
 import java.util.*;
@@ -67,7 +66,7 @@ public class BoardTest {
     }
 
     private Piece addPawn(final Color color) {
-        Piece pawn = Pawn.createWhite(new Position(0, 0));
+        Piece pawn = Pawn.createWhite("a1");
         board.addWhitePiece(pawn);
         return pawn;
     }
@@ -87,8 +86,8 @@ public class BoardTest {
     @DisplayName("폰 리스트에는 다른색 폰은 들어가지 못한다")
     public void addRightColorPawnFail() {
         // given
-        Piece whitePawn = Pawn.createWhite(new Position(0, 0));
-        Piece blackPawn = Pawn.createBlack(new Position(0, 0));
+        Piece whitePawn = Pawn.createWhite("a1");
+        Piece blackPawn = Pawn.createBlack("a1");
 
         // when then
         Assertions.assertThrows(

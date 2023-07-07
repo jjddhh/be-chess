@@ -10,4 +10,13 @@ public class StringUtils {
         sb.append(str).append(NEWLINE);
         return sb.toString();
     }
+
+    public static String getOriginPositionFormat(int row, int col) {
+        char originCol = (char) (col + 'a');
+        int originRow = 8 - row;
+        StringBuilder sb = new StringBuilder();
+        String origin = sb.append(originCol).append(originRow).toString();
+
+        return origin;
+    }
 }

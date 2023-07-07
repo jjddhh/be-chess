@@ -2,6 +2,7 @@ package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
+import softeer2nd.chess.StringUtils;
 import softeer2nd.chess.exception.OutOfBoardException;
 import softeer2nd.chess.exception.SameTeamExistException;
 import softeer2nd.chess.pieces.enums.Color;
@@ -15,22 +16,16 @@ public abstract class Piece {
     private char representation;
     private Position position;
 
-    protected Piece(Color color, Type type, Position position) {
+    protected Piece(Color color, Type type, String position) {
         this.color = color;
         this.type = type;
-        this.representation = setRepresentation(color, type);
-        this.position = position;
+        this.representation = getRepresentation(color, type);
+        this.position = new Position(position);
     }
 
-    protected abstract void verifyMove(Position sourcePosition, Position targetPosition, ChessGame chessGame);
+    protected abstract void verifyMove(Position targetPosition, ChessGame chessGame);
 
-    public Position getPosition() {
-        return position;
-    }
-
-    public Type getType() { return type; }
-
-    private char setRepresentation(final Color color, final Type name) {
+    private char getRepresentation(final Color color, final Type name) {
         char representation = '.';
 
         if (name.isPiece()) {
@@ -43,14 +38,6 @@ public abstract class Piece {
         }
 
         return representation;
-    }
-
-    public Color getColor() {
-        return this.color;
-    }
-
-    public char getRepresentation() {
-        return this.representation;
     }
 
     public boolean isBlack() {
@@ -69,25 +56,54 @@ public abstract class Piece {
         return (color.equals(Color.NO_COLOR) && type.equals(Type.NO_PIECE));
     }
 
-    public double getPoint() {
-        return type.getDefaultPoint();
-    }
-
-    public void move(Piece sourcePiece, Piece targetPiece, ChessGame chessGame) {
-        Position sourcePosition = sourcePiece.getPosition();
+    public void move(Piece targetPiece, ChessGame chessGame) {
         Position targetPosition = targetPiece.getPosition();
 
-        verifySameTeamOnTarget(sourcePiece,targetPiece);
-        verifyMove(sourcePosition, targetPosition, chessGame);
+        verifySameTeamOnTarget(targetPiece);
+        verifyMove(targetPosition, chessGame);
 
         this.position = targetPosition;
     }
 
-    private void verifySameTeamOnTarget(Piece sourcePiece, Piece targetPiece) {
-        if(sourcePiece.getColor() == targetPiece.getColor()) {
+    private void verifySameTeamOnTarget(Piece targetPiece) {
+        if(this.color == targetPiece.getColor()) {
             throw SameTeamExistException.EXCEPTION;
         }
     }
+
+    public boolean isEqualPosition(String targetPosition) {
+        String sourcePosition = StringUtils.getOriginPositionFormat(position.getRow(), position.getCol());
+        return sourcePosition.equals(targetPosition);
+    }
+
+    /**
+     * getter
+     */
+    protected Position getPosition() {
+        return position;
+    }
+
+    public int getCol() {
+        return position.col;
+    }
+
+    public int getRow() {
+        return position.row;
+    }
+
+    public double getPoint() {
+        return type.getDefaultPoint();
+    }
+
+    public Color getColor() {
+        return this.color;
+    }
+
+    public char getRepresentation() {
+        return this.representation;
+    }
+
+    public Type getType() { return type; }
 
     @Override
     public boolean equals(Object o) {
@@ -102,7 +118,7 @@ public abstract class Piece {
         return Objects.hash(color, type, representation, position);
     }
 
-    public static class Position {
+    protected static class Position {
         private final int col;
         private final int row;
 
@@ -112,12 +128,12 @@ public abstract class Piece {
 
         public Position(char col, int row) {
             int colTmp = col - 'a';
-            row = 8 - row;
+            int rowTmp = 8 - row;
 
-            verifyPiecePosition(colTmp, row);
+            verifyPiecePosition(colTmp, rowTmp);
 
             this.col = colTmp;
-            this.row = row;
+            this.row = rowTmp;
         }
 
         public Position(int col, int row) {
@@ -125,11 +141,11 @@ public abstract class Piece {
             this.row = row;
         }
 
-        public int getCol() {
+        protected int getCol() {
             return col;
         }
 
-        public int getRow() {
+        protected int getRow() {
             return row;
         }
 

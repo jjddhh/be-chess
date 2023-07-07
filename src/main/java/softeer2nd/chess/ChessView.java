@@ -33,14 +33,12 @@ public class ChessView {
 
             for (int i = 0; i < whitePieces.size(); i++) {
                 Piece piece = whitePieces.get(i);
-                Piece.Position position = piece.getPosition();
-                baseBoard[position.getRow()][position.getCol()] = piece.getRepresentation();
+                baseBoard[piece.getRow()][piece.getCol()] = piece.getRepresentation();
             }
 
             for (int i = 0; i < blackPieces.size(); i++) {
                 Piece piece = blackPieces.get(i);
-                Piece.Position position = piece.getPosition();
-                baseBoard[position.getRow()][position.getCol()] = piece.getRepresentation();
+                baseBoard[piece.getRow()][piece.getCol()] = piece.getRepresentation();
             }
         }
 

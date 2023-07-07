@@ -1,35 +1,28 @@
 package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.ChessGame;
+import softeer2nd.chess.StringUtils;
 import softeer2nd.chess.pieces.enums.Color;
 import softeer2nd.chess.pieces.enums.Type;
 import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 public class Rook extends Piece {
-    private Rook(Color color, Position position) {
+    private Rook(Color color, String position) {
         super(color, Type.ROOK, position);
     }
 
-    public static Piece createWhite(Position position) {
+    public static Piece createWhite(String position) {
         return new Rook(Color.WHITE, position);
     }
 
-    public static Piece createWhite(String position) {
-        return new Rook(Color.WHITE, new Position(position));
-    }
-
-    public static Piece createBlack(Position position) {
+    public static Piece createBlack(String position) {
         return new Rook(Color.BLACK, position);
     }
 
-    public static Piece createBlack(String point) {
-        return new Rook(Color.BLACK, new Position(point));
-    }
-
     @Override
-    protected void verifyMove(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
-        verifyMoveDirection(sourcePosition, targetPosition);
-        verifyPieceOnPath(sourcePosition, targetPosition, chessGame);
+    protected void verifyMove(Position targetPosition, ChessGame chessGame) {
+        verifyMoveDirection(super.getPosition(), targetPosition);
+        verifyPieceOnPath(super.getPosition(), targetPosition, chessGame);
     }
 
     private void verifyMoveDirection(Position sourcePosition, Position targetPosition) {
@@ -63,7 +56,9 @@ public class Rook extends Piece {
         if (moveRow == targetRow
                 && moveCol == targetCol) return;
 
-        Piece piece = chessGame.findPiece(new Position(moveCol, moveRow));
+        String originPositionFormat = StringUtils.getOriginPositionFormat(moveRow, moveCol);
+
+        Piece piece = chessGame.findPiece(originPositionFormat);
         if(piece.isPiece()) {
             throw InvalidMoveException.EXCEPTION;
         }

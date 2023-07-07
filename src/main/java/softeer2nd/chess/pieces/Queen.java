@@ -1,40 +1,33 @@
 package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.ChessGame;
+import softeer2nd.chess.StringUtils;
 import softeer2nd.chess.pieces.enums.Color;
 import softeer2nd.chess.pieces.enums.Type;
 import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 public class Queen extends Piece {
-    private Queen(Color color, Position position) {
+    private Queen(Color color, String position) {
         super(color, Type.QUEEN, position);
     }
 
-    public static Piece createWhite(Position position) {
+    public static Piece createWhite(String position) {
         return new Queen(Color.WHITE, position);
     }
 
-    public static Piece createWhite(String position) {
-        return new Queen(Color.WHITE, new Position(position));
-    }
-
-    public static Piece createBlack(Position position) {
+    public static Piece createBlack(String position) {
         return new Queen(Color.BLACK, position);
     }
 
-    public static Piece createBlack(String point) {
-        return new Queen(Color.BLACK, new Position(point));
-    }
-
     @Override
-    protected void verifyMove(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
-        verifyMoveDirection(sourcePosition, targetPosition);
-        verifyPieceOnPath(sourcePosition, targetPosition, chessGame);
+    protected void verifyMove(Position targetPosition, ChessGame chessGame) {
+        verifyMoveDirection(targetPosition);
+        verifyPieceOnPath(super.getPosition(), targetPosition, chessGame);
     }
 
-    private void verifyMoveDirection(Position sourcePosition, Position targetPosition) {
-        int sourceRow = sourcePosition.getRow();
-        int sourceCol = sourcePosition.getCol();
+    private void verifyMoveDirection(Position targetPosition) {
+        int sourceRow = super.getRow();
+        int sourceCol = super.getCol();
         int targetRow = targetPosition.getRow();
         int targetCol = targetPosition.getCol();
 
@@ -66,7 +59,9 @@ public class Queen extends Piece {
         if (moveRow == targetRow
                 && moveCol == targetCol) return;
 
-        Piece piece = chessGame.findPiece(new Position(moveCol, moveRow));
+        String originPositionFormat = StringUtils.getOriginPositionFormat(moveRow, moveCol);
+
+        Piece piece = chessGame.findPiece(originPositionFormat);
         if(piece.isPiece()) {
             throw InvalidMoveException.EXCEPTION;
         }

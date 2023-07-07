@@ -34,7 +34,7 @@ class BishopTest {
         chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(Bishop.createBlack(new Piece.Position(targetPosition)), chessGame.findPiece(targetPosition));
+        assertEquals(Bishop.createBlack(targetPosition), chessGame.findPiece(targetPosition));
     }
 
     @Test

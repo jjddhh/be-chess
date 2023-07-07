@@ -35,7 +35,7 @@ class QueenTest {
         chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(Queen.createBlack(new Piece.Position(targetPosition)), chessGame.findPiece(targetPosition));
+        assertEquals(Queen.createBlack(targetPosition), chessGame.findPiece(targetPosition));
     }
 
     @Test
@@ -54,7 +54,7 @@ class QueenTest {
         chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(Queen.createBlack(new Piece.Position(targetPosition)), chessGame.findPiece(targetPosition));
+        assertEquals(Queen.createBlack(targetPosition), chessGame.findPiece(targetPosition));
     }
 
     @Test

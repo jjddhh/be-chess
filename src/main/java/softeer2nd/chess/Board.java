@@ -3,11 +3,11 @@ package softeer2nd.chess;
 import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.pieces.*;
 import softeer2nd.chess.pieces.enums.Color;
-import softeer2nd.chess.pieces.Piece.Position;
 import softeer2nd.chess.pieces.enums.Type;
 
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Board {
     private Map<Type, List<Piece>> whitePieces = new HashMap<>();
@@ -28,44 +28,48 @@ public class Board {
         whitePieces = new HashMap<>();
 
         for (int i = 0; i < COl; i++) {
+            char col = (char) ('a' + i);
             blackPieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
-                    .add(Pawn.createBlack(new Position(i, 1)));
+                    .add(Pawn.createBlack(col + "7"));
             whitePieces.computeIfAbsent(Type.PAWN, k -> new ArrayList<>())
-                    .add(Pawn.createWhite(new Position(i, 6)));
+                    .add(Pawn.createWhite(col + "2"));
         }
 
         for (int i = 0; i < COl; i += 7) {
+            char col = (char) ('a' + i);
             blackPieces.computeIfAbsent(Type.ROOK, k -> new ArrayList<>())
-                    .add(Rook.createBlack(new Position(i, 0)));
+                    .add(Rook.createBlack(col + "8"));
             whitePieces.computeIfAbsent(Type.ROOK, k -> new ArrayList<>())
-                    .add(Rook.createWhite(new Position(i, 7)));
+                    .add(Rook.createWhite(col + "1"));
         }
 
         for (int i = 1; i < COl; i += 5) {
+            char col = (char) ('a' + i);
             blackPieces.computeIfAbsent(Type.KNIGHT, k -> new ArrayList<>())
-                    .add(Knight.createBlack(new Position(i, 0)));
+                    .add(Knight.createBlack(col + "8"));
             whitePieces.computeIfAbsent(Type.KNIGHT, k -> new ArrayList<>())
-                    .add(Knight.createWhite(new Position(i, 7)));
+                    .add(Knight.createWhite(col + "1"));
         }
 
         for (int i = 2; i < COl; i += 3) {
+            char col = (char) ('a' + i);
             blackPieces.computeIfAbsent(Type.BISHOP, k -> new ArrayList<>())
-                    .add(Bishop.createBlack(new Position(i, 0)));
+                    .add(Bishop.createBlack(col + "8"));
             whitePieces.computeIfAbsent(Type.BISHOP, k -> new ArrayList<>())
-                    .add(Bishop.createWhite(new Position(i, 7)));
+                    .add(Bishop.createWhite(col + "1"));
 
         }
 
         blackPieces.computeIfAbsent(Type.QUEEN, k -> new ArrayList<>())
-                .add(Queen.createBlack(new Position(3, 0)));
+                .add(Queen.createBlack("d8"));
         whitePieces.computeIfAbsent(Type.QUEEN, k -> new ArrayList<>())
-                .add(Queen.createWhite(new Position(3, 7)));
+                .add(Queen.createWhite("d1"));
 
 
         blackPieces.computeIfAbsent(Type.KING, k -> new ArrayList<>())
-                .add(King.createBlack(new Position(4, 0)));
+                .add(King.createBlack("e8"));
         whitePieces.computeIfAbsent(Type.KING, k -> new ArrayList<>())
-                .add(King.createWhite(new Position(4, 7)));
+                .add(King.createWhite("e1"));
     }
 
     public void end() {

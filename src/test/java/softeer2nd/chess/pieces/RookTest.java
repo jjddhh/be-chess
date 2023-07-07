@@ -35,7 +35,7 @@ class RookTest {
         chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(Rook.createBlack(new Position(targetPosition)), chessGame.findPiece(targetPosition));
+        assertEquals(Rook.createBlack(targetPosition), chessGame.findPiece(targetPosition));
     }
 
     @Test

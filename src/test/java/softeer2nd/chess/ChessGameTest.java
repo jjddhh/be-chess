@@ -28,10 +28,10 @@ class ChessGameTest {
         ChessGame chessGame = new ChessGame(board);
 
         // when then
-        assertEquals(Rook.createBlack(new Position('a', 8)), chessGame.findPiece("a8"));
-        assertEquals(Rook.createBlack(new Position('h', 8)), chessGame.findPiece("h8"));
-        assertEquals(Rook.createWhite(new Position('a', 1)), chessGame.findPiece("a1"));
-        assertEquals(Rook.createWhite(new Position('h', 1)), chessGame.findPiece("h1"));
+        assertEquals(Rook.createBlack("a8"), chessGame.findPiece("a8"));
+        assertEquals(Rook.createBlack("h8"), chessGame.findPiece("h8"));
+        assertEquals(Rook.createWhite("a1"), chessGame.findPiece("a1"));
+        assertEquals(Rook.createWhite("h1"), chessGame.findPiece("h1"));
     }
 
     @Test
@@ -58,23 +58,5 @@ class ChessGameTest {
         assertEquals(7.0, chessGame.calculatePoint(Color.WHITE), 0.01);
 
         System.out.println(chessView.showBoard());
-    }
-
-    @Test
-    @DisplayName("이동원칙과 무관하게 기물을 정해진 위치로 이동 성공")
-    public void moveSuccess() {
-        // given
-        board.initialize();
-        ChessGame chessGame = new ChessGame(board);
-
-        String sourcePosition = "b2";
-        String targetPosition = "b3";
-
-        // when
-        chessGame.move(sourcePosition, targetPosition);
-
-        // then
-        assertEquals(Blank.create(new Position(sourcePosition)), chessGame.findPiece(sourcePosition));
-        assertEquals(Pawn.createWhite(new Position(targetPosition)), chessGame.findPiece(targetPosition));
     }
 }
