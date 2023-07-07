@@ -4,7 +4,7 @@ package softeer2nd.chess.pieces;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.pieces.Piece.Position;
-
+import softeer2nd.chess.pieces.enums.Type;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,23 +13,23 @@ public class PieceTest {
     @DisplayName("모든 종류의 기물 생성을 성공")
     public void createPiece() {
         // given
-        Piece whitePawn = Piece.createWhitePawn(new Position(0, 0));
-        Piece blackPawn = Piece.createBlackPawn(new Position(0, 0));
+        Piece whitePawn = Pawn.createWhite(new Position(0, 0));
+        Piece blackPawn = Pawn.createBlack(new Position(0, 0));
 
-        Piece whiteKnight = Piece.createWhiteKnight(new Position(0, 0));
-        Piece blackKnight = Piece.createBlackKnight(new Position(0, 0));
+        Piece whiteKnight = Knight.createWhite(new Position(0, 0));
+        Piece blackKnight = Knight.createBlack(new Position(0, 0));
 
-        Piece whiteRook = Piece.createWhiteRook(new Position(0, 0));
-        Piece blackRook = Piece.createBlackRook(new Position(0, 0));
+        Piece whiteRook = Rook.createWhite(new Position(0, 0));
+        Piece blackRook = Rook.createBlack(new Position(0, 0));
 
-        Piece whiteBishop = Piece.createWhiteBishop(new Position(0, 0));
-        Piece blackBishop = Piece.createBlackBishop(new Position(0, 0));
+        Piece whiteBishop = Bishop.createWhite(new Position(0, 0));
+        Piece blackBishop = Bishop.createBlack(new Position(0, 0));
 
-        Piece whiteQueen = Piece.createWhiteQueen(new Position(0, 0));
-        Piece blackQueen = Piece.createBlackQueen(new Position(0, 0));
+        Piece whiteQueen = Queen.createWhite(new Position(0, 0));
+        Piece blackQueen = Queen.createBlack(new Position(0, 0));
 
-        Piece whiteKing = Piece.createWhiteKing(new Position(0, 0));
-        Piece blackKing = Piece.createBlackKing(new Position(0, 0));
+        Piece whiteKing = King.createWhite(new Position(0, 0));
+        Piece blackKing = King.createBlack(new Position(0, 0));
 
         // when then
         verifyPiece(whitePawn, blackPawn, Type.PAWN);
@@ -44,7 +44,7 @@ public class PieceTest {
     @DisplayName("빈 기물 생성에 성공")
     public void createEmptyPiece() {
         // given
-        Piece blank = Piece.createBlank(new Position(0, 0));
+        Piece blank = Blank.create(new Position(0, 0));
 
         // when then
         assertFalse(blank.isWhite());
@@ -70,7 +70,7 @@ public class PieceTest {
     @DisplayName("검은색 말인지 확인")
     public void isBlack() {
         // given
-        Piece blackKing = Piece.createBlackKing(new Position(0, 0));
+        Piece blackKing = King.createBlack(new Position(0, 0));
 
         // when then
         assertTrue(blackKing.isBlack());
@@ -81,7 +81,7 @@ public class PieceTest {
     @DisplayName("흰색 말인지 확인")
     public void isWhite() {
         // given
-        Piece whiteKing = Piece.createWhiteKing(new Position(0, 0));
+        Piece whiteKing = King.createWhite(new Position(0, 0));
 
         // when then
         assertTrue(whiteKing.isWhite());

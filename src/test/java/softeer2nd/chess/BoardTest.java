@@ -5,17 +5,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.exception.InvalidColorException;
-import softeer2nd.chess.pieces.Color;
+import softeer2nd.chess.pieces.Pawn;
+import softeer2nd.chess.pieces.Rook;
+import softeer2nd.chess.pieces.enums.Color;
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.Piece.Position;
-import softeer2nd.chess.pieces.Type;
+import softeer2nd.chess.pieces.enums.Type;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static softeer2nd.chess.StringUtils.appendNewLine;
-import static softeer2nd.chess.pieces.Piece.*;
 
 public class BoardTest {
     private Board board;
@@ -66,7 +67,7 @@ public class BoardTest {
     }
 
     private Piece addPawn(final Color color) {
-        Piece pawn = createWhitePawn(new Position(0, 0));
+        Piece pawn = Pawn.createWhite(new Position(0, 0));
         board.addWhitePiece(pawn);
         return pawn;
     }
@@ -86,8 +87,8 @@ public class BoardTest {
     @DisplayName("폰 리스트에는 다른색 폰은 들어가지 못한다")
     public void addRightColorPawnFail() {
         // given
-        Piece whitePawn = createWhitePawn(new Position(0, 0));
-        Piece blackPawn = createBlackPawn(new Position(0, 0));
+        Piece whitePawn = Pawn.createWhite(new Position(0, 0));
+        Piece blackPawn = Pawn.createBlack(new Position(0, 0));
 
         // when then
         Assertions.assertThrows(
@@ -121,7 +122,7 @@ public class BoardTest {
         ChessGame chessGame = new ChessGame(board);
 
         String position = "b5";
-        Piece piece = createBlackRook("b5");
+        Piece piece = Rook.createBlack("b5");
 
         // when
         board.addPiece(piece);
