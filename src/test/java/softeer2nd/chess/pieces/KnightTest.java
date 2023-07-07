@@ -15,13 +15,13 @@ class KnightTest {
     private Board board;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         board = new Board();
     }
 
     @Test
     @DisplayName("나이트 이동 성공")
-    public void moveSuccess() {
+    void moveSuccess() {
         // given
         ChessGame chessGame = new ChessGame(board);
 
@@ -39,7 +39,7 @@ class KnightTest {
 
     @Test
     @DisplayName("나이트 이동 실패")
-    public void moveFailure() {
+    void moveFailure() {
         // given
         ChessGame chessGame = new ChessGame(board);
 

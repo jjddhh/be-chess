@@ -16,13 +16,13 @@ class ChessGameTest {
     private Board board;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         board = new Board();
     }
 
     @Test
     @DisplayName("기물의 위치 정보 조회 성공")
-    public void findPieceSuccess() {
+    void findPieceSuccess() {
         // given
         board.initialize();
         ChessGame chessGame = new ChessGame(board);
@@ -36,7 +36,7 @@ class ChessGameTest {
 
     @Test
     @DisplayName("점수 계산 성공")
-    public void calculatePoint() {
+    void calculatePoint() {
         // given
         board.initializeEmpty();
         ChessView chessView = new ChessView(board);

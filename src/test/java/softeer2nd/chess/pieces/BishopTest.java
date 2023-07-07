@@ -15,13 +15,13 @@ class BishopTest {
     private Board board;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         board = new Board();
     }
 
     @Test
     @DisplayName("비숍 이동 성공")
-    public void moveSuccess() {
+    void moveSuccess() {
         // given
         ChessGame chessGame = new ChessGame(board);
 
@@ -39,7 +39,7 @@ class BishopTest {
 
     @Test
     @DisplayName("비숍 불가능한 위치로 이동")
-    public void moveFailure() {
+    void moveFailure() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -58,7 +58,7 @@ class BishopTest {
 
     @Test
     @DisplayName("비숍 이동 경로에 기물 위치")
-    public void existPieceOnQueenMoveFailure() {
+    void existPieceOnQueenMoveFailure() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -79,7 +79,7 @@ class BishopTest {
 
     @Test
     @DisplayName("비숍 도착 위치에 같은팀 기물 위치")
-    public void existSameTeamPieceOnTargetFailure() {
+    void existSameTeamPieceOnTargetFailure() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);

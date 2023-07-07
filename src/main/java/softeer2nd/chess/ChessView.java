@@ -2,6 +2,7 @@ package softeer2nd.chess;
 
 import softeer2nd.chess.pieces.Piece;
 import softeer2nd.chess.pieces.enums.Type;
+import softeer2nd.chess.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

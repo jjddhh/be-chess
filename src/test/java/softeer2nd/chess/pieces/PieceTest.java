@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PieceTest {
     @Test
     @DisplayName("모든 종류의 기물 생성을 성공")
-    public void createPiece() {
+    void createPiece() {
         // given
         Piece whitePawn = Pawn.createWhite("a1");
         Piece blackPawn = Pawn.createBlack("a1");
@@ -42,7 +42,7 @@ public class PieceTest {
 
     @Test
     @DisplayName("빈 기물 생성에 성공")
-    public void createEmptyPiece() {
+    void createEmptyPiece() {
         // given
         Piece blank = Blank.create("a1");
 
@@ -52,7 +52,7 @@ public class PieceTest {
         assertEquals(Type.NO_PIECE, blank.getType());
     }
 
-    private void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Type type) {
+    void verifyPiece(final Piece whitePiece, final Piece blackPiece, final Type type) {
         assertTrue(whitePiece.isWhite());
         assertEquals(type, whitePiece.getType());
 
@@ -61,14 +61,14 @@ public class PieceTest {
     }
 
     @Test
-    public void getRepresentationPerPiece() {
+    void getRepresentationPerPiece() {
         assertEquals('p', Type.PAWN.getWhiteRepresentation());
         assertEquals('P', Type.PAWN.getBlackRepresentation());
     }
 
     @Test
     @DisplayName("검은색 말인지 확인")
-    public void isBlack() {
+    void isBlack() {
         // given
         Piece blackKing = King.createBlack("a1");
 
@@ -79,7 +79,7 @@ public class PieceTest {
 
     @Test
     @DisplayName("흰색 말인지 확인")
-    public void isWhite() {
+    void isWhite() {
         // given
         Piece whiteKing = King.createWhite("a1");
 

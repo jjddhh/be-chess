@@ -15,13 +15,13 @@ class QueenTest {
     private Board board;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         board = new Board();
     }
 
     @Test
     @DisplayName("퀸 직선 이동 성공")
-    public void moveStraightQueenSuccess() {
+    void moveStraightQueenSuccess() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -40,7 +40,7 @@ class QueenTest {
 
     @Test
     @DisplayName("퀸 대각선 이동 성공")
-    public void moveDiagonalQueenSuccess() {
+    void moveDiagonalQueenSuccess() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -59,7 +59,7 @@ class QueenTest {
 
     @Test
     @DisplayName("퀸 불가능한 위치로 이동")
-    public void moveQueenFailure() {
+    void moveQueenFailure() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -78,7 +78,7 @@ class QueenTest {
 
     @Test
     @DisplayName("퀸 이동 경로에 기물 위치")
-    public void existPieceOnQueenMoveFailure() {
+    void existPieceOnQueenMoveFailure() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -99,7 +99,7 @@ class QueenTest {
 
     @Test
     @DisplayName("퀸 도착 위치에 같은팀 기물 위치")
-    public void existSameTeamPieceOnTargetFailure() {
+    void existSameTeamPieceOnTargetFailure() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);

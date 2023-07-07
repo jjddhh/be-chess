@@ -1,7 +1,7 @@
 package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.ChessGame;
-import softeer2nd.chess.StringUtils;
+import softeer2nd.chess.util.StringUtils;
 import softeer2nd.chess.pieces.enums.Color;
 import softeer2nd.chess.pieces.enums.Type;
 import softeer2nd.chess.pieces.exception.InvalidMoveException;

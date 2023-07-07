@@ -15,13 +15,13 @@ class PawnTest {
     private Board board;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         board = new Board();
     }
 
     @Test
     @DisplayName("폰 이동 성공")
-    public void moveSuccess() {
+    void moveSuccess() {
         // given
         ChessGame chessGame = new ChessGame(board);
 
@@ -45,7 +45,7 @@ class PawnTest {
 
     @Test
     @DisplayName("폰 이동 실패")
-    public void moveFailure() {
+    void moveFailure() {
         // given
         ChessGame chessGame = new ChessGame(board);
 
@@ -72,7 +72,7 @@ class PawnTest {
 
     @Test
     @DisplayName("폰 직선 이동 경로에 기물 위치")
-    public void existPieceOnQueenMoveFailure() {
+    void existPieceOnQueenMoveFailure() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -92,7 +92,7 @@ class PawnTest {
 
     @Test
     @DisplayName("폰 대각선에 상대편 기물 위치할 경우 대각선 이동 가능")
-    public void moveDiagonalIfExistEnemySuccess() {
+    void moveDiagonalIfExistEnemySuccess() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -112,7 +112,7 @@ class PawnTest {
 
     @Test
     @DisplayName("폰은 기본적으로 대각선 이동은 불가")
-    public void moveDiagonalIfNoExistFailure() {
+    void moveDiagonalIfNoExistFailure() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);

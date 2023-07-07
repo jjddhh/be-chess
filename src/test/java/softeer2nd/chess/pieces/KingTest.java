@@ -16,13 +16,13 @@ class KingTest {
     private Board board;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         board = new Board();
     }
 
     @Test
     @DisplayName("킹 이동 성공")
-    public void moveKingSuccess() {
+    void moveKingSuccess() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -41,7 +41,7 @@ class KingTest {
 
     @Test
     @DisplayName("킹 이동 실패")
-    public void moveKingFailure() {
+    void moveKingFailure() {
         // given
         board.initialize();
         ChessGame chessGame = new ChessGame(board);
@@ -57,7 +57,7 @@ class KingTest {
 
     @Test
     @DisplayName("킹 이동 실패")
-    public void moveKingDistanceFailure() {
+    void moveKingDistanceFailure() {
         // given
         board.initialize();
         ChessGame chessGame = new ChessGame(board);

@@ -15,19 +15,19 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static softeer2nd.chess.StringUtils.appendNewLine;
+import static softeer2nd.chess.util.StringUtils.appendNewLine;
 
 public class BoardTest {
     private Board board;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         board = new Board();
     }
 
     @Test
     @DisplayName("보드 초기화 성공")
-    public void checkBoardStatus() {
+    void checkBoardStatus() {
         // given
         board.initialize();
         ChessView chessView = new ChessView(board);
@@ -52,7 +52,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("체스판에 폰이 잘 추가되어야한다.")
-    public void addPawnSuccess() {
+    void addPawnSuccess() {
         Piece white1 = addPawn(Color.WHITE);
         verifyAddWhitePawn(1, white1, 0);
 
@@ -73,7 +73,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("Board 초기화로 폰이 추가된다.")
-    public void initializeSuccess() {
+    void initializeSuccess() {
         // given
         board.initialize();
 
@@ -84,7 +84,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("폰 리스트에는 다른색 폰은 들어가지 못한다")
-    public void addRightColorPawnFail() {
+    void addRightColorPawnFail() {
         // given
         Piece whitePawn = Pawn.createWhite("a1");
         Piece blackPawn = Pawn.createBlack("a1");
@@ -101,7 +101,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("현재 체스판 위에 몇 개의 특정 기물이 있는지 확인")
-    public void getPieceSizeSuccess() {
+    void getPieceSizeSuccess() {
         // given
         board.initialize();
 
@@ -114,7 +114,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("체스판위에 기물 추가 성공")
-    public void addPieceSuccess() {
+    void addPieceSuccess() {
         // given
         board.initializeEmpty();
         ChessView chessView = new ChessView(board);
@@ -133,7 +133,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("기물 오름차순 정렬 성공")
-    public void orderPiecesAscSuccess() {
+    void orderPiecesAscSuccess() {
         // given
         board.initialize();
 
@@ -154,7 +154,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("기물 내림차순 정렬 성공")
-    public void orderPiecesDescSuccess() {
+    void orderPiecesDescSuccess() {
         // given
         board.initialize();
 
