@@ -8,7 +8,6 @@ import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static softeer2nd.chess.pieces.Piece.*;
 
 @DisplayName("나이트 이동 검증")
 class KnightTest {

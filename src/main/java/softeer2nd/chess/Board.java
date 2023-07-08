@@ -2,12 +2,12 @@ package softeer2nd.chess;
 
 import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.pieces.*;
-import softeer2nd.chess.pieces.enums.Color;
-import softeer2nd.chess.pieces.enums.Type;
+import softeer2nd.chess.pieces.piece.Color;
+import softeer2nd.chess.pieces.piece.Type;
+import softeer2nd.chess.pieces.piece.Piece;
 
 import java.util.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Board {
     private Map<Type, List<Piece>> whitePieces = new HashMap<>();
@@ -73,7 +73,6 @@ public class Board {
     }
 
     public void end() {
-        // map의 list에서 dangling pointer 발생안하는지 체크 필요
         whitePieces = null;
         blackPieces = null;
     }

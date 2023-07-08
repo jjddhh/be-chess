@@ -1,16 +1,12 @@
 package softeer2nd.chess;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import softeer2nd.chess.exception.SameTeamExistException;
 import softeer2nd.chess.pieces.*;
-import softeer2nd.chess.pieces.enums.Color;
-import softeer2nd.chess.pieces.exception.InvalidMoveException;
+import softeer2nd.chess.pieces.piece.Color;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static softeer2nd.chess.pieces.Piece.*;
 
 class ChessGameTest {
     private Board board;

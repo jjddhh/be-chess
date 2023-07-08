@@ -1,12 +1,13 @@
 package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.ChessGame;
+import softeer2nd.chess.pieces.piece.Piece;
 import softeer2nd.chess.util.StringUtils;
-import softeer2nd.chess.pieces.enums.Color;
-import softeer2nd.chess.pieces.enums.Type;
+import softeer2nd.chess.pieces.piece.Color;
+import softeer2nd.chess.pieces.piece.Type;
 import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
-public class Pawn extends Piece{
+public class Pawn extends Piece {
     private Pawn(Color color, String position) {
         super(color, Type.PAWN, position);
     }

@@ -3,8 +3,8 @@ package softeer2nd.chess.pieces;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import softeer2nd.chess.pieces.Piece.Position;
-import softeer2nd.chess.pieces.enums.Type;
+import softeer2nd.chess.pieces.piece.Piece;
+import softeer2nd.chess.pieces.piece.Type;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -9,7 +9,6 @@ import softeer2nd.chess.exception.SameTeamExistException;
 import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static softeer2nd.chess.pieces.Piece.*;
 
 @DisplayName("룩 이동 검증")
 class RookTest {

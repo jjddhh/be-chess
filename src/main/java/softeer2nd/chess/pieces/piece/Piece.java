@@ -1,12 +1,10 @@
-package softeer2nd.chess.pieces;
+package softeer2nd.chess.pieces.piece;
 
 import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.util.StringUtils;
 import softeer2nd.chess.exception.OutOfBoardException;
 import softeer2nd.chess.exception.SameTeamExistException;
-import softeer2nd.chess.pieces.enums.Color;
-import softeer2nd.chess.pieces.enums.Type;
 
 import java.util.Objects;
 
@@ -141,11 +139,11 @@ public abstract class Piece {
             this.row = row;
         }
 
-        protected int getCol() {
+        public int getCol() {
             return col;
         }
 
-        protected int getRow() {
+        public int getRow() {
             return row;
         }
 

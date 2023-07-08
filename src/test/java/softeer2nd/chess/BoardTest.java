@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.pieces.Pawn;
 import softeer2nd.chess.pieces.Rook;
-import softeer2nd.chess.pieces.enums.Color;
-import softeer2nd.chess.pieces.Piece;
-import softeer2nd.chess.pieces.enums.Type;
+import softeer2nd.chess.pieces.piece.Color;
+import softeer2nd.chess.pieces.piece.Piece;
+import softeer2nd.chess.pieces.piece.Type;
 
 import java.util.*;
 
