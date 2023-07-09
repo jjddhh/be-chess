@@ -5,12 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
-import softeer2nd.chess.exception.SameTeamExistException;
 import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("퀸 이동 검증")
+@DisplayName("Queen 이동 검증")
 class QueenTest {
     private Board board;
 
@@ -20,7 +19,7 @@ class QueenTest {
     }
 
     @Test
-    @DisplayName("퀸 직선 이동 성공")
+    @DisplayName("직선 이동 성공")
     void moveStraightQueenSuccess() {
         // given
         board.initializeEmpty();
@@ -39,7 +38,7 @@ class QueenTest {
     }
 
     @Test
-    @DisplayName("퀸 대각선 이동 성공")
+    @DisplayName("대각선 이동 성공")
     void moveDiagonalQueenSuccess() {
         // given
         board.initializeEmpty();
@@ -58,8 +57,8 @@ class QueenTest {
     }
 
     @Test
-    @DisplayName("퀸 불가능한 위치로 이동")
-    void moveQueenFailure() {
+    @DisplayName("불가능한 위치로 이동")
+    void moveFailure() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -77,8 +76,8 @@ class QueenTest {
     }
 
     @Test
-    @DisplayName("퀸 이동 경로에 기물 위치")
-    void existPieceOnQueenMoveFailure() {
+    @DisplayName("이동 경로에 기물 위치")
+    void existPieceOnPathFailure() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -93,26 +92,6 @@ class QueenTest {
         // when then
         assertThrows(
                 InvalidMoveException.class,
-                () -> chessGame.move(sourcePosition, targetPosition)
-        );
-    }
-
-    @Test
-    @DisplayName("퀸 도착 위치에 같은팀 기물 위치")
-    void existSameTeamPieceOnTargetFailure() {
-        // given
-        board.initializeEmpty();
-        ChessGame chessGame = new ChessGame(board);
-
-        String sourcePosition = "e1";
-        String targetPosition = "h4";
-
-        board.addBlackPiece(Queen.createBlack(sourcePosition));
-        board.addBlackPiece(Bishop.createBlack(targetPosition));
-
-        // when then
-        assertThrows(
-                SameTeamExistException.class,
                 () -> chessGame.move(sourcePosition, targetPosition)
         );
     }

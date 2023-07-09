@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static softeer2nd.chess.utils.StringUtil.appendNewLine;
 
-@DisplayName("체스판 검증")
+@DisplayName("Board 검증")
 public class BoardTest {
     private Board board;
 
@@ -28,7 +28,7 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("보드 초기화 성공")
+    @DisplayName("초기화 성공")
     void checkBoardStatus() {
         // given
         board.initialize();
@@ -52,12 +52,18 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("체스판에 폰이 잘 추가되어야한다.")
+    @DisplayName("체스판에 폰 추가")
     void addPawnSuccess() {
+        // given
         Piece white1 = addPawn(Color.WHITE);
+
+        // when then
         verifyAddWhitePawn(1, white1, 0);
 
+        // given
         Piece white2 = addPawn(Color.WHITE);
+
+        // when then
         verifyAddWhitePawn(2, white2, 1);
     }
 
@@ -73,7 +79,7 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("Board 초기화로 폰이 추가된다.")
+    @DisplayName("보드 초기화로 폰 추가")
     void initializeSuccess() {
         // given
         board.initialize();
@@ -84,8 +90,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("폰 리스트에는 다른색 폰은 들어가지 못한다")
-    void addRightColorPawnFail() {
+    @DisplayName("폰 리스트에 다른색 폰은 추가 실패")
+    void addRightColorPawnFailure() {
         // given
         Piece whitePawn = Pawn.createWhite("a1");
         Piece blackPawn = Pawn.createBlack("a1");

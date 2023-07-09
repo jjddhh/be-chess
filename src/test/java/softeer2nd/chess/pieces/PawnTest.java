@@ -9,7 +9,7 @@ import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("폰 이동 검증")
+@DisplayName("Pawn 이동 검증")
 class PawnTest {
     private Board board;
 
@@ -19,7 +19,7 @@ class PawnTest {
     }
 
     @Test
-    @DisplayName("폰 이동 성공")
+    @DisplayName("이동 성공")
     void moveSuccess() {
         // given
         ChessGame chessGame = new ChessGame(board);
@@ -43,7 +43,7 @@ class PawnTest {
     }
 
     @Test
-    @DisplayName("폰 이동 실패")
+    @DisplayName("검은색 폰은 아래로, 흰색 폰은 위로만 이동")
     void moveFailure() {
         // given
         ChessGame chessGame = new ChessGame(board);
@@ -70,7 +70,7 @@ class PawnTest {
     }
 
     @Test
-    @DisplayName("폰 직선 이동 경로에 기물 위치")
+    @DisplayName("직선 이동 경로에 기물 위치")
     void existPieceOnQueenMoveFailure() {
         // given
         board.initializeEmpty();
@@ -90,8 +90,8 @@ class PawnTest {
     }
 
     @Test
-    @DisplayName("폰 대각선에 상대편 기물 위치할 경우 대각선 이동 가능")
-    void moveDiagonalIfExistEnemySuccess() {
+    @DisplayName("대각선에 상대편 기물 위치할 경우 대각선 이동 가능")
+    void moveDiagonalSuccess() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -110,8 +110,8 @@ class PawnTest {
     }
 
     @Test
-    @DisplayName("폰은 기본적으로 대각선 이동은 불가")
-    void moveDiagonalIfNoExistFailure() {
+    @DisplayName("기본적으로 대각선 이동은 불가")
+    void moveDiagonalFailure() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);

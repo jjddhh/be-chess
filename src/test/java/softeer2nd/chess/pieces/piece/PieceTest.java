@@ -1,15 +1,25 @@
-package softeer2nd.chess.pieces;
+package softeer2nd.chess.pieces.piece;
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import softeer2nd.chess.pieces.piece.Piece;
-import softeer2nd.chess.pieces.piece.Type;
+import softeer2nd.chess.Board;
+import softeer2nd.chess.ChessGame;
+import softeer2nd.chess.exception.SameTeamExistException;
+import softeer2nd.chess.pieces.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("기물 공통 검증")
+@DisplayName("Piece 공통 검증")
 public class PieceTest {
+    private Board board;
+
+    @BeforeEach
+    void setup() {
+        board = new Board();
+    }
+
     @Test
     @DisplayName("모든 종류의 기물 생성을 성공")
     void createPiece() {
@@ -88,5 +98,25 @@ public class PieceTest {
         // when then
         assertTrue(whiteKing.isWhite());
         assertFalse(whiteKing.isBlack());
+    }
+
+    @Test
+    @DisplayName("도착 위치에 같은팀 기물 위치")
+    void existSameTeamPieceOnTargetFailure() {
+        // given
+        board.initializeEmpty();
+        ChessGame chessGame = new ChessGame(board);
+
+        String sourcePosition = "e1";
+        String targetPosition = "e5";
+
+        board.addBlackPiece(Bishop.createBlack(sourcePosition));
+        board.addBlackPiece(Rook.createBlack(targetPosition));
+
+        // when then
+        assertThrows(
+                SameTeamExistException.class,
+                () -> chessGame.move(sourcePosition, targetPosition)
+        );
     }
 }

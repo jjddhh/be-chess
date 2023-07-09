@@ -9,7 +9,7 @@ import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("나이트 이동 검증")
+@DisplayName("Knight 이동 검증")
 class KnightTest {
     private Board board;
 
@@ -19,7 +19,7 @@ class KnightTest {
     }
 
     @Test
-    @DisplayName("나이트 이동 성공")
+    @DisplayName("이동 성공")
     void moveSuccess() {
         // given
         ChessGame chessGame = new ChessGame(board);
@@ -37,7 +37,7 @@ class KnightTest {
     }
 
     @Test
-    @DisplayName("나이트 이동 실패")
+    @DisplayName("이동 불가능한 위치")
     void moveFailure() {
         // given
         ChessGame chessGame = new ChessGame(board);

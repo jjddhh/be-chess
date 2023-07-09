@@ -8,7 +8,7 @@ import softeer2nd.chess.pieces.piece.Color;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("체스 게임 검증")
+@DisplayName("ChessGame 검증")
 class ChessGameTest {
     private Board board;
 

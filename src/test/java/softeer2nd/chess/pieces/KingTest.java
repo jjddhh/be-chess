@@ -11,7 +11,7 @@ import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("킹 이동 검증")
+@DisplayName("King 이동 검증")
 class KingTest {
     private Board board;
 
@@ -21,8 +21,8 @@ class KingTest {
     }
 
     @Test
-    @DisplayName("킹 이동 성공")
-    void moveKingSuccess() {
+    @DisplayName("이동 성공")
+    void moveSuccess() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
@@ -40,8 +40,8 @@ class KingTest {
     }
 
     @Test
-    @DisplayName("킹 이동 실패")
-    void moveKingFailure() {
+    @DisplayName("도착 위치에 같은팀 기물 위치")
+    void existSameTeamPieceOnTargetFailure() {
         // given
         board.initialize();
         ChessGame chessGame = new ChessGame(board);
@@ -56,8 +56,8 @@ class KingTest {
     }
 
     @Test
-    @DisplayName("킹 이동 실패")
-    void moveKingDistanceFailure() {
+    @DisplayName("이동 불가능한 거리")
+    void moveDistanceFailure() {
         // given
         board.initialize();
         ChessGame chessGame = new ChessGame(board);
