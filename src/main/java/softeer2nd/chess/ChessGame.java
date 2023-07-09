@@ -1,9 +1,6 @@
 package softeer2nd.chess;
 
-import softeer2nd.chess.exception.ChessException;
-import softeer2nd.chess.exception.InvalidColorException;
-import softeer2nd.chess.exception.MeaninglessMoveException;
-import softeer2nd.chess.exception.SameTeamExistException;
+import softeer2nd.chess.exception.*;
 import softeer2nd.chess.pieces.Blank;
 import softeer2nd.chess.pieces.piece.Color;
 import softeer2nd.chess.pieces.piece.Piece;
@@ -17,6 +14,7 @@ import java.util.stream.Stream;
 public class ChessGame {
     private Board board;
     private Boolean isProceeding = true;
+    private Color turn = Color.WHITE;
     
     private final String START = "start";
     private final String END = "end";
@@ -63,12 +61,30 @@ public class ChessGame {
 
     private void movePiece(String[] command) {
         try {
+            verifyTurn(command[1]);
             move(command[1], command[2]);
+            changeTurn();
         } catch (ChessException exception) {
-            System.out.println("잘못된 이동입니다. 이동 위치를 확인해주세요.");
+            System.out.println(exception.getMessage());
         }
 
         ChessViewUtil.print(board);
+    }
+
+    private void changeTurn() {
+        if (turn == Color.BLACK) {
+            turn = Color.WHITE;
+        } else {
+            turn = Color.BLACK;
+        }
+    }
+
+    private void verifyTurn(String selectedPiece) {
+        Piece piece = findPiece(selectedPiece);
+
+        if(turn != piece.getColor()) {
+            throw InvalidTurnException.EXCEPTION;
+        }
     }
 
     private void endGame() {
