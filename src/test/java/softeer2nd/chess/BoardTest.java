@@ -10,13 +10,15 @@ import softeer2nd.chess.pieces.Rook;
 import softeer2nd.chess.pieces.piece.Color;
 import softeer2nd.chess.pieces.piece.Piece;
 import softeer2nd.chess.pieces.piece.Type;
+import softeer2nd.chess.utils.ChessViewUtil;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static softeer2nd.chess.util.StringUtils.appendNewLine;
+import static softeer2nd.chess.utils.StringUtil.appendNewLine;
 
+@DisplayName("체스판 검증")
 public class BoardTest {
     private Board board;
 
@@ -30,7 +32,6 @@ public class BoardTest {
     void checkBoardStatus() {
         // given
         board.initialize();
-        ChessView chessView = new ChessView(board);
 
         String blankRank = appendNewLine(Board.EMPTY_BOARD);
         StringBuilder sb = new StringBuilder();
@@ -47,7 +48,7 @@ public class BoardTest {
                         .append(blankRank)
                         .append(appendNewLine("pppppppp"))
                         .append(appendNewLine("rnbqkbnr")).toString(),
-                chessView.showBoard());
+                ChessViewUtil.showBoard(board));
     }
 
     @Test
@@ -117,7 +118,6 @@ public class BoardTest {
     void addPieceSuccess() {
         // given
         board.initializeEmpty();
-        ChessView chessView = new ChessView(board);
         ChessGame chessGame = new ChessGame(board);
 
         String position = "b5";
@@ -128,7 +128,6 @@ public class BoardTest {
 
         // then
         assertEquals(piece, chessGame.findPiece(position));
-        System.out.println(chessView.showBoard());
     }
 
     @Test

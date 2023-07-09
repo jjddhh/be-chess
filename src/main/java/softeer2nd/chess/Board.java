@@ -8,6 +8,7 @@ import softeer2nd.chess.pieces.piece.Piece;
 
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Board {
     private Map<Type, List<Piece>> whitePieces = new HashMap<>();
@@ -57,7 +58,6 @@ public class Board {
                     .add(Bishop.createBlack(col + "8"));
             whitePieces.computeIfAbsent(Type.BISHOP, k -> new ArrayList<>())
                     .add(Bishop.createWhite(col + "1"));
-
         }
 
         blackPieces.computeIfAbsent(Type.QUEEN, k -> new ArrayList<>())
@@ -78,7 +78,6 @@ public class Board {
     }
 
     public void addPiece(Piece piece) {
-        // 개수 예외 처리
         if(piece.isBlack()) addBlackPiece(piece);
         else if(piece.isWhite()) addWhitePiece(piece);
     }
@@ -89,8 +88,9 @@ public class Board {
     }
 
     private void verifyWhitePiece(Piece piece) {
-        if(!piece.getColor().equals(Color.WHITE))
+        if(!piece.getColor().equals(Color.WHITE)){
             throw InvalidColorException.EXCEPTION;
+        }
     }
 
     public void addBlackPiece(Piece piece) {
@@ -99,15 +99,17 @@ public class Board {
     }
 
     private void verifyBlackPiece(Piece piece) {
-        if(!piece.getColor().equals(Color.BLACK))
+        if(!piece.getColor().equals(Color.BLACK)){
             throw InvalidColorException.EXCEPTION;
+        }
     }
 
     public void removePiece(Piece piece) {
-        for (Type type : Type.values()) {
+        Arrays.stream(Type.values()).forEach(type -> {
             whitePieces.getOrDefault(type, new ArrayList<>()).remove(piece);
             blackPieces.getOrDefault(type, new ArrayList<>()).remove(piece);
-        }
+        });
+
     }
 
     public int whitePawnSize() {
@@ -127,38 +129,33 @@ public class Board {
     }
 
     private String getPawnsResult(List<Piece> colorPawns) {
-        StringBuilder colorPawnsResult = new StringBuilder();
-
-        for (Piece p : colorPawns) {
-            colorPawnsResult.append(p.getRepresentation());
-        }
-
-        return colorPawnsResult.toString();
+        return colorPawns.stream()
+                .map(t -> String.valueOf(t.getRepresentation()))
+                .collect(Collectors.joining());
     }
 
     public int getTotalPieceCount() {
-        int whitePieceCount = 0;
-        for (Type type : Type.values()) {
-            whitePieceCount += whitePieces.getOrDefault(type, new ArrayList<>()).size();
-        }
+        int whitePieceCount = Arrays.stream(Type.values())
+                .mapToInt(type -> whitePieces.getOrDefault(type, new ArrayList<>()).size())
+                .sum();
 
-        int blackPieceCount = 0;
-        for (Type type : Type.values()) {
-            blackPieceCount += blackPieces.getOrDefault(type, new ArrayList<>()).size();
-        }
+        int blackPieceCount = Arrays.stream(Type.values())
+                .mapToInt(type -> blackPieces.getOrDefault(type, new ArrayList<>()).size())
+                .sum();
 
         return whitePieceCount + blackPieceCount;
     }
 
     public int getPieceCount(Color color, Type type) {
+        int whitePiecesCount = this.whitePieces.getOrDefault(type, new ArrayList<>()).size();
+        int blackPiecesCount = this.blackPieces.getOrDefault(type, new ArrayList<>()).size();
+
         if (color.equals(Color.WHITE))
-            return whitePieces.getOrDefault(type, new ArrayList<>()).size();
+            return whitePiecesCount;
         else if (color.equals(Color.BLACK))
-            return blackPieces.getOrDefault(type, new ArrayList<>()).size();
+            return blackPiecesCount;
         else {
-            int whitePieces = this.whitePieces.getOrDefault(type, new ArrayList<>()).size();
-            int blackPieces = this.blackPieces.getOrDefault(type, new ArrayList<>()).size();
-            return (ROW * COl) - (whitePieces + blackPieces);
+            return (ROW * COl) - (whitePiecesCount + blackPiecesCount);
         }
     }
 

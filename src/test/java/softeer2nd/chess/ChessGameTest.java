@@ -8,6 +8,7 @@ import softeer2nd.chess.pieces.piece.Color;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("체스 게임 검증")
 class ChessGameTest {
     private Board board;
 
@@ -35,7 +36,6 @@ class ChessGameTest {
     void calculatePoint() {
         // given
         board.initializeEmpty();
-        ChessView chessView = new ChessView(board);
         ChessGame chessGame = new ChessGame(board);
 
         // when
@@ -52,7 +52,5 @@ class ChessGameTest {
         // then
         assertEquals(15.0, chessGame.calculatePoint(Color.BLACK), 0.01);
         assertEquals(7.0, chessGame.calculatePoint(Color.WHITE), 0.01);
-
-        System.out.println(chessView.showBoard());
     }
 }

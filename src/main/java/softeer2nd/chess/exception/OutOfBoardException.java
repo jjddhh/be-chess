@@ -1,6 +1,6 @@
 package softeer2nd.chess.exception;
 
-public class OutOfBoardException extends RuntimeException {
+public class OutOfBoardException extends ChessException {
     public static final OutOfBoardException EXCEPTION = new OutOfBoardException();
 
     private OutOfBoardException() {

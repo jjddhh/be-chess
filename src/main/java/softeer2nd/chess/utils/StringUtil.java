@@ -1,9 +1,9 @@
-package softeer2nd.chess.util;
+package softeer2nd.chess.utils;
 
-public class StringUtils {
+public class StringUtil {
     private static final String NEWLINE = System.getProperty("line.separator");
 
-    private StringUtils() {}
+    private StringUtil() {}
 
     public static String appendNewLine(String str) {
         StringBuilder sb = new StringBuilder();

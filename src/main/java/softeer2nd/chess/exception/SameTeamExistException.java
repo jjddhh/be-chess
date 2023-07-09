@@ -1,6 +1,6 @@
 package softeer2nd.chess.exception;
 
-public class SameTeamExistException extends RuntimeException{
+public class SameTeamExistException extends ChessException {
     public static final SameTeamExistException EXCEPTION = new SameTeamExistException();
 
     private SameTeamExistException() {

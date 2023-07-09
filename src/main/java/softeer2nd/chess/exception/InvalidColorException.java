@@ -1,9 +1,9 @@
 package softeer2nd.chess.exception;
 
-public class InvalidColorException extends RuntimeException{
+public class InvalidColorException extends ChessException{
     public static final InvalidColorException EXCEPTION = new InvalidColorException();
 
     private InvalidColorException() {
-        super("검은색 또는 흰색 말만 생성이 가능합니다.");
+        super("검은색 또는 흰색만 선택할 수 있습니다.");
     }
 }

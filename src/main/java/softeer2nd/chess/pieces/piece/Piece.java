@@ -2,7 +2,7 @@ package softeer2nd.chess.pieces.piece;
 
 import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
-import softeer2nd.chess.util.StringUtils;
+import softeer2nd.chess.utils.StringUtil;
 import softeer2nd.chess.exception.OutOfBoardException;
 import softeer2nd.chess.exception.SameTeamExistException;
 
@@ -70,7 +70,7 @@ public abstract class Piece {
     }
 
     public boolean isEqualPosition(String targetPosition) {
-        String sourcePosition = StringUtils.getOriginPositionFormat(position.getRow(), position.getCol());
+        String sourcePosition = StringUtil.getOriginPositionFormat(position.getRow(), position.getCol());
         return sourcePosition.equals(targetPosition);
     }
 

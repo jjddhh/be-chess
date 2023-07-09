@@ -2,7 +2,7 @@ package softeer2nd.chess.pieces;
 
 import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.pieces.piece.Piece;
-import softeer2nd.chess.util.StringUtils;
+import softeer2nd.chess.utils.StringUtil;
 import softeer2nd.chess.pieces.piece.Color;
 import softeer2nd.chess.pieces.piece.Type;
 import softeer2nd.chess.pieces.exception.InvalidMoveException;
@@ -39,7 +39,7 @@ public class Pawn extends Piece {
     }
 
     private void verifyDiagonalMove(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
-        String originPositionFormat = StringUtils.getOriginPositionFormat(targetPosition.getRow(), targetPosition.getCol());
+        String originPositionFormat = StringUtil.getOriginPositionFormat(targetPosition.getRow(), targetPosition.getCol());
         Piece targetPiece = chessGame.findPiece(originPositionFormat);
         int dc = targetPosition.getCol() - sourcePosition.getCol();
 

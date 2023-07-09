@@ -8,6 +8,7 @@ import softeer2nd.chess.pieces.piece.Type;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("기물 공통 검증")
 public class PieceTest {
     @Test
     @DisplayName("모든 종류의 기물 생성을 성공")
@@ -61,6 +62,7 @@ public class PieceTest {
     }
 
     @Test
+    @DisplayName("기물 색깔별 표현형 확인")
     void getRepresentationPerPiece() {
         assertEquals('p', Type.PAWN.getWhiteRepresentation());
         assertEquals('P', Type.PAWN.getBlackRepresentation());
