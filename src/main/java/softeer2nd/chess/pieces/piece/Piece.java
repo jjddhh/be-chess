@@ -119,20 +119,19 @@ public abstract class Piece {
         private final int row;
 
         public Position(String position) {
-            this(position.charAt(0), Character.getNumericValue(position.charAt(1)));
+            this(getCol(position), getRow(position));
         }
 
-        public Position(char col, int row) {
-            int colTmp = col - 'a';
-            int rowTmp = 8 - row;
+        private static int getRow(String position) {
+            return Board.ROW - Integer.parseInt(position.substring(1));
+        }
 
-            verifyPiecePosition(colTmp, rowTmp);
-
-            this.col = colTmp;
-            this.row = rowTmp;
+        private static int getCol(String position) {
+            return position.charAt(0) - 'a';
         }
 
         public Position(int col, int row) {
+            verifyPiecePosition(col, row);
             this.col = col;
             this.row = row;
         }
