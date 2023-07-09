@@ -3,6 +3,7 @@ package softeer2nd.chess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import softeer2nd.chess.exception.MeaninglessMoveException;
 import softeer2nd.chess.exception.OutOfBoardException;
 import softeer2nd.chess.pieces.*;
 import softeer2nd.chess.pieces.piece.Color;
@@ -96,6 +97,24 @@ class ChessGameTest {
         assertThrows(
                 OutOfBoardException.class,
                 () -> chessGame.move(sourcePosition, unAllowedPosition5)
+        );
+    }
+
+    @Test
+    @DisplayName("동일 위치로의 이동은 불가")
+    void meaninglessMoveFailure() {
+        // given
+        board.initializeEmpty();
+        ChessGame chessGame = new ChessGame(board);
+
+        String position = "c5";
+
+        board.addPiece(Queen.createBlack(position));
+
+        // when then
+        assertThrows(
+                MeaninglessMoveException.class,
+                () -> chessGame.move(position, position)
         );
     }
 }
