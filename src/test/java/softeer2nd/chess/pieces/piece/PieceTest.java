@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
+import softeer2nd.chess.exception.OutOfBoardException;
 import softeer2nd.chess.exception.SameTeamExistException;
 import softeer2nd.chess.pieces.*;
 
