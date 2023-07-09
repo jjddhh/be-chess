@@ -5,34 +5,39 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.exception.InvalidColorException;
-import softeer2nd.chess.pieces.Color;
-import softeer2nd.chess.pieces.Piece;
-import softeer2nd.chess.pieces.Piece.Position;
-import softeer2nd.chess.pieces.Type;
+import softeer2nd.chess.pieces.Pawn;
+import softeer2nd.chess.pieces.Rook;
+import softeer2nd.chess.pieces.piece.Color;
+import softeer2nd.chess.pieces.piece.Piece;
+import softeer2nd.chess.pieces.piece.Type;
+import softeer2nd.chess.utils.ChessViewUtil;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static softeer2nd.chess.StringUtils.appendNewLine;
-import static softeer2nd.chess.pieces.Piece.*;
+import static softeer2nd.chess.utils.StringUtil.appendNewLine;
 
+@DisplayName("Board 검증")
 public class BoardTest {
-
     private Board board;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         board = new Board();
     }
 
     @Test
-    public void checkBoardStatus() {
+    @DisplayName("초기화 성공")
+    void checkBoardStatus() {
+        // given
         board.initialize();
-        assertEquals(32, board.pieceCount());
-        String blankRank = appendNewLine(Board.EMPTY_BOARD);
 
+        String blankRank = appendNewLine(Board.EMPTY_BOARD);
         StringBuilder sb = new StringBuilder();
+
+        // when then
+        assertEquals(32, board.getTotalPieceCount());
         assertEquals(
                 sb
                         .append(appendNewLine("RNBQKBNR"))
@@ -43,16 +48,22 @@ public class BoardTest {
                         .append(blankRank)
                         .append(appendNewLine("pppppppp"))
                         .append(appendNewLine("rnbqkbnr")).toString(),
-                board.showBoard());
+                ChessViewUtil.showBoard(board));
     }
 
     @Test
-    @DisplayName("체스판에 폰이 잘 추가되어야한다.")
-    public void addPawnSuccess() {
+    @DisplayName("체스판에 폰 추가")
+    void addPawnSuccess() {
+        // given
         Piece white1 = addPawn(Color.WHITE);
+
+        // when then
         verifyAddWhitePawn(1, white1, 0);
 
+        // given
         Piece white2 = addPawn(Color.WHITE);
+
+        // when then
         verifyAddWhitePawn(2, white2, 1);
     }
 
@@ -62,14 +73,14 @@ public class BoardTest {
     }
 
     private Piece addPawn(final Color color) {
-        Piece pawn = createWhitePawn(new Position(0, 0));
-        board.addWhitePiece(pawn);
+        Piece pawn = Pawn.createWhite("a1");
+        board.addPiece(pawn);
         return pawn;
     }
 
     @Test
-    @DisplayName("Board 초기화로 폰이 추가된다.")
-    public void initializeSuccess() {
+    @DisplayName("보드 초기화로 폰 추가")
+    void initializeSuccess() {
         // given
         board.initialize();
 
@@ -79,25 +90,8 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("폰 리스트에는 다른색 폰은 들어가지 못한다")
-    public void addRightColorPawnFail() {
-        // given
-        Piece whitePawn = createWhitePawn(new Position(0, 0));
-        Piece blackPawn = createBlackPawn(new Position(0, 0));
-
-        // when then
-        Assertions.assertThrows(
-                InvalidColorException.class,
-                () -> board.addBlackPiece(whitePawn));
-
-        Assertions.assertThrows(
-                InvalidColorException.class,
-                () -> board.addWhitePiece(blackPawn));
-    }
-
-    @Test
     @DisplayName("현재 체스판 위에 몇 개의 특정 기물이 있는지 확인")
-    public void getPieceSizeSuccess() {
+    void getPieceSizeSuccess() {
         // given
         board.initialize();
 
@@ -109,62 +103,25 @@ public class BoardTest {
     }
 
     @Test
-    @DisplayName("기물의 위치 정보 조회 성공")
-    public void findPieceSuccess() {
-        // given
-        board.initialize();
-
-        // when then
-        assertEquals(createBlackRook(new Position('a', 8)), board.findPiece("a8"));
-        assertEquals(createBlackRook(new Position('h', 8)), board.findPiece("h8"));
-        assertEquals(createWhiteRook(new Position('a', 1)), board.findPiece("a1"));
-        assertEquals(createWhiteRook(new Position('h', 1)), board.findPiece("h1"));
-    }
-
-    @Test
     @DisplayName("체스판위에 기물 추가 성공")
-    public void addPieceSuccess() {
+    void addPieceSuccess() {
         // given
         board.initializeEmpty();
+        ChessGame chessGame = new ChessGame(board);
 
         String position = "b5";
-        Piece piece = createBlackRook("b5");
+        Piece piece = Rook.createBlack("b5");
 
         // when
         board.addPiece(piece);
 
         // then
-        assertEquals(piece, board.findPiece(position));
-        System.out.println(board.showBoard());
-    }
-
-    @Test
-    @DisplayName("점수 계산 성공")
-    public void calculatePoint() {
-        // given
-        board.initializeEmpty();
-
-        // when
-        board.addPiece(createBlackPawn("b6"));
-        board.addPiece(createBlackQueen("e6"));
-        board.addPiece(createBlackKing("b8"));
-        board.addPiece(createBlackRook("c8"));
-
-        board.addPiece(createWhitePawn("f2"));
-        board.addPiece(createWhitePawn("g2"));
-        board.addPiece(createWhiteRook("e1"));
-        board.addPiece(createWhiteKing("f1"));
-
-        // then
-        assertEquals(15.0, board.calculatePoint(Color.BLACK), 0.01);
-        assertEquals(7.0, board.calculatePoint(Color.WHITE), 0.01);
-
-        System.out.println(board.showBoard());
+        assertEquals(piece, chessGame.findPiece(position));
     }
 
     @Test
     @DisplayName("기물 오름차순 정렬 성공")
-    public void orderPiecesAscSuccess() {
+    void orderPiecesAscSuccess() {
         // given
         board.initialize();
 
@@ -185,7 +142,7 @@ public class BoardTest {
 
     @Test
     @DisplayName("기물 내림차순 정렬 성공")
-    public void orderPiecesDescSuccess() {
+    void orderPiecesDescSuccess() {
         // given
         board.initialize();
 
@@ -198,7 +155,6 @@ public class BoardTest {
         // when
         Collections.sort(whitePieces, Comparator.comparing(piece -> ((Piece)piece).getType().getDefaultPoint()).reversed());
         Collections.sort(blackPieces, Comparator.comparing(piece -> ((Piece)piece).getType().getDefaultPoint()).reversed());
-
 
         // then
         assertTrue(blackPieces.get(0).getPoint() > blackPieces.get(blackPieces.size() - 1).getPoint());
