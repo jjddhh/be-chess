@@ -26,13 +26,11 @@ public abstract class Piece {
     private char getRepresentation(final Color color, final Type name) {
         char representation = '.';
 
-        if (name.isPiece()) {
-            if(color.equals(Color.WHITE)) {
-                representation = name.getWhiteRepresentation();
-            }
-            else {
-                representation = name.getBlackRepresentation();
-            }
+        if (color.equals(Color.WHITE)) {
+            representation = name.getWhiteRepresentation();
+        }
+        else if (color.equals(Color.BLACK)){
+            representation = name.getBlackRepresentation();
         }
 
         return representation;
