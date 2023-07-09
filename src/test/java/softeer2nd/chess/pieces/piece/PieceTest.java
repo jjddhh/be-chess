@@ -110,8 +110,8 @@ public class PieceTest {
         String sourcePosition = "e1";
         String targetPosition = "e5";
 
-        board.addBlackPiece(Bishop.createBlack(sourcePosition));
-        board.addBlackPiece(Rook.createBlack(targetPosition));
+        board.addPiece(Bishop.createBlack(sourcePosition));
+        board.addPiece(Rook.createBlack(targetPosition));
 
         // when then
         assertThrows(

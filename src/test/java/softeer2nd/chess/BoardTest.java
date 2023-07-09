@@ -74,7 +74,7 @@ public class BoardTest {
 
     private Piece addPawn(final Color color) {
         Piece pawn = Pawn.createWhite("a1");
-        board.addWhitePiece(pawn);
+        board.addPiece(pawn);
         return pawn;
     }
 
@@ -87,23 +87,6 @@ public class BoardTest {
         // when then
         assertEquals("pppppppp", board.getWhitePawnsResult());
         assertEquals("PPPPPPPP", board.getBlackPawnsResult());
-    }
-
-    @Test
-    @DisplayName("폰 리스트에 다른색 폰은 추가 실패")
-    void addRightColorPawnFailure() {
-        // given
-        Piece whitePawn = Pawn.createWhite("a1");
-        Piece blackPawn = Pawn.createBlack("a1");
-
-        // when then
-        Assertions.assertThrows(
-                InvalidColorException.class,
-                () -> board.addBlackPiece(whitePawn));
-
-        Assertions.assertThrows(
-                InvalidColorException.class,
-                () -> board.addWhitePiece(blackPawn));
     }
 
     @Test

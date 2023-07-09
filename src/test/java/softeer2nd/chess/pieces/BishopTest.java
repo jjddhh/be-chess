@@ -27,7 +27,7 @@ class BishopTest {
         String sourcePosition = "a1";
         String targetPosition = "h8";
 
-        board.addBlackPiece(Bishop.createBlack(sourcePosition));
+        board.addPiece(Bishop.createBlack(sourcePosition));
 
         // when
         chessGame.move(sourcePosition, targetPosition);
@@ -46,7 +46,7 @@ class BishopTest {
         String sourcePosition = "e1";
         String targetPosition = "a7";
 
-        board.addBlackPiece(Bishop.createBlack(sourcePosition));
+        board.addPiece(Bishop.createBlack(sourcePosition));
 
         // when then
         assertThrows(
@@ -66,8 +66,8 @@ class BishopTest {
         String targetPosition = "e5";
         String blockPosition = "e3";
 
-        board.addBlackPiece(Bishop.createBlack(sourcePosition));
-        board.addWhitePiece(Rook.createWhite(blockPosition));
+        board.addPiece(Bishop.createBlack(sourcePosition));
+        board.addPiece(Rook.createWhite(blockPosition));
 
         // when then
         assertThrows(

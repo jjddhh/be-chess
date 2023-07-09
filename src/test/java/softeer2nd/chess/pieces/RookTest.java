@@ -27,7 +27,7 @@ class RookTest {
         String sourcePosition = "a1";
         String targetPosition = "a7";
 
-        board.addBlackPiece(Rook.createBlack(sourcePosition));
+        board.addPiece(Rook.createBlack(sourcePosition));
 
         // when
         chessGame.move(sourcePosition, targetPosition);
@@ -46,7 +46,7 @@ class RookTest {
         String sourcePosition = "e1";
         String targetPosition = "a7";
 
-        board.addBlackPiece(Rook.createBlack(sourcePosition));
+        board.addPiece(Rook.createBlack(sourcePosition));
 
         // when then
         assertThrows(
@@ -66,8 +66,8 @@ class RookTest {
         String targetPosition = "e5";
         String blockPosition = "e3";
 
-        board.addBlackPiece(Rook.createBlack(sourcePosition));
-        board.addWhitePiece(Bishop.createWhite(blockPosition));
+        board.addPiece(Rook.createBlack(sourcePosition));
+        board.addPiece(Bishop.createWhite(blockPosition));
 
         // when then
         assertThrows(

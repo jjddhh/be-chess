@@ -72,7 +72,7 @@ public class Board {
                 .add(King.createWhite("e1"));
     }
 
-    public void end() {
+    public void cleanUp() {
         whitePieces = null;
         blackPieces = null;
     }
@@ -82,7 +82,7 @@ public class Board {
         else if(piece.isWhite()) addWhitePiece(piece);
     }
 
-    public void addWhitePiece(Piece piece) {
+    private void addWhitePiece(Piece piece) {
         verifyWhitePiece(piece);
         whitePieces.computeIfAbsent(piece.getType(), k -> new ArrayList<>()).add(piece);
     }
@@ -93,7 +93,7 @@ public class Board {
         }
     }
 
-    public void addBlackPiece(Piece piece) {
+    private void addBlackPiece(Piece piece) {
         verifyBlackPiece(piece);
         blackPieces.computeIfAbsent(piece.getType(), k -> new ArrayList<>()).add(piece);
     }

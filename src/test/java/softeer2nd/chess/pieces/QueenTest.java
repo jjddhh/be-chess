@@ -28,7 +28,7 @@ class QueenTest {
         String sourcePosition = "e1";
         String targetPosition = "e4";
 
-        board.addBlackPiece(Queen.createBlack(sourcePosition));
+        board.addPiece(Queen.createBlack(sourcePosition));
 
         // when
         chessGame.move(sourcePosition, targetPosition);
@@ -47,7 +47,7 @@ class QueenTest {
         String sourcePosition = "e1";
         String targetPosition = "a5";
 
-        board.addBlackPiece(Queen.createBlack(sourcePosition));
+        board.addPiece(Queen.createBlack(sourcePosition));
 
         // when
         chessGame.move(sourcePosition, targetPosition);
@@ -66,7 +66,7 @@ class QueenTest {
         String sourcePosition = "e1";
         String targetPosition = "a7";
 
-        board.addBlackPiece(Queen.createBlack(sourcePosition));
+        board.addPiece(Queen.createBlack(sourcePosition));
 
         // when then
         assertThrows(
@@ -86,8 +86,8 @@ class QueenTest {
         String targetPosition = "h4";
         String blockPosition = "g3";
 
-        board.addBlackPiece(Queen.createBlack(sourcePosition));
-        board.addWhitePiece(Bishop.createWhite(blockPosition));
+        board.addPiece(Queen.createBlack(sourcePosition));
+        board.addPiece(Bishop.createWhite(blockPosition));
 
         // when then
         assertThrows(

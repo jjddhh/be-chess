@@ -30,7 +30,7 @@ class KingTest {
         String sourcePosition = "d1";
         String targetPosition = "d2";
 
-        board.addBlackPiece(King.createBlack(sourcePosition));
+        board.addPiece(King.createBlack(sourcePosition));
 
         // when
         chessGame.move(sourcePosition, targetPosition);

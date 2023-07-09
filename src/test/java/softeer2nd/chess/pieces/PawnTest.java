@@ -30,8 +30,8 @@ class PawnTest {
         String whiteSourcePosition = "b1";
         String whiteTargetPosition = "b2";
 
-        board.addBlackPiece(Pawn.createBlack(blackSourcePosition));
-        board.addWhitePiece(Pawn.createWhite(whiteSourcePosition));
+        board.addPiece(Pawn.createBlack(blackSourcePosition));
+        board.addPiece(Pawn.createWhite(whiteSourcePosition));
 
         // when
         chessGame.move(blackSourcePosition, blackTargetPosition);
@@ -54,8 +54,8 @@ class PawnTest {
         String whiteSourcePosition = "b2";
         String whiteTargetPosition = "b1";
 
-        board.addBlackPiece(Pawn.createBlack(blackSourcePosition));
-        board.addWhitePiece(Pawn.createWhite(whiteSourcePosition));
+        board.addPiece(Pawn.createBlack(blackSourcePosition));
+        board.addPiece(Pawn.createWhite(whiteSourcePosition));
 
         // when then
         assertThrows(
@@ -79,8 +79,8 @@ class PawnTest {
         String sourcePosition = "e1";
         String targetPosition = "e2";
 
-        board.addBlackPiece(Pawn.createBlack(sourcePosition));
-        board.addWhitePiece(Bishop.createWhite(targetPosition));
+        board.addPiece(Pawn.createBlack(sourcePosition));
+        board.addPiece(Bishop.createWhite(targetPosition));
 
         // when then
         assertThrows(
@@ -99,8 +99,8 @@ class PawnTest {
         String sourcePosition = "d2";
         String targetPosition = "e1";
 
-        board.addBlackPiece(Pawn.createBlack(sourcePosition));
-        board.addWhitePiece(Bishop.createWhite(targetPosition));
+        board.addPiece(Pawn.createBlack(sourcePosition));
+        board.addPiece(Bishop.createWhite(targetPosition));
 
         // when
         chessGame.move(sourcePosition, targetPosition);
@@ -119,7 +119,7 @@ class PawnTest {
         String sourcePosition = "d2";
         String targetPosition = "e1";
 
-        board.addBlackPiece(Pawn.createBlack(sourcePosition));
+        board.addPiece(Pawn.createBlack(sourcePosition));
 
         // when then
         assertThrows(

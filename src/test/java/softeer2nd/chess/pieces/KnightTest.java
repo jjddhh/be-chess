@@ -27,7 +27,7 @@ class KnightTest {
         String sourcePosition = "c4";
         String targetPosition = "d6";
 
-        board.addBlackPiece(Knight.createBlack(sourcePosition));
+        board.addPiece(Knight.createBlack(sourcePosition));
 
         // when
         chessGame.move(sourcePosition, targetPosition);
@@ -45,7 +45,7 @@ class KnightTest {
         String sourcePosition = "c4";
         String targetPosition = "d5";
 
-        board.addBlackPiece(Knight.createBlack(sourcePosition));
+        board.addPiece(Knight.createBlack(sourcePosition));
 
         // when then
         assertThrows(

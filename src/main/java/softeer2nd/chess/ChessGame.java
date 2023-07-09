@@ -70,7 +70,7 @@ public class ChessGame {
     }
 
     private void endGame() {
-        board.end();
+        board.cleanUp();
         isProceeding = false;
     }
 
