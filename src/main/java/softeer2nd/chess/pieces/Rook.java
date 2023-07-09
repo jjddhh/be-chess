@@ -39,31 +39,45 @@ public class Rook extends Piece {
     }
 
     private void verifyPieceOnPath(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
-        int sourceRow = sourcePosition.getRow();
-        int sourceCol = sourcePosition.getCol();
+        int moveRow = getRowMoveDifference(sourcePosition, targetPosition);
+        int moveCol = getColMoveDifference(sourcePosition, targetPosition);
 
-        int targetRow = targetPosition.getRow();
-        int targetCol = targetPosition.getCol();
+        if (moveRow == targetPosition.getRow()
+                && moveCol == targetPosition.getCol()) return;
 
-        int rowDirection = targetRow - sourceRow;
-        int colDirection = targetCol - sourceCol;
+        verifyPieceExistOnNextStep(chessGame, moveRow, moveCol);
 
-        int dr = rowDirection == 0 ? 0 : (rowDirection > 0 ? 1 : -1);
-        int dc = colDirection == 0 ? 0 : (colDirection > 0 ? 1 : -1);
+        verifyPieceOnPath(new Position(moveCol, moveRow), targetPosition, chessGame);
+    }
 
-        int moveRow = sourceRow + dr;
-        int moveCol = sourceCol + dc;
+    private void verifyPieceExistOnNextStep(ChessGame chessGame, int moveRow, int moveCol) {
+        String originPosition = StringUtil.getOriginPositionFormat(moveRow, moveCol);
 
-        if (moveRow == targetRow
-                && moveCol == targetCol) return;
-
-        String originPositionFormat = StringUtil.getOriginPositionFormat(moveRow, moveCol);
-
-        Piece piece = chessGame.findPiece(originPositionFormat);
+        Piece piece = chessGame.findPiece(originPosition);
         if(piece.isPiece()) {
             throw InvalidMoveException.EXCEPTION;
         }
+    }
 
-        verifyPieceOnPath(new Position(moveCol, moveRow), targetPosition, chessGame);
+    private int getRowMoveDifference(Position sourcePosition, Position targetPosition) {
+        int sourceRow = sourcePosition.getRow();
+        int targetRow = targetPosition.getRow();
+
+        int rowDirection = targetRow - sourceRow;
+
+        int dr = rowDirection == 0 ? 0 : (rowDirection > 0 ? 1 : -1);
+
+        return sourceRow + dr;
+    }
+
+    private int getColMoveDifference(Position sourcePosition, Position targetPosition) {
+        int sourceCol = sourcePosition.getCol();
+        int targetCol = targetPosition.getCol();
+
+        int colDirection = targetCol - sourceCol;
+
+        int dr = colDirection == 0 ? 0 : (colDirection > 0 ? 1 : -1);
+
+        return sourceCol + dr;
     }
 }

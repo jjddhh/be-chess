@@ -23,7 +23,7 @@ public class Bishop extends Piece {
     @Override
     protected void verifyMove(Position targetPosition, ChessGame chessGame) {
         verifyMoveDirection(super.getPosition(), targetPosition);
-        verifyPieceOnPath(super.getPosition(), targetPosition, chessGame);
+        verifyPieceExistOnPath(super.getPosition(), targetPosition, chessGame);
     }
 
     private void verifyMoveDirection(Position sourcePosition, Position targetPosition) {
@@ -38,32 +38,46 @@ public class Bishop extends Piece {
         throw InvalidMoveException.EXCEPTION;
     }
 
-    private void verifyPieceOnPath(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
-        int sourceRow = sourcePosition.getRow();
-        int sourceCol = sourcePosition.getCol();
+    private void verifyPieceExistOnPath(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
+        int moveRow = getRowMoveDifference(sourcePosition, targetPosition);
+        int moveCol = getColMoveDifference(sourcePosition, targetPosition);
 
-        int targetRow = targetPosition.getRow();
-        int targetCol = targetPosition.getCol();
+        if (moveRow == targetPosition.getRow()
+                && moveCol == targetPosition.getCol()) return;
 
-        int rowDirection = targetRow - sourceRow;
-        int colDirection = targetCol - sourceCol;
+        verifyPieceExistOnNextStep(chessGame, moveRow, moveCol);
 
-        int dr = rowDirection == 0 ? 0 : (rowDirection > 0 ? 1 : -1);
-        int dc = colDirection == 0 ? 0 : (colDirection > 0 ? 1 : -1);
+        verifyPieceExistOnPath(new Position(moveCol, moveRow), targetPosition, chessGame);
+    }
 
-        int moveRow = sourceRow + dr;
-        int moveCol = sourceCol + dc;
-
-        if (moveRow == targetRow
-                && moveCol == targetCol) return;
-
+    private void verifyPieceExistOnNextStep(ChessGame chessGame, int moveRow, int moveCol) {
         String originPosition = StringUtil.getOriginPositionFormat(moveRow, moveCol);
 
         Piece piece = chessGame.findPiece(originPosition);
         if(piece.isPiece()) {
             throw InvalidMoveException.EXCEPTION;
         }
+    }
 
-        verifyPieceOnPath(new Position(moveCol, moveRow), targetPosition, chessGame);
+    private int getRowMoveDifference(Position sourcePosition, Position targetPosition) {
+        int sourceRow = sourcePosition.getRow();
+        int targetRow = targetPosition.getRow();
+
+        int rowDirection = targetRow - sourceRow;
+
+        int dr = rowDirection == 0 ? 0 : (rowDirection > 0 ? 1 : -1);
+
+        return sourceRow + dr;
+    }
+
+    private int getColMoveDifference(Position sourcePosition, Position targetPosition) {
+        int sourceCol = sourcePosition.getCol();
+        int targetCol = targetPosition.getCol();
+
+        int colDirection = targetCol - sourceCol;
+
+        int dr = colDirection == 0 ? 0 : (colDirection > 0 ? 1 : -1);
+
+        return sourceCol + dr;
     }
 }

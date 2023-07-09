@@ -11,13 +11,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Board {
-    private Map<Type, List<Piece>> whitePieces = new HashMap<>();
-    private Map<Type, List<Piece>> blackPieces = new HashMap<>();
-
     public static final int ROW = 8;
     public static final int COl = 8;
-
     public static final String EMPTY_BOARD = "........";
+
+    private Map<Type, List<Piece>> whitePieces = new HashMap<>();
+    private Map<Type, List<Piece>> blackPieces = new HashMap<>();
 
     public void initializeEmpty() {
         blackPieces = new HashMap<>();
@@ -159,9 +158,6 @@ public class Board {
         }
     }
 
-    /**
-     * getter
-     */
     public Map<Type, List<Piece>> getWhitePieces() {
         return whitePieces;
     }
@@ -170,4 +166,3 @@ public class Board {
         return blackPieces;
     }
 }
-

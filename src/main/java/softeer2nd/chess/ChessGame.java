@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ChessGame {
-    private Board board;
-    private Boolean isProceeding = true;
-    private Color turn = Color.WHITE;
-    
     private final String START = "start";
     private final String END = "end";
     private final String MOVE = "move";
+
+    private Board board;
+    private Boolean isProceeding = true;
+    private Color turn = Color.WHITE;
 
     public ChessGame (Board board){
         this.board = board;
