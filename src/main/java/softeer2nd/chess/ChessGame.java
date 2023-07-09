@@ -2,6 +2,8 @@ package softeer2nd.chess;
 
 import softeer2nd.chess.exception.ChessException;
 import softeer2nd.chess.exception.InvalidColorException;
+import softeer2nd.chess.exception.MeaninglessMoveException;
+import softeer2nd.chess.exception.SameTeamExistException;
 import softeer2nd.chess.pieces.Blank;
 import softeer2nd.chess.pieces.piece.Color;
 import softeer2nd.chess.pieces.piece.Piece;
@@ -81,8 +83,23 @@ public class ChessGame {
         Piece sourcePiece = findPiece(sourcePosition);
         Piece targetPiece = findPiece(targetPosition);
 
+        verifyMeaninglessMove(sourcePosition, targetPosition);
+        verifySameTeamOnTarget(sourcePiece, targetPiece);
+
         sourcePiece.move(targetPiece, this);
         board.removePiece(targetPiece);
+    }
+
+    private void verifyMeaninglessMove(String sourcePosition, String targetPosition) {
+        if(sourcePosition.equals(targetPosition)) {
+            throw MeaninglessMoveException.EXCEPTION;
+        }
+    }
+
+    private void verifySameTeamOnTarget(Piece sourcePiece, Piece targetPiece) {
+        if(sourcePiece.getColor() == targetPiece.getColor()) {
+            throw SameTeamExistException.EXCEPTION;
+        }
     }
 
     public Piece findPiece(String targetPosition) {

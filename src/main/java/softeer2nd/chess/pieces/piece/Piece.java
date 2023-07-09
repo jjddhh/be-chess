@@ -55,16 +55,9 @@ public abstract class Piece {
     public void move(Piece targetPiece, ChessGame chessGame) {
         Position targetPosition = targetPiece.getPosition();
 
-        verifySameTeamOnTarget(targetPiece);
         verifyMove(targetPosition, chessGame);
 
         this.position = targetPosition;
-    }
-
-    private void verifySameTeamOnTarget(Piece targetPiece) {
-        if(this.color == targetPiece.getColor()) {
-            throw SameTeamExistException.EXCEPTION;
-        }
     }
 
     public boolean isEqualPosition(String targetPosition) {
