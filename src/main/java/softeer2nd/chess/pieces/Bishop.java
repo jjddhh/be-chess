@@ -10,16 +10,8 @@ import java.util.List;
 
 public class Bishop extends Piece {
 
-	private Bishop(Color color, String position) {
+	public Bishop(Color color, String position) {
 		super(color, Type.BISHOP, position);
-	}
-
-	public static Piece createWhite(String position) {
-		return new Bishop(Color.WHITE, position);
-	}
-
-	public static Piece createBlack(String position) {
-		return new Bishop(Color.BLACK, position);
 	}
 
 	@Override

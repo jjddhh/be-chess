@@ -2,6 +2,7 @@ package softeer2nd.chess;
 
 import softeer2nd.chess.exception.*;
 import softeer2nd.chess.pieces.Blank;
+import softeer2nd.chess.pieces.factory.BlankFactory;
 import softeer2nd.chess.pieces.piece.Color;
 import softeer2nd.chess.pieces.piece.Piece;
 import softeer2nd.chess.pieces.piece.Position;
@@ -168,7 +169,7 @@ public class ChessGame {
 			)
 			.filter(p -> p.isEqualPosition(targetPosition))
 			.findFirst()
-			.orElse(Blank.create(targetPosition));
+			.orElse(BlankFactory.create(targetPosition));
 	}
 
 	/**

@@ -8,6 +8,8 @@ import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.exception.InvalidPositionException;
 import softeer2nd.chess.pieces.exception.PawnCaptureException;
 import softeer2nd.chess.pieces.exception.PawnMoveException;
+import softeer2nd.chess.pieces.factory.BishopFactory;
+import softeer2nd.chess.pieces.factory.PawnFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,16 +34,16 @@ class PawnTest {
         String whiteSourcePosition = "b1";
         String whiteTargetPosition = "b2";
 
-        board.addPiece(Pawn.createBlack(blackSourcePosition));
-        board.addPiece(Pawn.createWhite(whiteSourcePosition));
+        board.addPiece(PawnFactory.createBlack(blackSourcePosition));
+        board.addPiece(PawnFactory.createWhite(whiteSourcePosition));
 
         // when
         chessGame.move(blackSourcePosition, blackTargetPosition);
         chessGame.move(whiteSourcePosition, whiteTargetPosition);
 
         // then
-        assertEquals(Pawn.createBlack(blackTargetPosition), chessGame.findPiece(blackTargetPosition));
-        assertEquals(Pawn.createWhite(whiteTargetPosition), chessGame.findPiece(whiteTargetPosition));
+        assertEquals(PawnFactory.createBlack(blackTargetPosition), chessGame.findPiece(blackTargetPosition));
+        assertEquals(PawnFactory.createWhite(whiteTargetPosition), chessGame.findPiece(whiteTargetPosition));
     }
 
     @Test
@@ -56,8 +58,8 @@ class PawnTest {
         String whiteSourcePosition = "b2";
         String whiteTargetPosition = "b1";
 
-        board.addPiece(Pawn.createBlack(blackSourcePosition));
-        board.addPiece(Pawn.createWhite(whiteSourcePosition));
+        board.addPiece(PawnFactory.createBlack(blackSourcePosition));
+        board.addPiece(PawnFactory.createWhite(whiteSourcePosition));
 
         // when then
         assertThrows(
@@ -81,8 +83,8 @@ class PawnTest {
         String sourcePosition = "e5";
         String targetPosition = "e4";
 
-        board.addPiece(Pawn.createBlack(sourcePosition));
-        board.addPiece(Bishop.createWhite(targetPosition));
+        board.addPiece(PawnFactory.createBlack(sourcePosition));
+        board.addPiece(BishopFactory.createWhite(targetPosition));
 
         // when then
         assertThrows(
@@ -101,14 +103,14 @@ class PawnTest {
         String sourcePosition = "d2";
         String targetPosition = "e1";
 
-        board.addPiece(Pawn.createBlack(sourcePosition));
-        board.addPiece(Bishop.createWhite(targetPosition));
+        board.addPiece(PawnFactory.createBlack(sourcePosition));
+        board.addPiece(BishopFactory.createWhite(targetPosition));
 
         // when
         chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(Pawn.createBlack(targetPosition), chessGame.findPiece(targetPosition));
+        assertEquals(PawnFactory.createBlack(targetPosition), chessGame.findPiece(targetPosition));
     }
 
     @Test
@@ -121,7 +123,7 @@ class PawnTest {
         String sourcePosition = "d2";
         String targetPosition = "e1";
 
-        board.addPiece(Pawn.createBlack(sourcePosition));
+        board.addPiece(PawnFactory.createBlack(sourcePosition));
 
         // when then
         assertThrows(

@@ -10,16 +10,8 @@ import java.util.List;
 
 public class Queen extends Piece {
 
-	private Queen(Color color, String position) {
+	public Queen(Color color, String position) {
 		super(color, Type.QUEEN, position);
-	}
-
-	public static Piece createWhite(String position) {
-		return new Queen(Color.WHITE, position);
-	}
-
-	public static Piece createBlack(String position) {
-		return new Queen(Color.BLACK, position);
 	}
 
 	@Override

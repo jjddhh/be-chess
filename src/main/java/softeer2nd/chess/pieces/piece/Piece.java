@@ -92,7 +92,6 @@ public abstract class Piece {
 		return type;
 	}
 
-
 	protected boolean isLinearMove(int rowGap, int colGap) {
 		return rowGap == 0 || colGap == 0;
 	}

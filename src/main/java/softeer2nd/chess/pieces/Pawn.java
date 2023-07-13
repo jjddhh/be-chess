@@ -13,16 +13,8 @@ import java.util.List;
 
 public class Pawn extends Piece {
 
-	private Pawn(Color color, String position) {
+	public Pawn(Color color, String position) {
 		super(color, Type.PAWN, position);
-	}
-
-	public static Piece createWhite(String position) {
-		return new Pawn(Color.WHITE, position);
-	}
-
-	public static Piece createBlack(String position) {
-		return new Pawn(Color.BLACK, position);
 	}
 
 	@Override

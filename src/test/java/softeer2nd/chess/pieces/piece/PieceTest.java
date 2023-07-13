@@ -9,6 +9,13 @@ import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.exception.OutOfBoardException;
 import softeer2nd.chess.exception.SameTeamExistException;
 import softeer2nd.chess.pieces.*;
+import softeer2nd.chess.pieces.factory.BishopFactory;
+import softeer2nd.chess.pieces.factory.BlankFactory;
+import softeer2nd.chess.pieces.factory.KingFactory;
+import softeer2nd.chess.pieces.factory.KnightFactory;
+import softeer2nd.chess.pieces.factory.PawnFactory;
+import softeer2nd.chess.pieces.factory.QueenFactory;
+import softeer2nd.chess.pieces.factory.RookFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,23 +32,23 @@ public class PieceTest {
     @DisplayName("모든 종류의 기물 생성을 성공")
     void createPiece() {
         // given
-        Piece whitePawn = Pawn.createWhite("a1");
-        Piece blackPawn = Pawn.createBlack("a1");
+        Piece whitePawn = PawnFactory.createWhite("a1");
+        Piece blackPawn = PawnFactory.createBlack("a1");
 
-        Piece whiteKnight = Knight.createWhite("a1");
-        Piece blackKnight = Knight.createBlack("a1");
+        Piece whiteKnight = KnightFactory.createWhite("a1");
+        Piece blackKnight = KnightFactory.createBlack("a1");
 
-        Piece whiteRook = Rook.createWhite("a1");
-        Piece blackRook = Rook.createBlack("a1");
+        Piece whiteRook = RookFactory.createWhite("a1");
+        Piece blackRook = RookFactory.createBlack("a1");
 
-        Piece whiteBishop = Bishop.createWhite("a1");
-        Piece blackBishop = Bishop.createBlack("a1");
+        Piece whiteBishop = BishopFactory.createWhite("a1");
+        Piece blackBishop = BishopFactory.createBlack("a1");
 
-        Piece whiteQueen = Queen.createWhite("a1");
-        Piece blackQueen = Queen.createBlack("a1");
+        Piece whiteQueen = QueenFactory.createWhite("a1");
+        Piece blackQueen = QueenFactory.createBlack("a1");
 
-        Piece whiteKing = King.createWhite("a1");
-        Piece blackKing = King.createBlack("a1");
+        Piece whiteKing = KingFactory.createWhite("a1");
+        Piece blackKing = KingFactory.createBlack("a1");
 
         // when then
         verifyPiece(whitePawn, blackPawn, Type.PAWN);
@@ -56,7 +63,7 @@ public class PieceTest {
     @DisplayName("빈 기물 생성에 성공")
     void createEmptyPiece() {
         // given
-        Piece blank = Blank.create("a1");
+        Piece blank = BlankFactory.create("a1");
 
         // when then
         assertFalse(blank.isWhite());
@@ -83,7 +90,7 @@ public class PieceTest {
     @DisplayName("검은색 말인지 확인")
     void isBlack() {
         // given
-        Piece blackKing = King.createBlack("a1");
+        Piece blackKing = KingFactory.createBlack("a1");
 
         // when then
         assertTrue(blackKing.isBlack());
@@ -94,7 +101,7 @@ public class PieceTest {
     @DisplayName("흰색 말인지 확인")
     void isWhite() {
         // given
-        Piece whiteKing = King.createWhite("a1");
+        Piece whiteKing = KingFactory.createWhite("a1");
 
         // when then
         assertTrue(whiteKing.isWhite());
@@ -111,8 +118,8 @@ public class PieceTest {
         String sourcePosition = "e1";
         String targetPosition = "e5";
 
-        board.addPiece(Queen.createBlack(sourcePosition));
-        board.addPiece(Rook.createBlack(targetPosition));
+        board.addPiece(QueenFactory.createBlack(sourcePosition));
+        board.addPiece(RookFactory.createBlack(targetPosition));
 
         // when then
         assertThrows(

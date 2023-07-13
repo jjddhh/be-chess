@@ -7,6 +7,9 @@ import softeer2nd.chess.exception.OutOfBoardException;
 
 public class Position {
 
+	private final char COLUMN_LOWER_LIMIT = 'a';
+	private final int ROW_UPPER_LIMIT = 8;
+
 	private String originPosition;
 	private final int col;
 	private final int row;
@@ -17,8 +20,8 @@ public class Position {
 	}
 
 	public Position(char col, int row) {
-		int colTmp = col - 'a';
-		int rowTmp = 8 - row;
+		int colTmp = col - COLUMN_LOWER_LIMIT;
+		int rowTmp = ROW_UPPER_LIMIT - row;
 
 		verifyPiecePosition(colTmp, rowTmp);
 
@@ -36,8 +39,8 @@ public class Position {
 	}
 
 	public String getOriginPosition() {
-		char col = (char) (this.col + 'a');
-		int row = 8 - this.row;
+		char col = (char)(this.col + COLUMN_LOWER_LIMIT);
+		int row = ROW_UPPER_LIMIT - this.row;
 
 		// col + row + "" 로 문자열 반환 시도시 col + row 먼저 계산된 뒤, 그 값이 문자열로 변환됨
 		StringBuilder originPosition = new StringBuilder();
@@ -54,16 +57,18 @@ public class Position {
 	}
 
 	private void verifyPiecePosition(int col, int row) {
-		if(!(0 <= col && col < Board.COl && 0 <= row && row < Board.ROW)){
+		if (!(0 <= col && col < Board.MAX_COLUMN && 0 <= row && row < Board.MAX_ROW)) {
 			throw OutOfBoardException.EXCEPTION;
 		}
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Position position = (Position) o;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		Position position = (Position)o;
 		return col == position.col && row == position.row;
 	}
 

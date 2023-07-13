@@ -7,6 +7,8 @@ import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.exception.ExistPieceOnPathException;
 import softeer2nd.chess.exception.InvalidPositionException;
+import softeer2nd.chess.pieces.factory.BishopFactory;
+import softeer2nd.chess.pieces.factory.RookFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,13 +31,13 @@ class RookTest {
         String sourcePosition = "a1";
         String targetPosition = "a7";
 
-        board.addPiece(Rook.createBlack(sourcePosition));
+        board.addPiece(RookFactory.createBlack(sourcePosition));
 
         // when
         chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(Rook.createBlack(targetPosition), chessGame.findPiece(targetPosition));
+        assertEquals(RookFactory.createBlack(targetPosition), chessGame.findPiece(targetPosition));
     }
 
     @Test
@@ -48,7 +50,7 @@ class RookTest {
         String sourcePosition = "e1";
         String targetPosition = "a7";
 
-        board.addPiece(Rook.createBlack(sourcePosition));
+        board.addPiece(RookFactory.createBlack(sourcePosition));
 
         // when then
         assertThrows(
@@ -68,8 +70,8 @@ class RookTest {
         String targetPosition = "e5";
         String blockPosition = "e3";
 
-        board.addPiece(Rook.createBlack(sourcePosition));
-        board.addPiece(Bishop.createWhite(blockPosition));
+        board.addPiece(RookFactory.createBlack(sourcePosition));
+        board.addPiece(BishopFactory.createWhite(blockPosition));
 
         // when then
         assertThrows(

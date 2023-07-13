@@ -12,16 +12,8 @@ public class King extends Piece {
 
 	private final Integer LIMIT_DISTANCE = 1;
 
-	private King(Color color, String position) {
+	public King(Color color, String position) {
 		super(color, Type.KING, position);
-	}
-
-	public static Piece createWhite(String position) {
-		return new King(Color.WHITE, position);
-	}
-
-	public static Piece createBlack(String position) {
-		return new King(Color.BLACK, position);
 	}
 
 	@Override

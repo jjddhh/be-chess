@@ -10,16 +10,8 @@ import java.util.List;
 
 public class Rook extends Piece {
 
-	private Rook(Color color, String position) {
+	public Rook(Color color, String position) {
 		super(color, Type.ROOK, position);
-	}
-
-	public static Piece createWhite(String position) {
-		return new Rook(Color.WHITE, position);
-	}
-
-	public static Piece createBlack(String position) {
-		return new Rook(Color.BLACK, position);
 	}
 
 	@Override

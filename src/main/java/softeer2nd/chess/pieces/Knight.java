@@ -11,16 +11,8 @@ import java.util.List;
 
 public class Knight extends Piece {
 
-	private Knight(Color color, String position) {
+	public Knight(Color color, String position) {
 		super(color, Type.KNIGHT, position);
-	}
-
-	public static Piece createWhite(String position) {
-		return new Knight(Color.WHITE, position);
-	}
-
-	public static Piece createBlack(String position) {
-		return new Knight(Color.BLACK, position);
 	}
 
 	@Override

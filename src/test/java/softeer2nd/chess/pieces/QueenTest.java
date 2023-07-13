@@ -7,6 +7,8 @@ import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.exception.ExistPieceOnPathException;
 import softeer2nd.chess.exception.InvalidPositionException;
+import softeer2nd.chess.pieces.factory.BishopFactory;
+import softeer2nd.chess.pieces.factory.QueenFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,13 +31,13 @@ class QueenTest {
         String sourcePosition = "e1";
         String targetPosition = "e4";
 
-        board.addPiece(Queen.createBlack(sourcePosition));
+        board.addPiece(QueenFactory.createBlack(sourcePosition));
 
         // when
         chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(Queen.createBlack(targetPosition), chessGame.findPiece(targetPosition));
+        assertEquals(QueenFactory.createBlack(targetPosition), chessGame.findPiece(targetPosition));
     }
 
     @Test
@@ -48,13 +50,13 @@ class QueenTest {
         String sourcePosition = "e1";
         String targetPosition = "a5";
 
-        board.addPiece(Queen.createBlack(sourcePosition));
+        board.addPiece(QueenFactory.createBlack(sourcePosition));
 
         // when
         chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(Queen.createBlack(targetPosition), chessGame.findPiece(targetPosition));
+        assertEquals(QueenFactory.createBlack(targetPosition), chessGame.findPiece(targetPosition));
     }
 
     @Test
@@ -67,7 +69,7 @@ class QueenTest {
         String sourcePosition = "e1";
         String targetPosition = "a7";
 
-        board.addPiece(Queen.createBlack(sourcePosition));
+        board.addPiece(QueenFactory.createBlack(sourcePosition));
 
         // when then
         assertThrows(
@@ -87,8 +89,8 @@ class QueenTest {
         String targetPosition = "h4";
         String blockPosition = "g3";
 
-        board.addPiece(Queen.createBlack(sourcePosition));
-        board.addPiece(Bishop.createWhite(blockPosition));
+        board.addPiece(QueenFactory.createBlack(sourcePosition));
+        board.addPiece(BishopFactory.createWhite(blockPosition));
 
         // when then
         assertThrows(

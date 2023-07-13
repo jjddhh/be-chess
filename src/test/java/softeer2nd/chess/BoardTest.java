@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import softeer2nd.chess.exception.InvalidColorException;
 import softeer2nd.chess.pieces.Pawn;
 import softeer2nd.chess.pieces.Rook;
+import softeer2nd.chess.pieces.factory.PawnFactory;
+import softeer2nd.chess.pieces.factory.RookFactory;
 import softeer2nd.chess.pieces.piece.Color;
 import softeer2nd.chess.pieces.piece.Piece;
 import softeer2nd.chess.pieces.piece.Type;
@@ -73,7 +75,7 @@ public class BoardTest {
     }
 
     private Piece addPawn(final Color color) {
-        Piece pawn = Pawn.createWhite("a1");
+        Piece pawn = PawnFactory.createWhite("a1");
         board.addPiece(pawn);
         return pawn;
     }
@@ -110,7 +112,7 @@ public class BoardTest {
         ChessGame chessGame = new ChessGame(board);
 
         String position = "b5";
-        Piece piece = Rook.createBlack("b5");
+        Piece piece = RookFactory.createBlack("b5");
 
         // when
         board.addPiece(piece);

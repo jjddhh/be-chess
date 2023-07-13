@@ -9,12 +9,8 @@ import java.util.List;
 
 public class Blank extends Piece {
 
-	private Blank(String position) {
+	public Blank(String position) {
 		super(Color.NO_COLOR, Type.NO_PIECE, position);
-	}
-
-	public static Piece create(String position) {
-		return new Blank(position);
 	}
 
 	@Override

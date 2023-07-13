@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.exception.InvalidPositionException;
+import softeer2nd.chess.pieces.factory.KnightFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,13 +28,13 @@ class KnightTest {
         String sourcePosition = "c4";
         String targetPosition = "d6";
 
-        board.addPiece(Knight.createBlack(sourcePosition));
+        board.addPiece(KnightFactory.createBlack(sourcePosition));
 
         // when
         chessGame.move(sourcePosition, targetPosition);
 
         // then
-        assertEquals(Knight.createBlack(targetPosition), chessGame.findPiece(targetPosition));
+        assertEquals(KnightFactory.createBlack(targetPosition), chessGame.findPiece(targetPosition));
     }
 
     @Test
@@ -45,7 +46,7 @@ class KnightTest {
         String sourcePosition = "c4";
         String targetPosition = "d5";
 
-        board.addPiece(Knight.createBlack(sourcePosition));
+        board.addPiece(KnightFactory.createBlack(sourcePosition));
 
         // when then
         assertThrows(

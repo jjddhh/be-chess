@@ -3,7 +3,6 @@ package softeer2nd.chess.utils;
 import softeer2nd.chess.Board;
 import softeer2nd.chess.pieces.piece.Piece;
 import softeer2nd.chess.pieces.piece.Type;
-import softeer2nd.chess.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,8 +10,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static softeer2nd.chess.Board.COl;
-import static softeer2nd.chess.Board.ROW;
+import static softeer2nd.chess.Board.MAX_COLUMN;
+import static softeer2nd.chess.Board.MAX_ROW;
 
 public class ChessViewUtil {
 
@@ -34,7 +33,7 @@ public class ChessViewUtil {
 	}
 
 	private static void initBoard() {
-		baseBoard = new char[ROW][COl];
+		baseBoard = new char[MAX_ROW][MAX_COLUMN];
 		for (int i = 0; i < baseBoard.length; i++) {
 			Arrays.fill(baseBoard[i], '.');
 		}
