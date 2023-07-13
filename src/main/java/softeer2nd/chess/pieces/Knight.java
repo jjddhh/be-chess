@@ -30,11 +30,15 @@ public class Knight extends Piece {
 
 	@Override
 	public boolean isValidPosition(Position targetPosition) {
-		int dr = targetPosition.getRow() - super.getRow();
-		int dc = targetPosition.getCol() - super.getCol();
+		int rowGap = getRowGap(targetPosition, super.getPosition());
+		int colGap = getColGap(targetPosition, super.getPosition());
 
+		return isKnightMove(rowGap, colGap);
+	}
+
+	private boolean isKnightMove(int rowGap, int colGap) {
 		return Direction.knightDirection().stream()
-			.filter(direction -> direction.getXDegree() == dc && direction.getYDegree() == dr)
+			.filter(direction -> direction.getXDegree() == colGap && direction.getYDegree() == rowGap)
 			.findFirst()
 			.isPresent();
 	}

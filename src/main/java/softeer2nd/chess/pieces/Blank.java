@@ -1,6 +1,5 @@
 package softeer2nd.chess.pieces;
 
-import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.pieces.piece.Color;
 import softeer2nd.chess.pieces.piece.Position;
 import softeer2nd.chess.pieces.piece.Type;

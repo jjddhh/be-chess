@@ -37,7 +37,10 @@ public class Pawn extends Piece {
 
 	@Override
 	public void move(Position targetPosition) {
-		if (isVerticalMove(targetPosition)) {
+		int rowGap = getRowGap(targetPosition, super.getPosition());
+		int colGap = getColGap(targetPosition, super.getPosition());
+
+		if (isLinearMove(rowGap, colGap)) {
 			super.move(targetPosition);
 			return;
 		}
@@ -45,21 +48,12 @@ public class Pawn extends Piece {
 		throw PawnMoveException.EXCEPTION;
 	}
 
-	private boolean isVerticalMove(Position targetPosition) {
-		Position sourcePosition = super.getPosition();
-
-		int rowGap = getRowGap(targetPosition, sourcePosition);
-		int colGap = getColGap(targetPosition, sourcePosition);
-
-		return Direction.linearDirection().stream()
-			.filter(direction -> direction.isEqual(rowGap, colGap))
-			.findFirst()
-			.isPresent();
-	}
-
 	@Override
 	public void capture(Position targetPosition) {
-		if (isDiagonalMove(targetPosition)) {
+		int colGap = getColGap(targetPosition, super.getPosition());
+		int rowGap = getRowGap(targetPosition, super.getPosition());
+
+		if (isDiagonalMove(rowGap, colGap)) {
 			super.capture(targetPosition);
 			return;
 		}
@@ -67,28 +61,9 @@ public class Pawn extends Piece {
 		throw PawnCaptureException.EXCEPTION;
 	}
 
-	private boolean isDiagonalMove(Position targetPosition) {
-		Position sourcePosition = super.getPosition();
-
-		int colGap = getColGap(targetPosition, sourcePosition);
-		int rowGap = getRowGap(targetPosition, sourcePosition);
-
-		return Direction.diagonalDirection().stream()
-			.filter(direction -> direction.isEqual(rowGap, colGap))
-			.findFirst()
-			.isPresent();
-	}
-
 	private boolean isValidDirection(Position targetPosition) {
-		Position sourcePosition = super.getPosition();
-
-		int sourceRow = sourcePosition.getRow();
-		int sourceCol = sourcePosition.getCol();
-		int targetRow = targetPosition.getRow();
-		int targetCol = targetPosition.getCol();
-
-		int rowGap = targetRow - sourceRow;
-		int colGap = targetCol - sourceCol;
+		int rowGap = getRowGap(targetPosition, super.getPosition());
+		int colGap = getColGap(targetPosition, super.getPosition());
 
 		if(super.isBlack()) {
 			return Direction.blackPawnDirection().stream()
@@ -105,20 +80,5 @@ public class Pawn extends Piece {
 		}
 
 		return false;
-	}
-
-	private int getColGap(Position targetPosition, Position sourcePosition) {
-		int sourceCol = sourcePosition.getCol();
-		int targetCol = targetPosition.getCol();
-		int colGap = targetCol - sourceCol;
-		return colGap;
-	}
-
-	private int getRowGap(Position targetPosition, Position sourcePosition) {
-		int sourceRow = sourcePosition.getRow();
-		int targetRow = targetPosition.getRow();
-
-		int rowGap = targetRow - sourceRow;
-		return rowGap;
 	}
 }

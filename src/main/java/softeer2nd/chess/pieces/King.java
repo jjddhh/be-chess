@@ -10,6 +10,8 @@ import java.util.List;
 
 public class King extends Piece {
 
+	private final Integer LIMIT_DISTANCE = 1;
+
 	private King(Color color, String position) {
 		super(color, Type.KING, position);
 	}
@@ -29,18 +31,17 @@ public class King extends Piece {
 
 	@Override
 	public boolean isValidPosition(Position targetPosition) {
-		Position sourcePosition = super.getPosition();
+		int rowGap = getRowGap(targetPosition, super.getPosition());
+		int colGap = getColGap(targetPosition, super.getPosition());
 
-		int sourceRow = sourcePosition.getRow();
-		int sourceCol = sourcePosition.getCol();
-		int targetRow = targetPosition.getRow();
-		int targetCol = targetPosition.getCol();
-
-		if (Math.abs(sourceCol - targetCol) <= 1 &&
-				Math.abs(sourceRow - targetRow) <= 1) {
+		if (isValidKingMove(rowGap, colGap)) {
 			return true;
 		}
 
 		return false;
+	}
+
+	private boolean isValidKingMove(int rowGap, int colGap) {
+		return Math.abs(rowGap) <= LIMIT_DISTANCE && Math.abs(colGap) <= LIMIT_DISTANCE;
 	}
 }
