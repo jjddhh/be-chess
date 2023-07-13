@@ -1,5 +1,6 @@
 package softeer2nd.chess.pieces.piece;
 
+import softeer2nd.chess.pieces.enums.Direction;
 import softeer2nd.chess.utils.StringUtil;
 
 import java.util.List;
@@ -93,7 +94,10 @@ public abstract class Piece {
 	}
 
 	protected boolean isLinearMove(int rowGap, int colGap) {
-		return rowGap == 0 || colGap == 0;
+		return Direction.linearDirection().stream()
+			.filter(direction -> direction.isEqual(rowGap, colGap))
+			.findFirst()
+			.isPresent();
 	}
 
 	protected boolean isDiagonalMove(int rowGap, int colGap) {

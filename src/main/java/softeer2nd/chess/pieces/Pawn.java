@@ -13,13 +13,10 @@ import java.util.List;
 
 public class Pawn extends Piece {
 
+	private boolean firstMove = true;
+
 	public Pawn(Color color, String position) {
 		super(color, Type.PAWN, position);
-	}
-
-	@Override
-	public List<Position> findBetweenPath(Piece targetPiece) {
-		return new ArrayList<>();
 	}
 
 	@Override
@@ -28,9 +25,24 @@ public class Pawn extends Piece {
 	}
 
 	@Override
+	public List<Position> findBetweenPath(Piece targetPiece) {
+		List<Position> betweenPaths = new ArrayList<>();
+		if (firstMove == true) {
+			getBetweenPath(super.getPosition(), targetPiece.getPosition(), betweenPaths);
+		}
+		return betweenPaths;
+	}
+
+	@Override
 	public void move(Position targetPosition) {
 		int rowGap = getRowGap(targetPosition, super.getPosition());
 		int colGap = getColGap(targetPosition, super.getPosition());
+
+		if(firstMove && isDoubleMove(rowGap, colGap)) {
+			firstMove = false;
+			super.move(targetPosition);
+			return;
+		}
 
 		if (isLinearMove(rowGap, colGap)) {
 			super.move(targetPosition);
@@ -38,6 +50,13 @@ public class Pawn extends Piece {
 		}
 
 		throw PawnMoveException.EXCEPTION;
+	}
+
+	private static boolean isDoubleMove(int rowGap, int colGap) {
+		return Direction.pawnDoubleMoveDirection().stream()
+			.filter(direction -> direction.isEqual(rowGap, colGap))
+			.findFirst()
+			.isPresent();
 	}
 
 	@Override

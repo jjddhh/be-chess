@@ -14,12 +14,6 @@ public class Queen extends Piece {
 		super(color, Type.QUEEN, position);
 	}
 
-	@Override
-	public List<Position> findBetweenPath(Piece targetPiece) {
-		List<Position> betweenPaths = new ArrayList<>();
-		getBetweenPath(super.getPosition(), targetPiece.getPosition(), betweenPaths);
-		return betweenPaths;
-	}
 
 	@Override
 	public boolean isValidPosition(Position targetPosition) {
@@ -39,5 +33,12 @@ public class Queen extends Piece {
 		}
 
 		return false;
+	}
+
+	@Override
+	public List<Position> findBetweenPath(Piece targetPiece) {
+		List<Position> betweenPaths = new ArrayList<>();
+		getBetweenPath(super.getPosition(), targetPiece.getPosition(), betweenPaths);
+		return betweenPaths;
 	}
 }

@@ -14,12 +14,12 @@ public class Blank extends Piece {
 	}
 
 	@Override
-	public List<Position> findBetweenPath(Piece targetPiece) {
-		return null;
+	public boolean isValidPosition(Position targetPosition) {
+		return false;
 	}
 
 	@Override
-	public boolean isValidPosition(Position targetPosition) {
-		return false;
+	public List<Position> findBetweenPath(Piece targetPiece) {
+		return null;
 	}
 }

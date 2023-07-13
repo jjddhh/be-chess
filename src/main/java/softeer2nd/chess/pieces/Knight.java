@@ -16,11 +16,6 @@ public class Knight extends Piece {
 	}
 
 	@Override
-	public List<Position> findBetweenPath(Piece targetPiece) {
-		return new ArrayList<>();
-	}
-
-	@Override
 	public boolean isValidPosition(Position targetPosition) {
 		int rowGap = getRowGap(targetPosition, super.getPosition());
 		int colGap = getColGap(targetPosition, super.getPosition());
@@ -33,5 +28,10 @@ public class Knight extends Piece {
 			.filter(direction -> direction.getXDegree() == colGap && direction.getYDegree() == rowGap)
 			.findFirst()
 			.isPresent();
+	}
+
+	@Override
+	public List<Position> findBetweenPath(Piece targetPiece) {
+		return new ArrayList<>();
 	}
 }

@@ -15,13 +15,6 @@ public class Bishop extends Piece {
 	}
 
 	@Override
-	public List<Position> findBetweenPath(Piece targetPiece) {
-		List<Position> betweenPaths = new ArrayList<>();
-		getBetweenPath(super.getPosition(), targetPiece.getPosition(), betweenPaths);
-		return betweenPaths;
-	}
-
-	@Override
 	public boolean isValidPosition(Position targetPosition) {
 		return isValidDirection(targetPosition);
 	}
@@ -35,5 +28,12 @@ public class Bishop extends Piece {
 		}
 
 		return false;
+	}
+
+	@Override
+	public List<Position> findBetweenPath(Piece targetPiece) {
+		List<Position> betweenPaths = new ArrayList<>();
+		getBetweenPath(super.getPosition(), targetPiece.getPosition(), betweenPaths);
+		return betweenPaths;
 	}
 }

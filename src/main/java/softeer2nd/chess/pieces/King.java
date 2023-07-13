@@ -17,11 +17,6 @@ public class King extends Piece {
 	}
 
 	@Override
-	public List<Position> findBetweenPath(Piece targetPiece) {
-		return new ArrayList<>();
-	}
-
-	@Override
 	public boolean isValidPosition(Position targetPosition) {
 		int rowGap = getRowGap(targetPosition, super.getPosition());
 		int colGap = getColGap(targetPosition, super.getPosition());
@@ -35,5 +30,10 @@ public class King extends Piece {
 
 	private boolean isValidKingMove(int rowGap, int colGap) {
 		return Math.abs(rowGap) <= LIMIT_DISTANCE && Math.abs(colGap) <= LIMIT_DISTANCE;
+	}
+
+	@Override
+	public List<Position> findBetweenPath(Piece targetPiece) {
+		return new ArrayList<>();
 	}
 }
