@@ -1,7 +1,6 @@
 package softeer2nd.chess;
 
 import softeer2nd.chess.exception.*;
-import softeer2nd.chess.pieces.Blank;
 import softeer2nd.chess.pieces.factory.BlankFactory;
 import softeer2nd.chess.pieces.piece.Color;
 import softeer2nd.chess.pieces.piece.Piece;
@@ -19,6 +18,8 @@ public class ChessGame {
 	private final String END = "end";
 	private final String MOVE = "move";
 	private final String INVALID_INPUT = "잘못된 입력입니다. start/ move loc1 loc2/ end 중 하나를 입력해주세요";
+	private final String WINNER_END_MESSAGE = "이 승리했습니다.";
+	private final String TIE_END_MESSAGE = "무승부 입니다.";
 
 	private Board board;
 	private Boolean isProceeding = true;
@@ -42,7 +43,7 @@ public class ChessGame {
 					movePiece(command);
 					break;
 				case END:
-					endGame();
+					endProceedingGame();
 					break;
 				default:
 					invalidCommand();
@@ -73,6 +74,28 @@ public class ChessGame {
 		}
 
 		ChessViewUtil.print(board);
+
+		verifyCheckMate();
+	}
+
+	private void verifyCheckMate() {
+		List<Piece> king = new ArrayList<>();
+		Color winner = Color.NO_COLOR;
+		if (turn.equals(Color.BLACK)) {
+			king = board.getBlackPieces().getOrDefault(Type.KING, new ArrayList<>());
+			winner = Color.WHITE;
+		}
+		if (turn.equals(Color.WHITE)) {
+			king = board.getWhitePieces().getOrDefault(Type.KING, new ArrayList<>());
+			winner = Color.BLACK;
+		}
+
+		if (king.size() == 0) {
+			StringBuilder endMessage = new StringBuilder();
+			endMessage.append(winner.getValue()).append(WINNER_END_MESSAGE);
+			System.out.println(endMessage);
+			endGame();
+		}
 	}
 
 	private void changeTurn() {
@@ -97,13 +120,32 @@ public class ChessGame {
 		isProceeding = false;
 	}
 
+	private void endProceedingGame() {
+		double whitePoint = getPoint(board.getWhitePieces());
+		double blackPoint = getPoint(board.getBlackPieces());
+		StringBuilder endMessage = new StringBuilder();
+
+		if (whitePoint > blackPoint) {
+			endMessage.append(Color.WHITE.getValue()).append(WINNER_END_MESSAGE);
+		} else if (whitePoint < blackPoint) {
+			endMessage.append(Color.BLACK.getValue()).append(WINNER_END_MESSAGE);
+		} else {
+			endMessage.append(TIE_END_MESSAGE);
+		}
+
+		System.out.println(endMessage);
+
+		board.cleanUp();
+		isProceeding = false;
+	}
+
 	public void move(String sourcePosition, String targetPosition) {
 		Piece sourcePiece = findPiece(sourcePosition);
 		Piece targetPiece = findPiece(targetPosition);
 
 		verifyMove(sourcePiece, targetPiece);
 
-		if(isCapturingMove(sourcePiece, targetPiece)) {
+		if (isCapturingMove(sourcePiece, targetPiece)) {
 			sourcePiece.capture(targetPiece.getPosition());
 			board.removePiece(targetPiece);
 			return;
@@ -131,10 +173,10 @@ public class ChessGame {
 
 	private boolean existPieceOnPath(List<Position> betweenPaths) {
 		return betweenPaths.stream()
-				.map(position -> findPiece(position.getOriginPosition()))
-				.filter(Piece::isPiece)
-				.findFirst()
-				.isPresent();
+			.map(position -> findPiece(position.getOriginPosition()))
+			.filter(Piece::isPiece)
+			.findFirst()
+			.isPresent();
 	}
 
 	private void verifyPossibleTargetPosition(Piece sourcePiece, Piece targetPiece) {

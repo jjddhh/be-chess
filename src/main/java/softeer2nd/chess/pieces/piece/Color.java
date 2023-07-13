@@ -2,6 +2,17 @@ package softeer2nd.chess.pieces.piece;
 
 public enum Color {
 
-	// 반복문 돌릴시 NO_COLOR 문제
-	WHITE, BLACK, NO_COLOR;
+	WHITE("백"),
+	BLACK("흑"),
+	NO_COLOR("X");
+
+	private final String value;
+
+	private Color(final String value) {
+		this.value = value;
+	}
+
+	public String  getValue() {
+		return value;
+	}
 }

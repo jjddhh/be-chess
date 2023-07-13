@@ -1,12 +1,8 @@
 package softeer2nd.chess;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import softeer2nd.chess.exception.InvalidColorException;
-import softeer2nd.chess.pieces.Pawn;
-import softeer2nd.chess.pieces.Rook;
 import softeer2nd.chess.pieces.factory.PawnFactory;
 import softeer2nd.chess.pieces.factory.RookFactory;
 import softeer2nd.chess.pieces.piece.Color;
