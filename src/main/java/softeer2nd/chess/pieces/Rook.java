@@ -30,13 +30,12 @@ public class Rook extends Piece {
 	}
 
 	@Override
-	public boolean isValidPosition(Piece targetPiece) {
-		return isValidDirection(targetPiece);
+	public boolean isValidPosition(Position targetPosition) {
+		return isValidDirection(targetPosition);
 	}
 
-	private boolean isValidDirection(Piece targetPiece) {
+	private boolean isValidDirection(Position targetPosition) {
 		Position sourcePosition = super.getPosition();
-		Position targetPosition = targetPiece.getPosition();
 
 		int sourceRow = sourcePosition.getRow();
 		int sourceCol = sourcePosition.getCol();

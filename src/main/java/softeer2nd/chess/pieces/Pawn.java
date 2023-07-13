@@ -1,15 +1,12 @@
 package softeer2nd.chess.pieces;
 
-import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.pieces.enums.Direction;
 import softeer2nd.chess.pieces.exception.PawnCaptureException;
 import softeer2nd.chess.pieces.exception.PawnMoveException;
 import softeer2nd.chess.pieces.piece.Piece;
 import softeer2nd.chess.pieces.piece.Position;
-import softeer2nd.chess.utils.StringUtil;
 import softeer2nd.chess.pieces.piece.Color;
 import softeer2nd.chess.pieces.piece.Type;
-import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +31,12 @@ public class Pawn extends Piece {
 	}
 
 	@Override
-	public boolean isValidPosition(Piece targetPiece) {
-		return isValidDirection(targetPiece);
+	public boolean isValidPosition(Position targetPosition) {
+		return isValidDirection(targetPosition);
 	}
 
 	@Override
-	public void move(String targetPosition) {
+	public void move(Position targetPosition) {
 		if (isVerticalMove(targetPosition)) {
 			super.move(targetPosition);
 			return;
@@ -48,17 +45,11 @@ public class Pawn extends Piece {
 		throw PawnMoveException.EXCEPTION;
 	}
 
-	private boolean isVerticalMove(String originTargetPosition) {
+	private boolean isVerticalMove(Position targetPosition) {
 		Position sourcePosition = super.getPosition();
-		Position targetPosition = new Position(originTargetPosition);
 
-		int sourceRow = sourcePosition.getRow();
-		int sourceCol = sourcePosition.getCol();
-		int targetRow = targetPosition.getRow();
-		int targetCol = targetPosition.getCol();
-
-		int rowGap = targetRow - sourceRow;
-		int colGap = targetCol - sourceCol;
+		int rowGap = getRowGap(targetPosition, sourcePosition);
+		int colGap = getColGap(targetPosition, sourcePosition);
 
 		return Direction.linearDirection().stream()
 			.filter(direction -> direction.isEqual(rowGap, colGap))
@@ -67,26 +58,20 @@ public class Pawn extends Piece {
 	}
 
 	@Override
-	public void capture(Piece targetPiece) {
-		if (isDiagonalMove(targetPiece)) {
-			super.capture(targetPiece);
+	public void capture(Position targetPosition) {
+		if (isDiagonalMove(targetPosition)) {
+			super.capture(targetPosition);
 			return;
 		}
 
 		throw PawnCaptureException.EXCEPTION;
 	}
 
-	private boolean isDiagonalMove(Piece targetPiece) {
+	private boolean isDiagonalMove(Position targetPosition) {
 		Position sourcePosition = super.getPosition();
-		Position targetPosition = targetPiece.getPosition();
 
-		int sourceRow = sourcePosition.getRow();
-		int sourceCol = sourcePosition.getCol();
-		int targetRow = targetPosition.getRow();
-		int targetCol = targetPosition.getCol();
-
-		int rowGap = targetRow - sourceRow;
-		int colGap = targetCol - sourceCol;
+		int colGap = getColGap(targetPosition, sourcePosition);
+		int rowGap = getRowGap(targetPosition, sourcePosition);
 
 		return Direction.diagonalDirection().stream()
 			.filter(direction -> direction.isEqual(rowGap, colGap))
@@ -94,9 +79,8 @@ public class Pawn extends Piece {
 			.isPresent();
 	}
 
-	private boolean isValidDirection(Piece targetPiece) {
+	private boolean isValidDirection(Position targetPosition) {
 		Position sourcePosition = super.getPosition();
-		Position targetPosition = targetPiece.getPosition();
 
 		int sourceRow = sourcePosition.getRow();
 		int sourceCol = sourcePosition.getCol();
@@ -123,29 +107,18 @@ public class Pawn extends Piece {
 		return false;
 	}
 
-	private void verifyMoveDistance(Position sourcePosition, Position targetPosition) {
-		int dr = targetPosition.getRow() - sourcePosition.getRow();
-		int dc = targetPosition.getCol() - sourcePosition.getCol();
-
-		if (-1 <= dc && dc <= 1) {
-			if ((super.getColor().equals(Color.BLACK) && dr == 1) ||
-				(super.getColor().equals(Color.WHITE) && dr == -1))
-				return;
-		}
-
-		throw InvalidMoveException.EXCEPTION;
+	private int getColGap(Position targetPosition, Position sourcePosition) {
+		int sourceCol = sourcePosition.getCol();
+		int targetCol = targetPosition.getCol();
+		int colGap = targetCol - sourceCol;
+		return colGap;
 	}
 
-	private void verifyDiagonalMove(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
-		String originPositionFormat = StringUtil.getOriginPositionFormat(targetPosition.getRow(),
-			targetPosition.getCol());
-		Piece targetPiece = chessGame.findPiece(originPositionFormat);
-		int dc = targetPosition.getCol() - sourcePosition.getCol();
+	private int getRowGap(Position targetPosition, Position sourcePosition) {
+		int sourceRow = sourcePosition.getRow();
+		int targetRow = targetPosition.getRow();
 
-		if (dc == 0 && targetPiece.isPiece()) {
-			throw InvalidMoveException.EXCEPTION;
-		} else if (dc != 0 && targetPiece.isBlank()) {
-			throw InvalidMoveException.EXCEPTION;
-		}
+		int rowGap = targetRow - sourceRow;
+		return rowGap;
 	}
 }

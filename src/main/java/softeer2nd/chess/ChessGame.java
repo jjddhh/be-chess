@@ -17,6 +17,7 @@ public class ChessGame {
 	private final String START = "start";
 	private final String END = "end";
 	private final String MOVE = "move";
+	private final String INVALID_INPUT = "잘못된 입력입니다. start/ move loc1 loc2/ end 중 하나를 입력해주세요";
 
 	private Board board;
 	private Boolean isProceeding = true;
@@ -49,7 +50,7 @@ public class ChessGame {
 	}
 
 	private void invalidCommand() {
-		System.out.println("잘못된 입력입니다. start/ move loc1 loc2/ end 중 하나를 입력해주세요");
+		System.out.println(INVALID_INPUT);
 	}
 
 	private String[] getCommand(Scanner input) {
@@ -76,9 +77,10 @@ public class ChessGame {
 	private void changeTurn() {
 		if (turn == Color.BLACK) {
 			turn = Color.WHITE;
-		} else {
-			turn = Color.BLACK;
+			return;
 		}
+
+		turn = Color.BLACK;
 	}
 
 	private void verifyTurn(String selectedPiece) {
@@ -94,31 +96,27 @@ public class ChessGame {
 		isProceeding = false;
 	}
 
-	/**
-	 * 기물 이동
-	 */
 	public void move(String sourcePosition, String targetPosition) {
 		Piece sourcePiece = findPiece(sourcePosition);
 		Piece targetPiece = findPiece(targetPosition);
 
-		verifyMove(sourcePosition, targetPosition, sourcePiece, targetPiece);
+		verifyMove(sourcePiece, targetPiece);
 
 		if(isCapturingMove(sourcePiece, targetPiece)) {
-			sourcePiece.capture(targetPiece);
+			sourcePiece.capture(targetPiece.getPosition());
 			board.removePiece(targetPiece);
 			return;
 		}
 
-		sourcePiece.move(targetPosition);
+		sourcePiece.move(targetPiece.getPosition());
 	}
 
 	private boolean isCapturingMove(Piece sourcePiece, Piece targetPiece) {
 		return (sourcePiece.isWhite() && targetPiece.isBlack()) || (sourcePiece.isBlack() && targetPiece.isWhite());
 	}
 
-	private void verifyMove(String sourcePosition, String targetPosition, Piece sourcePiece, Piece targetPiece) {
-		verifyNoProgressMove(sourcePosition, targetPosition);
-		verifyPieceCanGoPosition(sourcePiece, targetPiece);
+	private void verifyMove(Piece sourcePiece, Piece targetPiece) {
+		verifyPossibleTargetPosition(sourcePiece, targetPiece);
 		verifySameTeamOnTarget(sourcePiece, targetPiece);
 		verifyExistPieceOnPath(sourcePiece, targetPiece);
 	}
@@ -138,15 +136,19 @@ public class ChessGame {
 				.isPresent();
 	}
 
-	private void verifyPieceCanGoPosition(Piece sourcePiece, Piece targetPiece) {
-		if (sourcePiece.isValidPosition(targetPiece)) {
+	private void verifyPossibleTargetPosition(Piece sourcePiece, Piece targetPiece) {
+		Position sourcePosition = sourcePiece.getPosition();
+		Position targetPosition = targetPiece.getPosition();
+		verifyNoProgressMove(sourcePosition, targetPosition);
+
+		if (sourcePiece.isValidPosition(targetPosition)) {
 			return;
 		}
 
 		throw InvalidPositionException.EXCEPTION;
 	}
 
-	private void verifyNoProgressMove(String sourcePosition, String targetPosition) {
+	private void verifyNoProgressMove(Position sourcePosition, Position targetPosition) {
 		if (sourcePosition.equals(targetPosition)) {
 			throw MeaninglessMoveException.EXCEPTION;
 		}

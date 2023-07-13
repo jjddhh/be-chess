@@ -24,7 +24,7 @@ public class Blank extends Piece {
 	}
 
 	@Override
-	public boolean isValidPosition(Piece targetPiece) {
+	public boolean isValidPosition(Position targetPosition) {
 		return false;
 	}
 }

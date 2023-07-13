@@ -47,17 +47,17 @@ public abstract class Piece {
 		return (color.equals(Color.NO_COLOR) && type.equals(Type.NO_PIECE));
 	}
 
-	public void move(String targetPosition) {
-		this.position = new Position(targetPosition);
+	public void move(Position targetPosition) {
+		this.position = targetPosition.valueOf();
 	}
 
-	public void capture(Piece targetPiece) {
-		this.position = targetPiece.getPosition();
+	public void capture(Position targetPosition) {
+		this.position = targetPosition;
 	}
 
 	public abstract List<Position> findBetweenPath(Piece targetPiece);
 
-	public abstract boolean isValidPosition(Piece targetPiece);
+	public abstract boolean isValidPosition(Position targetPosition);
 
 	public boolean isEqualPosition(String targetPosition) {
 		String sourcePosition = StringUtil.getOriginPositionFormat(position.getRow(), position.getCol());

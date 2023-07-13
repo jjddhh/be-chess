@@ -31,6 +31,10 @@ public class Position {
 		this.row = row;
 	}
 
+	public Position valueOf() {
+		return new Position(this.col, this.row);
+	}
+
 	public String getOriginPosition() {
 		char col = (char) (this.col + 'a');
 		int row = 8 - this.row;

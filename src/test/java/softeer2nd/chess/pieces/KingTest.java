@@ -8,7 +8,6 @@ import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.exception.InvalidPositionException;
 import softeer2nd.chess.exception.SameTeamExistException;
-import softeer2nd.chess.pieces.exception.InvalidMoveException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

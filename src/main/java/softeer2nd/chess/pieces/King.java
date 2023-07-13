@@ -1,10 +1,8 @@
 package softeer2nd.chess.pieces;
 
-import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.pieces.piece.Color;
 import softeer2nd.chess.pieces.piece.Position;
 import softeer2nd.chess.pieces.piece.Type;
-import softeer2nd.chess.pieces.exception.InvalidMoveException;
 import softeer2nd.chess.pieces.piece.Piece;
 
 import java.util.ArrayList;
@@ -30,9 +28,8 @@ public class King extends Piece {
 	}
 
 	@Override
-	public boolean isValidPosition(Piece targetPiece) {
+	public boolean isValidPosition(Position targetPosition) {
 		Position sourcePosition = super.getPosition();
-		Position targetPosition = targetPiece.getPosition();
 
 		int sourceRow = sourcePosition.getRow();
 		int sourceCol = sourcePosition.getCol();
