@@ -10,6 +10,7 @@ import softeer2nd.chess.pieces.exception.PawnCaptureException;
 import softeer2nd.chess.pieces.exception.PawnMoveException;
 import softeer2nd.chess.pieces.factory.BishopFactory;
 import softeer2nd.chess.pieces.factory.PawnFactory;
+import softeer2nd.chess.pieces.piece.Piece;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -129,6 +130,49 @@ class PawnTest {
         assertThrows(
                 PawnMoveException.class,
                 () -> chessGame.move(sourcePosition, targetPosition)
+        );
+    }
+
+    @Test
+    @DisplayName("첫 이동은 두 칸 가능")
+    void moveDouble() {
+        // given
+        board.initializeEmpty();
+        ChessGame chessGame = new ChessGame(board);
+
+        String sourcePosition = "e7";
+        String targetPosition = "e5";
+
+        board.addPiece(PawnFactory.createBlack(sourcePosition));
+
+        // when
+        chessGame.move(sourcePosition, targetPosition);
+
+        // then
+        assertEquals(PawnFactory.createBlack(targetPosition), chessGame.findPiece(targetPosition));
+    }
+
+    @Test
+    @DisplayName("첫 이동 이후 두 칸 이동은 불가")
+    void moveTripleFailure() {
+        // given
+        board.initializeEmpty();
+        ChessGame chessGame = new ChessGame(board);
+
+        String sourcePosition = "e7";
+        String targetPosition1 = "e5";
+        String targetPosition2 = "e3";
+
+        board.addPiece(PawnFactory.createBlack(sourcePosition));
+
+        // when then
+        assertThrows(
+            PawnMoveException.class,
+            () -> {
+                chessGame.move(sourcePosition, targetPosition1);
+                Piece piece = chessGame.findPiece(targetPosition1);
+                chessGame.move(targetPosition1, targetPosition2);
+            }
         );
     }
 }
