@@ -1,83 +1,88 @@
 package softeer2nd.chess.pieces;
 
-import softeer2nd.chess.ChessGame;
 import softeer2nd.chess.pieces.piece.Piece;
-import softeer2nd.chess.utils.StringUtil;
+import softeer2nd.chess.pieces.piece.Position;
 import softeer2nd.chess.pieces.piece.Color;
 import softeer2nd.chess.pieces.piece.Type;
-import softeer2nd.chess.pieces.exception.InvalidMoveException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Bishop extends Piece {
-    private Bishop(Color color, String position) {
-        super(color, Type.BISHOP, position);
-    }
 
-    public static Piece createWhite(String position) {
-        return new Bishop(Color.WHITE, position);
-    }
+	private Bishop(Color color, String position) {
+		super(color, Type.BISHOP, position);
+	}
 
-    public static Piece createBlack(String position) {
-        return new Bishop(Color.BLACK, position);
-    }
+	public static Piece createWhite(String position) {
+		return new Bishop(Color.WHITE, position);
+	}
 
-    @Override
-    protected void verifyMove(Position targetPosition, ChessGame chessGame) {
-        verifyMoveDirection(super.getPosition(), targetPosition);
-        verifyPieceExistOnPath(super.getPosition(), targetPosition, chessGame);
-    }
+	public static Piece createBlack(String position) {
+		return new Bishop(Color.BLACK, position);
+	}
 
-    private void verifyMoveDirection(Position sourcePosition, Position targetPosition) {
-        int sourceRow = sourcePosition.getRow();
-        int sourceCol = sourcePosition.getCol();
-        int targetRow = targetPosition.getRow();
-        int targetCol = targetPosition.getCol();
+	@Override
+	public List<Position> findBetweenPath(Piece targetPiece) {
+		List<Position> betweenPaths = new ArrayList<>();
+		getBetweenPath(super.getPosition(), targetPiece.getPosition(), betweenPaths);
+		return betweenPaths;
+	}
 
-        // 대각선 방향 체크
-        if (Math.abs(sourceRow - targetRow) == Math.abs(sourceCol - targetCol)) return;
+	@Override
+	public boolean isValidPosition(Piece targetPiece) {
+		return isValidDirection(targetPiece);
+	}
 
-        throw InvalidMoveException.EXCEPTION;
-    }
+	private boolean isValidDirection(Piece targetPiece) {
+		Position sourcePosition = super.getPosition();
+		Position targetPosition = targetPiece.getPosition();
 
-    private void verifyPieceExistOnPath(Position sourcePosition, Position targetPosition, ChessGame chessGame) {
-        int moveRow = getRowMoveDifference(sourcePosition, targetPosition);
-        int moveCol = getColMoveDifference(sourcePosition, targetPosition);
+		int sourceRow = sourcePosition.getRow();
+		int sourceCol = sourcePosition.getCol();
+		int targetRow = targetPosition.getRow();
+		int targetCol = targetPosition.getCol();
 
-        if (moveRow == targetPosition.getRow()
-                && moveCol == targetPosition.getCol()) return;
+		if (Math.abs(sourceRow - targetRow) == Math.abs(sourceCol - targetCol)) {
+			return true;
+		}
 
-        verifyPieceExistOnNextStep(chessGame, moveRow, moveCol);
+		return false;
+	}
 
-        verifyPieceExistOnPath(new Position(moveCol, moveRow), targetPosition, chessGame);
-    }
+	private void getBetweenPath(Position sourcePosition, Position targetPosition, List<Position> betweenPaths) {
+		int moveRow = getRowMoveDifference(sourcePosition, targetPosition);
+		int moveCol = getColMoveDifference(sourcePosition, targetPosition);
 
-    private void verifyPieceExistOnNextStep(ChessGame chessGame, int moveRow, int moveCol) {
-        String originPosition = StringUtil.getOriginPositionFormat(moveRow, moveCol);
+		if (moveRow == targetPosition.getRow()
+				&& moveCol == targetPosition.getCol()) {
+			return;
+		}
+		Position middlePosition = new Position(moveCol, moveRow);
+		betweenPaths.add(middlePosition);
 
-        Piece piece = chessGame.findPiece(originPosition);
-        if(piece.isPiece()) {
-            throw InvalidMoveException.EXCEPTION;
-        }
-    }
+		getBetweenPath(middlePosition, targetPosition, betweenPaths);
+	}
 
-    private int getRowMoveDifference(Position sourcePosition, Position targetPosition) {
-        int sourceRow = sourcePosition.getRow();
-        int targetRow = targetPosition.getRow();
+	private int getRowMoveDifference(Position sourcePosition, Position targetPosition) {
+		int sourceRow = sourcePosition.getRow();
+		int targetRow = targetPosition.getRow();
 
-        int rowDirection = targetRow - sourceRow;
+		int rowDirection = targetRow - sourceRow;
 
-        int dr = rowDirection == 0 ? 0 : (rowDirection > 0 ? 1 : -1);
+		int dr = rowDirection == 0 ? 0 : (rowDirection > 0 ? 1 : -1);
 
-        return sourceRow + dr;
-    }
+		return sourceRow + dr;
+	}
 
-    private int getColMoveDifference(Position sourcePosition, Position targetPosition) {
-        int sourceCol = sourcePosition.getCol();
-        int targetCol = targetPosition.getCol();
+	private int getColMoveDifference(Position sourcePosition, Position targetPosition) {
+		int sourceCol = sourcePosition.getCol();
+		int targetCol = targetPosition.getCol();
 
-        int colDirection = targetCol - sourceCol;
+		int colDirection = targetCol - sourceCol;
 
-        int dr = colDirection == 0 ? 0 : (colDirection > 0 ? 1 : -1);
+		int dr = colDirection == 0 ? 0 : (colDirection > 0 ? 1 : -1);
 
-        return sourceCol + dr;
-    }
+		return sourceCol + dr;
+	}
 }

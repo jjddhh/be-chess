@@ -5,7 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
-import softeer2nd.chess.pieces.exception.InvalidMoveException;
+import softeer2nd.chess.exception.ExistPieceOnPathException;
+import softeer2nd.chess.exception.InvalidPositionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -50,7 +51,7 @@ class BishopTest {
 
         // when then
         assertThrows(
-                InvalidMoveException.class,
+                InvalidPositionException.class,
                 () -> chessGame.move(sourcePosition, targetPosition)
         );
     }
@@ -62,16 +63,16 @@ class BishopTest {
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
 
-        String sourcePosition = "e1";
-        String targetPosition = "e5";
-        String blockPosition = "e3";
+        String sourcePosition = "d1";
+        String targetPosition = "h5";
+        String blockPosition = "f3";
 
         board.addPiece(Bishop.createBlack(sourcePosition));
         board.addPiece(Rook.createWhite(blockPosition));
 
         // when then
         assertThrows(
-                InvalidMoveException.class,
+                ExistPieceOnPathException.class,
                 () -> chessGame.move(sourcePosition, targetPosition)
         );
     }

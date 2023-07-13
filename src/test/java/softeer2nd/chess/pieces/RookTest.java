@@ -5,12 +5,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
-import softeer2nd.chess.pieces.exception.InvalidMoveException;
+import softeer2nd.chess.exception.ExistPieceOnPathException;
+import softeer2nd.chess.exception.InvalidPositionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Rook 이동 검증")
 class RookTest {
+
     private Board board;
 
     @BeforeEach
@@ -50,7 +52,7 @@ class RookTest {
 
         // when then
         assertThrows(
-                InvalidMoveException.class,
+                InvalidPositionException.class,
                 () -> chessGame.move(sourcePosition, targetPosition)
         );
     }
@@ -71,7 +73,7 @@ class RookTest {
 
         // when then
         assertThrows(
-                InvalidMoveException.class,
+                ExistPieceOnPathException.class,
                 () -> chessGame.move(sourcePosition, targetPosition)
         );
     }

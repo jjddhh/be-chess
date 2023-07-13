@@ -4,6 +4,7 @@ import softeer2nd.chess.exception.*;
 import softeer2nd.chess.pieces.Blank;
 import softeer2nd.chess.pieces.piece.Color;
 import softeer2nd.chess.pieces.piece.Piece;
+import softeer2nd.chess.pieces.piece.Position;
 import softeer2nd.chess.pieces.piece.Type;
 import softeer2nd.chess.utils.ChessViewUtil;
 
@@ -12,157 +13,196 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ChessGame {
-    private final String START = "start";
-    private final String END = "end";
-    private final String MOVE = "move";
 
-    private Board board;
-    private Boolean isProceeding = true;
-    private Color turn = Color.WHITE;
+	private final String START = "start";
+	private final String END = "end";
+	private final String MOVE = "move";
 
-    public ChessGame (Board board){
-        this.board = board;
-    }
+	private Board board;
+	private Boolean isProceeding = true;
+	private Color turn = Color.WHITE;
 
-    public void start() {
-        Scanner input = new Scanner(System.in);
+	public ChessGame(Board board) {
+		this.board = board;
+	}
 
-        while(isProceeding) {
-            String[] command = getCommand(input);
+	public void start() {
+		Scanner input = new Scanner(System.in);
 
-            switch (command[0]) {
-                case START  :
-                    startGame();
-                    break;
-                case MOVE   :
-                    movePiece(command);
-                    break;
-                case END    :
-                    endGame();
-                    break;
-                default     :
-                    invalidCommand();
-            }
-        }
-    }
+		while (isProceeding) {
+			String[] command = getCommand(input);
 
-    private void invalidCommand() {
-        System.out.println("잘못된 입력입니다. start/ move loc1 loc2/ end 중 하나를 입력해주세요");
-    }
+			switch (command[0]) {
+				case START:
+					startGame();
+					break;
+				case MOVE:
+					movePiece(command);
+					break;
+				case END:
+					endGame();
+					break;
+				default:
+					invalidCommand();
+			}
+		}
+	}
 
-    private String[] getCommand(Scanner input) {
-        return input.nextLine().split(" ");
-    }
+	private void invalidCommand() {
+		System.out.println("잘못된 입력입니다. start/ move loc1 loc2/ end 중 하나를 입력해주세요");
+	}
 
-    private void startGame() {
-        board.initialize();
-        ChessViewUtil.print(board);
-    }
+	private String[] getCommand(Scanner input) {
+		return input.nextLine().split(" ");
+	}
 
-    private void movePiece(String[] command) {
-        try {
-            verifyTurn(command[1]);
-            move(command[1], command[2]);
-            changeTurn();
-        } catch (ChessException exception) {
-            System.out.println(exception.getMessage());
-        }
+	private void startGame() {
+		board.initialize();
+		ChessViewUtil.print(board);
+	}
 
-        ChessViewUtil.print(board);
-    }
+	private void movePiece(String[] command) {
+		try {
+			verifyTurn(command[1]);
+			move(command[1], command[2]);
+			changeTurn();
+		} catch (ChessException exception) {
+			System.out.println(exception.getMessage());
+		}
 
-    private void changeTurn() {
-        if (turn == Color.BLACK) {
-            turn = Color.WHITE;
-        } else {
-            turn = Color.BLACK;
-        }
-    }
+		ChessViewUtil.print(board);
+	}
 
-    private void verifyTurn(String selectedPiece) {
-        Piece piece = findPiece(selectedPiece);
+	private void changeTurn() {
+		if (turn == Color.BLACK) {
+			turn = Color.WHITE;
+		} else {
+			turn = Color.BLACK;
+		}
+	}
 
-        if(turn != piece.getColor()) {
-            throw InvalidTurnException.EXCEPTION;
-        }
-    }
+	private void verifyTurn(String selectedPiece) {
+		Piece piece = findPiece(selectedPiece);
 
-    private void endGame() {
-        board.cleanUp();
-        isProceeding = false;
-    }
+		if (turn != piece.getColor()) {
+			throw InvalidTurnException.EXCEPTION;
+		}
+	}
 
-    /**
-     * 기물 이동
-     */
-    public void move(String sourcePosition, String targetPosition) {
-        Piece sourcePiece = findPiece(sourcePosition);
-        Piece targetPiece = findPiece(targetPosition);
+	private void endGame() {
+		board.cleanUp();
+		isProceeding = false;
+	}
 
-        verifyMeaninglessMove(sourcePosition, targetPosition);
-        verifySameTeamOnTarget(sourcePiece, targetPiece);
+	/**
+	 * 기물 이동
+	 */
+	public void move(String sourcePosition, String targetPosition) {
+		Piece sourcePiece = findPiece(sourcePosition);
+		Piece targetPiece = findPiece(targetPosition);
 
-        sourcePiece.move(targetPiece, this);
-        board.removePiece(targetPiece);
-    }
+		verifyMove(sourcePosition, targetPosition, sourcePiece, targetPiece);
 
-    private void verifyMeaninglessMove(String sourcePosition, String targetPosition) {
-        if(sourcePosition.equals(targetPosition)) {
-            throw MeaninglessMoveException.EXCEPTION;
-        }
-    }
+		if(isCapturingMove(sourcePiece, targetPiece)) {
+			sourcePiece.capture(targetPiece);
+			board.removePiece(targetPiece);
+			return;
+		}
 
-    private void verifySameTeamOnTarget(Piece sourcePiece, Piece targetPiece) {
-        if(sourcePiece.getColor() == targetPiece.getColor()) {
-            throw SameTeamExistException.EXCEPTION;
-        }
-    }
+		sourcePiece.move(targetPosition);
+	}
 
-    public Piece findPiece(String targetPosition) {
-        return Arrays.stream(Type.values())
-                .flatMap(type -> Stream.concat(
-                        board.getWhitePieces().getOrDefault(type, new ArrayList<>()).stream(),
-                        board.getBlackPieces().getOrDefault(type, new ArrayList<>()).stream())
-                )
-                .filter(p -> p.isEqualPosition(targetPosition))
-                .findFirst()
-                .orElse(Blank.create(targetPosition));
-    }
+	private boolean isCapturingMove(Piece sourcePiece, Piece targetPiece) {
+		return (sourcePiece.isWhite() && targetPiece.isBlack()) || (sourcePiece.isBlack() && targetPiece.isWhite());
+	}
 
-    /**
-     * 점수 계산
-     */
-    public double calculatePoint(Color color) {
-        if (color.equals(Color.BLACK)) {
-            return getPoint(board.getBlackPieces());
-        } else if (color.equals(Color.WHITE)){
-            return getPoint(board.getWhitePieces());
-        } else {
-            throw InvalidColorException.EXCEPTION;
-        }
-    }
+	private void verifyMove(String sourcePosition, String targetPosition, Piece sourcePiece, Piece targetPiece) {
+		verifyNoProgressMove(sourcePosition, targetPosition);
+		verifyPieceCanGoPosition(sourcePiece, targetPiece);
+		verifySameTeamOnTarget(sourcePiece, targetPiece);
+		verifyExistPieceOnPath(sourcePiece, targetPiece);
+	}
 
-    private double getPoint(Map<Type, List<Piece>> colorPieces) {
-        double point = 0;
+	private void verifyExistPieceOnPath(Piece sourcePiece, Piece targetPiece) {
+		List<Position> betweenPaths = sourcePiece.findBetweenPath(targetPiece);
+		if (existPieceOnPath(betweenPaths)) {
+			throw ExistPieceOnPathException.EXCEPTION;
+		}
+	}
 
-        for (Type type : Type.values()) {
-            List<Piece> pieces = colorPieces.getOrDefault(type, new ArrayList<>());
+	private boolean existPieceOnPath(List<Position> betweenPaths) {
+		return betweenPaths.stream()
+				.map(position -> findPiece(position.getOriginPosition()))
+				.filter(Piece::isPiece)
+				.findFirst()
+				.isPresent();
+	}
 
-            if (type.equals(Type.PAWN)) {
-                Map<Integer, Long> colSet = pieces.stream()
-                        .collect(Collectors.groupingBy(Piece::getCol, Collectors.counting()));
+	private void verifyPieceCanGoPosition(Piece sourcePiece, Piece targetPiece) {
+		if (sourcePiece.isValidPosition(targetPiece)) {
+			return;
+		}
 
-                double sameColPawnCnt = colSet.values().stream()
-                        .filter(cnt -> cnt > 1)
-                        .mapToDouble(Double::valueOf)
-                        .sum();
+		throw InvalidPositionException.EXCEPTION;
+	}
 
-                point -= sameColPawnCnt / 2;
-            }
+	private void verifyNoProgressMove(String sourcePosition, String targetPosition) {
+		if (sourcePosition.equals(targetPosition)) {
+			throw MeaninglessMoveException.EXCEPTION;
+		}
+	}
 
-            point += type.getDefaultPoint() * pieces.size();
-        }
+	private void verifySameTeamOnTarget(Piece sourcePiece, Piece targetPiece) {
+		if (sourcePiece.getColor() == targetPiece.getColor()) {
+			throw SameTeamExistException.EXCEPTION;
+		}
+	}
 
-        return point;
-    }
+	public Piece findPiece(String targetPosition) {
+		return Arrays.stream(Type.values())
+			.flatMap(type -> Stream.concat(
+				board.getWhitePieces().getOrDefault(type, new ArrayList<>()).stream(),
+				board.getBlackPieces().getOrDefault(type, new ArrayList<>()).stream())
+			)
+			.filter(p -> p.isEqualPosition(targetPosition))
+			.findFirst()
+			.orElse(Blank.create(targetPosition));
+	}
+
+	/**
+	 * 점수 계산
+	 */
+	public double calculatePoint(Color color) {
+		if (color.equals(Color.BLACK)) {
+			return getPoint(board.getBlackPieces());
+		} else if (color.equals(Color.WHITE)) {
+			return getPoint(board.getWhitePieces());
+		} else {
+			throw InvalidColorException.EXCEPTION;
+		}
+	}
+
+	private double getPoint(Map<Type, List<Piece>> colorPieces) {
+		double point = 0;
+
+		for (Type type : Type.values()) {
+			List<Piece> pieces = colorPieces.getOrDefault(type, new ArrayList<>());
+
+			if (type.equals(Type.PAWN)) {
+				Map<Integer, Long> colSet = pieces.stream()
+					.collect(Collectors.groupingBy(Piece::getCol, Collectors.counting()));
+
+				double sameColPawnCnt = colSet.values().stream()
+					.filter(cnt -> cnt > 1)
+					.mapToDouble(Double::valueOf)
+					.sum();
+
+				point -= sameColPawnCnt / 2;
+			}
+
+			point += type.getDefaultPoint() * pieces.size();
+		}
+
+		return point;
+	}
 }

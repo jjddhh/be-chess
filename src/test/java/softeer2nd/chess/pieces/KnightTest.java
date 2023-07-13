@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
-import softeer2nd.chess.pieces.exception.InvalidMoveException;
+import softeer2nd.chess.exception.InvalidPositionException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,7 +49,7 @@ class KnightTest {
 
         // when then
         assertThrows(
-                InvalidMoveException.class,
+                InvalidPositionException.class,
                 () -> chessGame.move(sourcePosition, targetPosition)
         );
     }

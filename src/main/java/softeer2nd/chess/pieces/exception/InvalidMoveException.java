@@ -3,9 +3,10 @@ package softeer2nd.chess.pieces.exception;
 import softeer2nd.chess.exception.ChessException;
 
 public class InvalidMoveException extends ChessException {
-    public static final InvalidMoveException EXCEPTION = new InvalidMoveException();
 
-    private InvalidMoveException() {
-        super("해당 기물이 갈 수 없는 위치입니다.");
-    }
+	public static final InvalidMoveException EXCEPTION = new InvalidMoveException();
+
+	private InvalidMoveException() {
+		super("해당 기물이 갈 수 없는 위치입니다.");
+	}
 }

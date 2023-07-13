@@ -15,44 +15,45 @@ import static softeer2nd.chess.Board.COl;
 import static softeer2nd.chess.Board.ROW;
 
 public class ChessViewUtil {
-    private static char[][] baseBoard;
 
-    public static void print(Board board) {
-        System.out.println(showBoard(board));
-    }
+	private static char[][] baseBoard;
 
-    public static String showBoard(Board board) {
-        initBoard();
+	public static void print(Board board) {
+		System.out.println(showBoard(board));
+	}
 
-        setPiecesOnBoard(board, baseBoard);
+	public static String showBoard(Board board) {
+		initBoard();
 
-        return IntStream.range(0, 8)
-                .mapToObj(i -> String.valueOf(baseBoard[i]))
-                .map(t -> StringUtil.appendNewLine(t))
-                .collect(Collectors.joining());
-    }
+		setPiecesOnBoard(board, baseBoard);
 
-    private static void initBoard() {
-        baseBoard = new char[ROW][COl];
-        for (int i = 0; i < baseBoard.length; i++) {
-            Arrays.fill(baseBoard[i], '.');
-        }
-    }
+		return IntStream.range(0, 8)
+			.mapToObj(i -> String.valueOf(baseBoard[i]))
+			.map(t -> StringUtil.appendNewLine(t))
+			.collect(Collectors.joining());
+	}
 
-    private static void setPiecesOnBoard(Board board, char[][] baseBoard) {
-        for (Type type : Type.values()) {
-            List<Piece> whitePieces = board.getWhitePieces().getOrDefault(type, new ArrayList<>());
-            List<Piece> blackPieces = board.getBlackPieces().getOrDefault(type, new ArrayList<>());
+	private static void initBoard() {
+		baseBoard = new char[ROW][COl];
+		for (int i = 0; i < baseBoard.length; i++) {
+			Arrays.fill(baseBoard[i], '.');
+		}
+	}
 
-            for (int i = 0; i < whitePieces.size(); i++) {
-                Piece piece = whitePieces.get(i);
-                baseBoard[piece.getRow()][piece.getCol()] = piece.getRepresentation();
-            }
+	private static void setPiecesOnBoard(Board board, char[][] baseBoard) {
+		for (Type type : Type.values()) {
+			List<Piece> whitePieces = board.getWhitePieces().getOrDefault(type, new ArrayList<>());
+			List<Piece> blackPieces = board.getBlackPieces().getOrDefault(type, new ArrayList<>());
 
-            for (int i = 0; i < blackPieces.size(); i++) {
-                Piece piece = blackPieces.get(i);
-                baseBoard[piece.getRow()][piece.getCol()] = piece.getRepresentation();
-            }
-        }
-    }
+			for (int i = 0; i < whitePieces.size(); i++) {
+				Piece piece = whitePieces.get(i);
+				baseBoard[piece.getRow()][piece.getCol()] = piece.getRepresentation();
+			}
+
+			for (int i = 0; i < blackPieces.size(); i++) {
+				Piece piece = blackPieces.get(i);
+				baseBoard[piece.getRow()][piece.getCol()] = piece.getRepresentation();
+			}
+		}
+	}
 }

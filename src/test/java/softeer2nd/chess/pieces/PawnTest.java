@@ -5,7 +5,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import softeer2nd.chess.Board;
 import softeer2nd.chess.ChessGame;
-import softeer2nd.chess.pieces.exception.InvalidMoveException;
+import softeer2nd.chess.exception.InvalidPositionException;
+import softeer2nd.chess.pieces.exception.PawnCaptureException;
+import softeer2nd.chess.pieces.exception.PawnMoveException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -59,32 +61,32 @@ class PawnTest {
 
         // when then
         assertThrows(
-                InvalidMoveException.class,
+                InvalidPositionException.class,
                 () -> chessGame.move(blackSourcePosition, blackTargetPosition)
         );
 
         assertThrows(
-                InvalidMoveException.class,
+                InvalidPositionException.class,
                 () -> chessGame.move(whiteSourcePosition, whiteTargetPosition)
         );
     }
 
     @Test
     @DisplayName("직선 이동 경로에 기물 위치")
-    void existPieceOnQueenMoveFailure() {
+    void existPieceOnPathFailure() {
         // given
         board.initializeEmpty();
         ChessGame chessGame = new ChessGame(board);
 
-        String sourcePosition = "e1";
-        String targetPosition = "e2";
+        String sourcePosition = "e5";
+        String targetPosition = "e4";
 
         board.addPiece(Pawn.createBlack(sourcePosition));
         board.addPiece(Bishop.createWhite(targetPosition));
 
         // when then
         assertThrows(
-                InvalidMoveException.class,
+                PawnCaptureException.class,
                 () -> chessGame.move(sourcePosition, targetPosition)
         );
     }
@@ -123,7 +125,7 @@ class PawnTest {
 
         // when then
         assertThrows(
-                InvalidMoveException.class,
+                PawnMoveException.class,
                 () -> chessGame.move(sourcePosition, targetPosition)
         );
     }

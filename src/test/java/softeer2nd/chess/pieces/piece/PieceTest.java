@@ -111,7 +111,7 @@ public class PieceTest {
         String sourcePosition = "e1";
         String targetPosition = "e5";
 
-        board.addPiece(Bishop.createBlack(sourcePosition));
+        board.addPiece(Queen.createBlack(sourcePosition));
         board.addPiece(Rook.createBlack(targetPosition));
 
         // when then
